@@ -65,16 +65,16 @@ Die Statusvariablen/Kategorien werden automatisch angelegt. Das Löschen einzeln
 Name   | Typ     | Beschreibung
 ------ | ------- | ------------
 GCM_UsedKWH       | Float        | Aktuell verbrauchte Kilowatt
-GCM_UsedM3       | Float        | Aktuell verbrauchte Kubikmeter
-GCM_DayCosts       | Float       |
-GCM_CounterValue       | Float       |
-GCM_CurrentConsumption       | Float       |
-GCM_CostsYesterday       | Float       |
-GCM_ConsumptionYesterdayKWH       | Float       |
-GCM_ConsumptionYesterdayM3       | Float       |
-GCM_BasePrice       | Float       |
-GCM_InvoiceCounterValue       | Float       |
-GCM_CostsSinceInvoice       | Float       |
+GCM_UsedM3       | Float        | Aktuell verbrauchte m³
+GCM_DayCosts       | Float       | Aktuelle Tageskosten
+GCM_CounterValue       | Float       | Aktueller Zählerstand
+GCM_CurrentConsumption       | Float       | Verbrauch seit letzter Ablesung in m³
+GCM_CostsYesterday       | Float       | Kosten des Vortages
+GCM_ConsumptionYesterdayKWH       | Float       | Verbrauch des Vortages in kW/h
+GCM_ConsumptionYesterdayM3       | Float       | Verbrauch des Vortages in m³
+GCM_BasePrice       | Float       | Grundpreis täglich
+GCM_InvoiceCounterValue       | Float       | Zählerstand bei Rechnugsablesung
+GCM_CostsSinceInvoice       | Float       | Kosten seit letzter Abschlussrechnung
 
 
 
@@ -82,17 +82,18 @@ GCM_CostsSinceInvoice       | Float       |
 
 Name   | Typ
 ------ | -------
-       |
+ GCM.Gas.kWh      | Float-Profil 
        |
 
 ### 6. WebFront
 
-Die Funktionalität, die das Modul im WebFront bietet.
+Im Webfront können vorerst nur die Werte angezeigt werden und wenn Archivierung aktiviert ist der Verlauf.
 
 ### 7. PHP-Befehlsreferenz
 
-`boolean BKJ_BeispielFunktion(integer $InstanzID);`
-Erklärung der Funktion.
+Aktuell keine.
 
-Beispiel:
-`BKJ_BeispielFunktion(12345);`
+
+
+### 7. Zukünftige geplante Ergänzungen
+- Forecast Errechnen für Verbrauch und Kosten

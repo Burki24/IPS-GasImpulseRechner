@@ -11,5 +11,9 @@ Folgende Module beinhaltet das Gas Verbrauchsanalyse Repository:
 	- Verbrauchsdaten
 	- Kosten
 	
+	Hardware-Tipp
+	
+	- __eigenes Gehäuse__ ([Dokumentation](SensorCase))  
+	
 	Geplant:
 	- Forecast für Verbrauch und Kosten

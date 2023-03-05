@@ -55,7 +55,6 @@ Zählerstand in m³ | Der Zählerstand bei der letzten Abrechnung
 Ablesedatum | Datum der Abschlussablesung zur letzten Rechnung
 Zählerstand | Aktueller Zählerstand zum Zeitpunkt der Modulinstallation
 kW/h Preis | Der aktuelle Kilowatt Preis des Anbieters
-         |
 
 ### 5. Statusvariablen und Profile
 
@@ -65,8 +64,19 @@ Die Statusvariablen/Kategorien werden automatisch angelegt. Das Löschen einzeln
 
 Name   | Typ     | Beschreibung
 ------ | ------- | ------------
-       |         |
-       |         |
+GCM_UsedKWH       | Float        | Aktuell verbrauchte Kilowatt
+GCM_UsedM3       | Float        | Aktuell verbrauchte Kubikmeter
+GCM_DayCosts       | Float       |
+GCM_CounterValue       | Float       |
+GCM_CurrentConsumption       | Float       |
+GCM_CostsYesterday       | Float       |
+GCM_ConsumptionYesterdayKWH       | Float       |
+GCM_ConsumptionYesterdayM3       | Float       |
+GCM_BasePrice       | Float       |
+GCM_InvoiceCounterValue       | Float       |
+GCM_CostsSinceInvoice       | Float       |
+
+
 
 #### Profile
 

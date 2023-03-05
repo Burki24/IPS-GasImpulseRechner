@@ -1,5 +1,6 @@
 # GasImpuls
-Beschreibung des Moduls.
+Dieses Modul berechnet anhand vorher bestimmten Parametern den Verbrauch und die Kosten mithilfe einer Impulse-Instanz. Der Impulse kommt vom Gaszähler (z.B. BK.Gx,x oder ähnlich).
+Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impulsewert vorgegeben werden kann.
 
 ### Inhaltsverzeichnis
 
@@ -13,7 +14,7 @@ Beschreibung des Moduls.
 
 ### 1. Funktionsumfang
 
-*
+* 
 
 ### 2. Voraussetzungen
 

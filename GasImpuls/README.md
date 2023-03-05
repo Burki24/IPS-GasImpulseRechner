@@ -14,7 +14,17 @@ Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impu
 
 ### 1. Funktionsumfang
 
-* 
+* Berechnung von folgenden Verbrauchswerten:
+	- Verbauch in kW/h und M³ für:
+		- aktuellen Tag
+		- letzten Tag
+		- seit letzter Abrechnung
+		
+	- Kosten in € für:
+		- aktuellen Tag
+		- letzten Tag
+		- seit letzter Abrechnung
+		
 
 ### 2. Voraussetzungen
 

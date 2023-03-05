@@ -29,6 +29,7 @@ Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impu
 ### 2. Voraussetzungen
 
 - IP-Symcon ab Version 6.0
+- Vorhandener Impulsegeber als Boolean-Variable
 
 ### 3. Software-Installation
 
@@ -38,14 +39,22 @@ Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impu
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
- Unter 'Instanz hinzufügen' kann das 'GasImpuls'-Modul mithilfe des Schnellfilters gefunden werden.  
+ Unter 'Instanz hinzufügen' kann das 'Gas Impuls Verbrauchsanalyse'-Modul mithilfe des Schnellfilters gefunden werden.  
 	- Weitere Informationen zum Hinzufügen von Instanzen in der [Dokumentation der Instanzen](https://www.symcon.de/service/dokumentation/konzepte/instanzen/#Instanz_hinzufügen)
 
 __Konfigurationsseite__:
 
 Name     | Beschreibung
 -------- | ------------------
-         |
+Instanz ID | ID der Impulsgeberinstanz
+Impulswert| Der Impulswert, der laut Aufschrift auf dem Zähler anzusetzen ist
+Grundpreis| Der Arbeitspreis, der vom Anbieter verlangt wird
+Zahlungszeitraum | Der Zeitraum, für den der Grundpreis gilt (tgl., monatlich, Vierteljährlich, halbjährlich, jährlich) Der Zeitraum ist zwingend nötig, damit der Kostenaufwand auf den Tag heruntergebrochen werden kann.
+Brennwert | Der Brennwert findet sich i.d.R. auf der letzten Abschlussrechnung. Er stellt den Faktor von m³ zu kW/h dar. Sollte er in der Abschlussrechnung variieren, so ist der Mittelwert zu nehmen.
+Zählerstand in m³ | Der Zählerstand bei der letzten Abrechnung
+Ablesedatum | Datum der Abschlussablesung zur letzten Rechnung
+Zählerstand | Aktueller Zählerstand zum Zeitpunkt der Modulinstallation
+kW/h Preis | Der aktuelle Kilowatt Preis des Anbieters
          |
 
 ### 5. Statusvariablen und Profile

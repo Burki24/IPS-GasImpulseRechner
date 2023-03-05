@@ -1,0 +1,42 @@
+{
+    "translations": {
+        "de": {
+            "Instance ID for the impulse provider (This must be a Boolean variable):     ": " ID der Impulsgeber-Instanz (Es muss eine Bool-Variable genutzt werden):      ",
+            "Impulse Instance ID": "Instanz ID",
+            "The value in m3 per impulse. Is noted on the gas meter:     ": "Der Impulswert in m3 (findet sich auf dem Zähler):      ",
+            "Impulse Value": "Impulswert",
+            "The baseprice value of your provider:       ": "Der Grundpreis des Anbieters:      ",
+            "Base price": "Grundpreis",
+            "BasePrice": "Grundpreis",
+            "The paying period of the baseprice. This is important to calculate the correct daily cost:      ": "Der Zahlungszeitraum des Grundpreises. Das ist wichtig, um die korrekten Tageskosten zu berechnen:      ",
+            "Period of baseprice value": "Zahlungszeitraum",
+            "day": "täglich",
+            "month": "monatlich",
+            "quarter_year": "vierteljährig",
+            "half_year": "halbjährig",
+            "year": "jährlich",
+            "The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice:      ": "Brennwert (wird für die Umrechnung m3 zu kwh benötigt. Findet sich auf der letzten Abschlussrechnung:      ",
+            "The calorific value": "Brennwert",
+            "The last meter reading mentioned in the billing:      ": "Zählerstand bei letzter Rechnungsablesung:      ",
+            "m3 value": "Zählerstand in m3:",
+            "The last invoice date is needed to calculate days since last invoice:     ": "Datum der letzten Rechnung/Ablesung (notwendig zur Berechnung nach letzter Ablesung:      ",
+            "Invoice date": "Ablesungsdatum",
+            "Meter counter value at the moment of module installation. To be entered including the two digits after the comma:      ": "Zählerstand (mit zwei Nachkommastellen am Tag der Modulinstalation:      ",
+            "Value": "Zählerstand",
+            "The current kwh price can be found in your gas supplier contract:      ": "Preis pro kwh. Im Vertrag ersichtlich:      ",
+            "KW/h price": "kW/h Preis",
+            "Many thanks to @KaiS and @Nall-chan for helping me develop this module.": "Mein Dank geht an @KaiS, @Nall-chan und @Pitti für die kräftige Unterstützung bei der Modulentwicklung.",
+            "Daily Cosnumption kW/h": "Heutiger Verbrauch in kW/h",
+            "Daily Cosnumption m3": "Heutiger Verbrauch in m3",
+            "Costs Today": "Heutige Kosten",
+            "Current Meter Reading": "Aktueller Zählerstand",
+            "Total Consumption Actually in m3": "Verbrauch seit letzter Ablesung in m3",
+            "Total Cost Last Day": "Gestrige Kosten",
+            "Total Consumption Last Day kW/h": "Gestriger Verbrauch in kW/h",
+            "Total Consumption Last Day m3": "Gestriger Verbrauch in m3",
+            "Base Price": "Basiskosten täglich",
+            "Meter Reading On Last Invoice": "Zählerstand bei letzter Abrechnung",
+            "Costs Since Invoice": "Kosten seit letzter Abrechnung"
+        }
+    }
+}

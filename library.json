@@ -1,0 +1,12 @@
+{
+    "id": "{5FC325A3-2861-A03E-9A6B-5349EAD23854}",
+    "name": "Gas Impuls Verbrauchsanalyse",
+    "author": "Burkhard Kneiseler",
+    "url": "https://github.com/Burki24/IPS-Gasberechnung",
+    "compatibility": {
+        "version": "6.0"
+    },
+    "version": "1.0",
+    "build": 0,
+    "date": 1677399240
+}

@@ -1,0 +1,188 @@
+{
+    "elements": [
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "Instance ID for the impulse provider (This must be a Boolean variable):     "
+                },
+                {
+                    "type": "SelectVariable",
+                    "name": "ImpulseProvider",
+                    "validVariableTypes": [
+                        0
+                    ],
+                    "caption": "Impulse Instance ID",
+                    "width": "250px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The value in m3 per impulse. Is noted on the gas meter:     "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "ImpulseValue",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "caption": "Impulse Value",
+                    "width": "100px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The baseprice value of your provider:       "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "caption": "Base price",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "name": "BasePrice",
+                    "suffix": "€",
+                    "width": "100px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The paying period of the baseprice. This is important to calculate the correct daily cost:      "
+                },
+                {
+                    "type": "Select",
+                    "name": "BasePricePeriod",
+                    "caption": "Period of baseprice value",
+                    "width": "150px",
+                    "options": [
+                        {
+                            "caption": "day",
+                            "value": "day"
+                        },
+                        {
+                            "caption": "month",
+                            "value": "month"
+                        },
+                        {
+                            "caption": "quarter_year",
+                            "value": "quarter_year"
+                        },
+                        {
+                            "caption": "half_year",
+                            "value": "half_year"
+                        },
+                        {
+                            "caption": "year",
+                            "value": "year"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "CalorificValue",
+                    "caption": "The calorific value",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "width": "100px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The last meter reading mentioned in the billing:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "InvoiceCounterValue",
+                    "caption": "m3 value",
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "width": "100px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The last invoice date is needed to calculate days since last invoice:     "
+                },
+                {
+                    "type": "SelectDate",
+                    "name": "InvoiceDate",
+                    "caption": "Invoice date",
+                    "width": "150px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "Meter counter value at the moment of module installation. To be entered including the two digits after the comma:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "InstallCounterValue",
+                    "caption": "Value",
+                    "digits": 2,
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "width": "100px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The current kwh price can be found in your gas supplier contract:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "PriceValueKWH",
+                    "caption": "KW/h price",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "suffix": "€",
+                    "width": "100px"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Label",
+            "bold": "true",
+            "caption": "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module."
+        }
+    ],
+    "status": []
+}

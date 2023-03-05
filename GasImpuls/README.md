@@ -32,8 +32,9 @@ Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impu
 
 ### 3. Software-Installation
 
-* Über den Module Store das 'GasImpuls'-Modul installieren.
-* Alternativ über das Module Control folgende URL hinzufügen
+* Über den Module Store das 'GasImpuls'-Modul installieren (derzeitig noch nicht aktiv).
+* Alternativ über das Module Control folgende URL hinzufügen:
+	- https://github.com/Burki24/IPS-GasImpulseRechner
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 

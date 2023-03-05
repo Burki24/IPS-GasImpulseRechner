@@ -83,11 +83,14 @@ GCM_CostsSinceInvoice       | Float       | Kosten seit letzter Abschlussrechnun
 Name   | Typ
 ------ | -------
  GCM.Gas.kWh      | Float-Profil 
-       |
+
+
 
 ### 6. WebFront
 
 Im Webfront können vorerst nur die Werte angezeigt werden und wenn Archivierung aktiviert ist der Verlauf.
+
+
 
 ### 7. PHP-Befehlsreferenz
 
@@ -95,5 +98,5 @@ Aktuell keine.
 
 
 
-### 7. Zukünftige geplante Ergänzungen
+### 8. Zukünftige geplante Ergänzungen
 - Forecast Errechnen für Verbrauch und Kosten

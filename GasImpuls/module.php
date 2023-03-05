@@ -91,7 +91,7 @@
 				$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
 				$impulseState = GetValue($impulseProvider);
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-				$this->GasCounter();
+				$this->Calculation();
 				$installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
 				$this->SetValue("GCM_CounterValue", $installCounterValue);
 				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
@@ -110,7 +110,7 @@
 						$impulseCounter = $this->ReadPropertyInteger('ImpulseProvider');
 						$impulseState = GetValue($impulseCounter);
 						$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-						$this->GasCounter();
+						$this->Calculation();
 						$this->CostsSinceInvoice();
 						$this->CostActualDay();
 						$this->Difference();
@@ -140,7 +140,7 @@
 			$result = ($actual - $invoice);
 			$this->SetValue("GCM_CurrentConsumption", $result);
 		}
-		private function GasCounter()
+		private function Calculation()
 		{
     		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseProvider'), VM_UPDATE);
     		$impulseID = $this->ReadPropertyInteger('ImpulseProvider');
@@ -225,8 +225,6 @@
 				$this->SetValue("GCM_DayCosts", 0);
 			}
 		}
-
-		// Property-Funktionen
 		private function calculatePeriod($value, $period)
     	{
         	// Berechnung Schaltjahr

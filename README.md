@@ -3,7 +3,9 @@
 Folgende Module beinhaltet das Gas Verbrauchsanalyse Repository:
 
 - __GasImpuls__ ([Dokumentation](GasImpuls))  
-	Verwertung eines Impulse, kommend von einer Boolean-Variable. Errechnet daraus:
+	Verwertung eines Impuls, kommend von einer Boolean-Variable, welche den Impuls eines Gaszählers registriert.
+	
+	Errechnet daraus:
 	- Verbrauchsdaten
 	- Kosten
 	

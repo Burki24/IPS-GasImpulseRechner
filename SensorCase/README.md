@@ -1,0 +1,1 @@
+### Beu eines Reed-Kontakt-Sensors

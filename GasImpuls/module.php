@@ -225,6 +225,8 @@
 				$this->SetValue("GCM_DayCosts", 0);
 			}
 		}
+
+		// Property-Funktionen
 		private function calculatePeriod($value, $period)
     	{
         	// Berechnung Schaltjahr

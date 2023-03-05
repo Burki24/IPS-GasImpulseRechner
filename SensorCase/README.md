@@ -6,4 +6,4 @@
     ![pics\2023-02-17_14-22-52_338.gif](/pics/2023-02-17_14-22-52_338.gif)
     ![pics\2023-02-17_14-22-59_258.gif](/pics/2023-02-17_14-22-59_258.gif)
 
-- Ich empfehle, diesen Sensor mit einem 3V Netzteil zu versorgen, um den erhöhten Stromverbrauch zu begegnen. Durch das häufigere Aktivieren als z.B. beim Fensterzustand wird der Verbrauch etwas höher sein, als im Normalbetrieb.
+- Ich empfehle, diesen Sensor mit einem passenden Netzteil zu versorgen, um den erhöhten Stromverbrauch zu begegnen. Durch das häufigere Aktivieren als z.B. beim Fensterzustand wird der Verbrauch etwas höher sein, als im Normalbetrieb.

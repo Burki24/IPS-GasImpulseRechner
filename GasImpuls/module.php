@@ -83,7 +83,10 @@
     		if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
 				$this->Difference();
 			}
-
+			// Register starten
+			if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
+				$this->RegisterEvent()
+			}
 			// Impuls Verwertung
 
 			$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');

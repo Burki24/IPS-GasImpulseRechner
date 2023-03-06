@@ -290,13 +290,13 @@
         		IPS_SetIdent($eid, 'EndOfDayTimer');
         		IPS_SetName($eid, $this->Translate('End Of Day Timer'));
 
-        		IPS_SetEventCyclic($eid, 3 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
-        		IPS_SetEventCyclicTimeFrom($eid, 17, 25, 00);
-        		IPS_SetEventCyclicTimeTo($eid, 17, 25, 00);
+        		IPS_SetEventCyclic($eid, 1 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+        		IPS_SetEventCyclicTimeFrom($eid, 17, 45, 00);
+        		IPS_SetEventCyclicTimeTo($eid, 17, 45, 00);
     		} else {
         		IPS_SetEventCyclic($eid, 3 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
-        		IPS_SetEventCyclicTimeFrom($eid, 17, 25, 00);
-        		IPS_SetEventCyclicTimeTo($eid, 17, 25, 00);
+        		IPS_SetEventCyclicTimeFrom($eid, 17, 45, 00);
+        		IPS_SetEventCyclicTimeTo($eid, 17, 45, 00);
     		}
     		IPS_SetEventScript($eid, 'GCM_timerSetting($_IPS[\'TARGET\']);');
     		return $eid;

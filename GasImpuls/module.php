@@ -298,7 +298,7 @@
         		IPS_SetEventCyclicTimeFrom($eid, 17, 25, 00);
         		IPS_SetEventCyclicTimeTo($eid, 17, 25, 00);
     		}
-    		IPS_SetEventScript($eid, PREFIX . '_timerSetting($_IPS[\'TARGET\'];');
+    		IPS_SetEventScript($eid, 'GCM_timerSetting($_IPS[\'TARGET\'];');
     		return $eid;
 		}
 	}

@@ -85,7 +85,7 @@
 			}
 			// Register starten
 			if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
-				$this->RegisterEvent()
+				$this->RegisterEvent();
 			}
 			// Impuls Verwertung
 

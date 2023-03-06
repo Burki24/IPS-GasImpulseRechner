@@ -120,7 +120,7 @@
 						// $this->timerSetting();
 					break;
                 default:
-                    $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
+                    // $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
                     break;
 				}
 		}
@@ -290,7 +290,7 @@
         		IPS_SetEventCyclicTimeFrom($eid, 18, 00, 00);
         		// IPS_SetEventCyclicTimeTo($eid, 17, 45, 00);
     		} else {
-        		IPS_SetEventCyclic($eid, 3 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+        		IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
         		IPS_SetEventCyclicTimeFrom($eid, 18, 00, 00);
         		// IPS_SetEventCyclicTimeTo($eid, 17, 45, 00);
     		}

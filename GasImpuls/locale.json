@@ -36,7 +36,8 @@
             "Total Consumption Last Day m3": "Gestriger Verbrauch in m3",
             "Base Price": "Basiskosten täglich",
             "Meter Reading On Last Invoice": "Zählerstand bei letzter Abrechnung",
-            "Costs Since Invoice": "Kosten seit letzter Abrechnung"
+            "Costs Since Invoice": "Kosten seit letzter Abrechnung",
+            "End Of Day Timer": "Tagesabrechnung zum Ende des Tages"
         }
     }
 }

@@ -287,8 +287,8 @@
     		if ($eid == 0) {
         		$eid = IPS_CreateEvent(1);
         		IPS_SetParent($eid, $this->InstanceID);
-        		IPS_SetIdent($eid, 'ReportTimer');
-        		IPS_SetName($eid, $this->Translate('Report Timer'));
+        		IPS_SetIdent($eid, 'EndOfDayTimer');
+        		IPS_SetName($eid, $this->Translate('End Of Day Timer'));
 
         		IPS_SetEventCyclic($eid, 3 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
         		IPS_SetEventCyclicTimeFrom($eid, strtotime('16:55:00'));

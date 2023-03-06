@@ -216,7 +216,7 @@
     		$this->SetValue("GCM_DayCosts", 0);
 
     		// Generieren des Berichts
-    		$this->_generateReport($target, $reportStartDate, $reportEndDate, $param1, $param2, $param3, $param4);
+    		// $this->_generateReport($target, $reportStartDate, $reportEndDate, $param1, $param2, $param3, $param4);
 		}
 
 

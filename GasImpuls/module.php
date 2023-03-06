@@ -202,29 +202,21 @@
 			$this->SetValue("GCM_DayCosts", $costs);
 		}
 
-		public function timerSetting()
+		public function timerSetting($target, $reportStartDate, $reportEndDate, $param1, $param2, $param3, $param4)
 		{
-			// Bestimme das nächste Ausführungsdatum um 23:59:50 Uhr heute
-			$today = date('Y-m-d');
-			$nextExecution = strtotime($today . ' 23:59:50');
-			// Wenn das nächste Ausführungsdatum bereits vergangen ist, setze es auf das nächste Datum
-			if ($nextExecution <= time()) {
-			    $nextExecution = strtotime('+1 day', $nextExecution);
-			}
-			// Berechne die verbleibende Zeit bis zum nächsten Ausführungsdatum
-			$timeRemaining = $nextExecution - time();
-			$this->SendDebug ("Verbleibend", $timeRemaining, 0);
-			// Setze das Timer-Intervall entsprechend der verbleibenden Zeit
-			$this->SetTimerInterval('CloseDay', $timeRemaining);
-			if ($_IPS['SENDER'] == 'TimerEvent' && $_IPS['EVENT'] == $this->GetIDForIdent('CloseDay')) {
-				$this->SetValue("GCM_ConsumptionYesterdayM3", $this->GetValue("GCM_UsedM3"));
-				$this->SetValue("GCM_ConsumptionYesterdayKWH", $this->GetValue("GCM_UsedKWH"));
-				$this->SetValue("GCM_CostsYesterday", $this->GetValue("GCM_DayCosts"));
-				$this->SetValue("GCM_UsedM3", 0);
-				$this->SetValue("GCM_UsedKWH", 0);
-				$this->SetValue("GCM_DayCosts", 0);
-			}
+    		// Speichern der gestrigen Verbrauchswerte
+    		$this->SetValue("GCM_ConsumptionYesterdayM3", $this->GetValue("GCM_UsedM3"));
+    		$this->SetValue("GCM_ConsumptionYesterdayKWH", $this->GetValue("GCM_UsedKWH"));
+    		$this->SetValue("GCM_CostsYesterday", $this->GetValue("GCM_DayCosts"));
+    		$this->SetValue("GCM_UsedM3", 0);
+    		$this->SetValue("GCM_UsedKWH", 0);
+    		$this->SetValue("GCM_DayCosts", 0);
+
+    		// Generieren des Berichts
+    		$this->_generateReport($target, $reportStartDate, $reportEndDate, $param1, $param2, $param3, $param4);
 		}
+
+
 
 		// Property-Funktionen
 		private function calculatePeriod($value, $period)
@@ -282,5 +274,28 @@
 			);
 
 			return json_encode($dateArray);
+		}
+		private function RegisterEvent()
+		{
+    		$ReportStartDate = 'midnight first day of last month';
+    		$ReportEndDate = 'first day of this month';
+
+    		$eid = @$this->GetIDForIdent('ReportTimer');
+    		if ($eid == 0) {
+        		$eid = IPS_CreateEvent(1);
+        		IPS_SetParent($eid, $this->InstanceID);
+        		IPS_SetIdent($eid, 'ReportTimer');
+        		IPS_SetName($eid, $this->Translate('Report Timer'));
+
+        		IPS_SetEventCyclic($eid, 3 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+        		IPS_SetEventCyclicTimeFrom($eid, strtotime('23:59:50'));
+        		IPS_SetEventCyclicTimeTo($eid, strtotime('23:59:50'));
+    		} else {
+        		IPS_SetEventCyclic($eid, 3 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+        		IPS_SetEventCyclicTimeFrom($eid, strtotime('23:59:50'));
+        		IPS_SetEventCyclicTimeTo($eid, strtotime('23:59:50'));
+    		}
+    		IPS_SetEventScript($eid, PREFIX . '_timerSetting($_IPS[\'TARGET\'],\'' . $ReportStartDate . '\',\'' . $ReportEndDate . '\', true, true, "csv" ,true);');
+    		return $eid;
 		}
 	}

@@ -148,36 +148,16 @@
     		$impulseID = $this->ReadPropertyInteger('ImpulseProvider');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
-			$calorificValue = $this->ReadPropertyFloat('CalorificValue');
-			$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
-			$impulseState = GetValue($impulseProvider);
-			$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
+    		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
+    		$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
+    		$impulseState = GetValue($impulseProvider);
+    		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
+    		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
     		if ($impulseState) {
-        		// $result = $this->GetBuffer("calculation") + $impulseValue;
-        		// $this->SetBuffer("calculation", round($result, 2));
-				// $this->SendDebug("Wert Calculation", $result, 0);
-				$this->SendDebug("ImpulseValue", $impulseValue, 0);
-				$this->SendDebug("Install Counter", $installCounterValue, 0);
-        		$medResult = $this->ReadAttributeFloat('Attrib_CounterValue') + $impulseValue;
-				$this->SendDebug("medResult", $medResult, 0);
-				$finalResult = $medResult + $impulseValue;
-				$this->SendDebug("finalResult", $finalResult, 0);
-        		$this->SetValue("GCM_CounterValue", round($finalResult, 2));
-        		$this->SendDebug("Stand aktuell", round($result, 2), 0);
-				$this->WriteAttributeFloat('Attrib_UsedM3', $result);
-				$this->SetValue("GCM_UsedM3", $result);
-				$calorificValue = $this->ReadPropertyFloat('CalorificValue');
-				$this->SendDebug("Faktor", $calorificValue, 0);
-				$cubicMeter = $this->GetValue("GCM_UsedM3");
-				$this->SendDebug("M3", $cubicMeter, 0);
-				$usedkwh = $calorificValue * $cubicMeter;
-				$this->SetValue("GCM_UsedKWH", $usedkwh);
-				$this->SendDebug("used kwh", $usedkwh, 0);
-        		$this->SendDebug("Stand aktuell Final", round($finalResult, 2), 0);
-				$this->WriteAttributeFloat('Attrib_CounterValue', round($result, 2));
+        		$final += $impulseValue; // addieren Sie den Wert von $impulseValue zu $final hinzu
     		}
+			$this->SetValue("GCM_CounterValue", $final);
 		}
-
 
 		private function CostsSinceInvoice()
 		{

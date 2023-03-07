@@ -149,7 +149,7 @@
     		$impulseID = $this->ReadPropertyInteger('ImpulseProvider');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
-			// $this->SetBuffer("installCounterValue", $installCounterValue);
+			$this->SetBuffer("installCounterValue", '$installCounterValue');
 			// $this->SendDebug("Buffer_installCounterValue", $this->GetBuffer("installCounterValue"), 0);
 			// $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValue);
     		$calorificValue = $this->ReadPropertyFloat('CalorificValue');

@@ -177,7 +177,7 @@
 				$finalResult = $installCounterValue + $result;
 				$this->SendDebug("Resultat Final:", $finalResult, 0);
         		$this->SetValue("GCM_CounterValue", round($finalResult, 2));
-				$this->SendDebug("GCM_CounterValue:", round($finalResult, 0);
+				$this->SendDebug("GCM_CounterValue:", round($finalResult, 2), 0);
         		$this->WriteAttributeFloat('Attrib_UsedM3', $result);
 				$this->SendDebug("Attrib UsedM3:", $result, 0);
         		$this->SetValue("GCM_UsedM3", $result);

@@ -158,20 +158,21 @@
     		if ($impulseState) {
         		$result = $this->GetBuffer("calculation") + $impulseValue;
         		$this->SetBuffer("calculation", round($result, 2));
+				$this->SendDebug("Wert Calculation", $result, 0);
         		$finalResult = $this->GetBuffer("installCounterValue") + round($result, 2);
-				// $this->SendDebug("$finalResult", $finalResult, 0);
+				$this->SendDebug("$finalResult", $finalResult, 0);
         		$this->SetValue("GCM_CounterValue", round($finalResult, 2));
-        		// $this->SendDebug("Stand aktuell", round($result, 2), 0);
+        		$this->SendDebug("Stand aktuell", round($result, 2), 0);
 				$this->WriteAttributeFloat('Attrib_UsedM3', $result);
 				$this->SetValue("GCM_UsedM3", $result);
 				$calorificValue = $this->ReadPropertyFloat('CalorificValue');
-				// $this->SendDebug("Faktor", $calorificValue, 0);
+				$this->SendDebug("Faktor", $calorificValue, 0);
 				$cubicMeter = $this->GetValue("GCM_UsedM3");
-				// $this->SendDebug("M3", $cubicMeter, 0);
+				$this->SendDebug("M3", $cubicMeter, 0);
 				$yesterdaykwh = $calorificValue * $cubicMeter;
 				$this->SetValue("GCM_UsedKWH", $yesterdaykwh);
 				$this->SendDebug("Yesterday kwh", $yesterdaykwh, 0);
-        		// $this->SendDebug("Stand aktuell Final", round($finalResult, 2), 0);
+        		$this->SendDebug("Stand aktuell Final", round($finalResult, 2), 0);
 				$this->WriteAttributeFloat('Attrib_CounterValue', round($result, 2));
     		}
 		}

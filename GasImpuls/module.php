@@ -150,14 +150,24 @@
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
     		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
     		$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
-    		$impulseState = GetValue($impulseProvider);
+    		$impulse = GetValue($impulseProvider);
     		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
     		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
-    		if ($impulseState) {
-        		$final += $impulseValue; // addieren Sie den Wert von $impulseValue zu $final hinzu
-				$this->SetValue("GCM_CounterValue", $final);
+    		$counterValue = $this->ReadAttributeFloat('Attrib_CounterValue'); // lesen Sie den aktuellen Wert der Variable $counterValue aus den Attributen
+
+    		if ($impulse && !$impulseAttrib) {
+        		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
+        		$counterValue += $impulseValue; // erhöhen Sie den Wert von $counterValue um $impulseValue
+        		$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
+        		$this->SetValue("GCM_CounterValue", $final);
     		}
 
+    		$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
+
+    		if ($impulseAttrib && !$impulse) {
+        		$final = $installCounterValue + $counterValue; // aktualisieren Sie den Wert von $final, indem Sie den Wert von $installCounterValue und $counterValue addieren
+        		$this->SetValue("GCM_CounterValue", $final); // aktualisieren Sie den Wert von $GCM_CounterValue mit dem aktuellen Zählerstand
+    		}
 		}
 
 		private function CostsSinceInvoice()

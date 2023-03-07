@@ -155,6 +155,10 @@
     		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
     		$counterValue = $this->ReadAttributeFloat('Attrib_CounterValue'); // lesen Sie den aktuellen Wert der Variable $counterValue aus den Attributen
 
+    		if ($installCounterValue != $this->ReadPropertyFloat('InstallCounterValue')) {
+        		$counterValue = 0; // setzen Sie den Wert von $counterValue auf Null, wenn $installCounterValue geändert wird
+    		}
+
     		if ($impulse) {
         		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
         		$counterValue += $impulseValue; // erhöhen Sie den Wert von $counterValue um $impulseValue

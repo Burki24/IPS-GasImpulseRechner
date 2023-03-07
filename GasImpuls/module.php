@@ -171,7 +171,7 @@
 				$cubicMeter = $this->GetValue("GCM_UsedM3");
 				$this->SendDebug("M3", $cubicMeter, 0);
 				$usedkwh = $calorificValue * $cubicMeter;
-				$this->SetValue("GCM_UsedKWH", $yesterdaykwh);
+				$this->SetValue("GCM_UsedKWH", $usedkwh);
 				$this->SendDebug("used kwh", $usedkwh, 0);
         		$this->SendDebug("Stand aktuell Final", round($finalResult, 2), 0);
 				$this->WriteAttributeFloat('Attrib_CounterValue', round($result, 2));

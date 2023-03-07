@@ -26,6 +26,7 @@
 
 			// Zur Berechnung bereitzustellende Werte
 			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
+			$this->SetBuffer("installCounterValue", $this-ReadPropertyFloat('InstallCounterValue'));
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);
@@ -151,7 +152,7 @@
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
 			$this->SetBuffer("installCounterValue", $installCounterValue);
 			$this->SendDebug("Buffer_installCounterValue", $this->GetBuffer("installCounterValue"), 0);
-			// $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValue);
+			$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValue);
     		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
     		$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
     		$impulse = GetValue($impulseProvider);

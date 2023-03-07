@@ -117,10 +117,9 @@
 						$this->CostsSinceInvoice();
 						$this->CostActualDay();
 						$this->Difference();
-						// $this->timerSetting();
 					break;
                 default:
-                    // $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
+                    $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
                     break;
 				}
 		}
@@ -215,9 +214,6 @@
     		$this->SetValue("GCM_UsedM3", 0);
     		$this->SetValue("GCM_UsedKWH", 0);
     		$this->SetValue("GCM_DayCosts", 0);
-
-    		// Generieren des Berichts
-    		// $this->_generateReport($target, $reportStartDate, $reportEndDate, $param1, $param2, $param3, $param4);
 		}
 
 

@@ -26,7 +26,6 @@
 
 			// Zur Berechnung bereitzustellende Werte
 			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
-			$this->SetBuffer("installCounterValue", $this-ReadPropertyFloat('InstallCounterValue'));
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);

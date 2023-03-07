@@ -158,7 +158,8 @@
 				$this->SendDebug("Wert Calculation", $result, 0);
 				$this->SendDebug("ImpulseValue", $impulseValue, 0);
 				$this->SendDebug("Install Counter", $installCounterValue, 0);
-        		$finalResult = $installCounterValue + $impulseValue;
+        		$medResult = $installCounterValue + $impulseValue;
+				$finalResult = $medResult + $impulseValue;
 				$this->SendDebug("finalResult", $finalResult, 0);
         		$this->SetValue("GCM_CounterValue", round($finalResult, 2));
         		$this->SendDebug("Stand aktuell", round($result, 2), 0);

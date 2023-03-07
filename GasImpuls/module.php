@@ -153,9 +153,9 @@
 			$impulseState = GetValue($impulseProvider);
 			$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
     		if ($impulseState) {
-        		$result = $this->GetBuffer("calculation") + $impulseValue;
-        		$this->SetBuffer("calculation", round($result, 2));
-				$this->SendDebug("Wert Calculation", $result, 0);
+        		// $result = $this->GetBuffer("calculation") + $impulseValue;
+        		// $this->SetBuffer("calculation", round($result, 2));
+				// $this->SendDebug("Wert Calculation", $result, 0);
 				$this->SendDebug("ImpulseValue", $impulseValue, 0);
 				$this->SendDebug("Install Counter", $installCounterValue, 0);
         		$medResult = $this->ReadAttributeFloat('Attrib_CounterValue') + $impulseValue;

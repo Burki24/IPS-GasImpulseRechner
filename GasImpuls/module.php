@@ -157,7 +157,7 @@
         		$this->SetBuffer("calculation", round($result, 2));
 				$this->SendDebug("Wert Calculation", $result, 0);
 				$this->SendDebug("ImpulseValue", $impulseValue, 0);
-        		$finalResult = $this->GetBuffer("installCounterValue") + round($result, 2);
+        		$finalResult = $this->$installCounterValue + $impulseValue;
 				$this->SendDebug("finalResult", $finalResult, 0);
         		$this->SetValue("GCM_CounterValue", round($finalResult, 2));
         		$this->SendDebug("Stand aktuell", round($result, 2), 0);

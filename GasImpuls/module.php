@@ -155,8 +155,9 @@
     		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
     		if ($impulseState) {
         		$final += $impulseValue; // addieren Sie den Wert von $impulseValue zu $final hinzu
+				$this->SetValue("GCM_CounterValue", $final);
     		}
-			$this->SetValue("GCM_CounterValue", $final);
+
 		}
 
 		private function CostsSinceInvoice()

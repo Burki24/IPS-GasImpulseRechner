@@ -147,7 +147,7 @@
     		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseProvider'), VM_UPDATE);
     		$impulseID = $this->ReadPropertyInteger('ImpulseProvider');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
-    		$installCounterValue = round($this->ReadpropertyFloat('installCounterValue'), 2);
+    		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
 			$calorificValue = $this->ReadPropertyFloat('CalorificValue');
 			$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
 			$impulseState = GetValue($impulseProvider);

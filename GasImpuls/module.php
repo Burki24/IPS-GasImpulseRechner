@@ -158,7 +158,7 @@
 				$this->SendDebug("Wert Calculation", $result, 0);
 				$this->SendDebug("ImpulseValue", $impulseValue, 0);
 				$this->SendDebug("Install Counter", $installCounterValue, 0);
-        		$medResult = $installCounterValue + $impulseValue;
+        		$medResult = $this->ReadAttributeFloat('Attrib_CounterValue') + $impulseValue;
 				$this->SendDebug("medResult", $medResult, 0);
 				$finalResult = $medResult + $impulseValue;
 				$this->SendDebug("finalResult", $finalResult, 0);

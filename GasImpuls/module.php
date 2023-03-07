@@ -146,13 +146,26 @@
 		private function GasCounter()
 		{
     		$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
+			$this->SendDebug("ImpulszählerID", $impulseProvider, 0);
     		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
+			$this->SendDebug("Brennwert:", $calorificValue, 0);
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
+			$this->SendDebug("Impulswert:", $impulseValue, 0);
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
+			$this->SendDebug("Zählerwert Installation:", $installCounterValue, 0);
+
     		$lastInstallCounterValue = round($this->GetBuffer("lastInstallCounterValue"), 2);
+			$this->SendDebug("Letzer Zählerstand:", $lastInstallCounterValue, 0);
+
     		$lastCalculation = round($this->GetBuffer("calculation"), 2);
+			$this->SendDebug("Letzte Berechnung:", $lastCalculation, 0);
+
     		$impulseState = GetValue($impulseProvider);
+			$this->SendDebug("Impulsstatus:", $impulseState, 0);
+
     		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
+			$this->SendDebug("Impulse Attribut:", $impulseAttrib, 0);
+
 
     		$installCounterValue = $installCounterValue ?: 0;
     		$lastInstallCounterValue = $lastInstallCounterValue ?: 0;

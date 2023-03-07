@@ -173,12 +173,17 @@
 
     		if ($impulseState) {
         		$result = $lastCalculation + $impulseValue;
-        		$finalResult = $installCounterValue + $result;
+        		$this->SendDebug("Resultat:", $result, 0);
+				$finalResult = $installCounterValue + $result;
+				$this->SendDebug("Resultat Final:", $finalResult, 0);
         		$this->SetValue("GCM_CounterValue", round($finalResult, 2));
+				$this->SendDebug("GCM_CounterValue:", round($finalResult, 0);
         		$this->WriteAttributeFloat('Attrib_UsedM3', $result);
+				$this->SendDebug("Attrib UsedM3:", $result, 0);
         		$this->SetValue("GCM_UsedM3", $result);
         		$usedKWH = $calorificValue * $result;
         		$this->SetValue("GCM_UsedKWH", $usedKWH);
+				$this->SendDebug("GCM_UsedKWH:", $usedKWH, 0);
         		$this->WriteAttributeFloat('Attrib_CounterValue', $result);
         		$this->SetBuffer("calculation", $result);
     		}

@@ -14,15 +14,16 @@
 			parent::Create();
 
 			//Werte aus dem Formular
-			$this->RegisterPropertyInteger('ImpulseProvider', 0);
-			$this->RegisterPropertyString('BasePricePeriod', 'month');
+			$this->RegisterPropertyInteger('ImpulseID', 0);
 			$this->RegisterPropertyFloat('ImpulseValue', 0);
 			$this->RegisterPropertyFloat('BasePrice', 0);
+			$this->RegisterPropertyString('BasePricePeriod', 'month');
 			$this->RegisterPropertyFloat('CalorificValue', 0);
 			$this->RegisterPropertyFloat('InvoiceCounterValue', 0);
-			$this->RegisterPropertyFloat('InstallCounterValue', 0);
-			$this->RegisterPropertyFloat('PriceValueKWH', 0);
 			$this->RegisterPropertyString('InvoiceDate', $this->getCurrentDate());
+			$this->RegisterPropertyFloat('InstallCounterValue', 0);
+			$this->RegisterPropertyFloat('KWHPrice', 0);
+
 
 			// Zur Berechnung bereitzustellende Werte
 			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -143,7 +144,7 @@
 		private function GasCounter()
 		{
     		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseProvider'), VM_UPDATE);
-    		$impulseID = $this->ReadPropertyInteger('ImpulseProvider');
+    		$impulseID = $this->ReadPropertyInteger('ImpulseID');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
 			$this->SetBuffer("installCounterValue", $installCounterValue);
@@ -184,7 +185,7 @@
 			$baseCosts = (round($this->GetValue("GCM_BasePrice"), 2) * $days_since);
 			$calorificValue = $this->ReadpropertyFloat('CalorificValue');
 			$kwh = round($this->GetValue("GCM_CurrentConsumption") * $calorificValue, 3);
-			$kwhCosts = $kwh * $this->ReadpropertyFloat('PriceValueKWH');
+			$kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
 			$costs = $kwhCosts + $baseCosts;
 			$this->SetValue("GCM_CostsSinceInvoice", $costs);
 			// $this->SendDebug("Grundpreis seit Rechnungsstellung", $baseCosts, 0);
@@ -198,7 +199,7 @@
 			$baseCosts = (round($this->GetValue("GCM_BasePrice"), 2));
 			$calorificValue = $this->ReadpropertyFloat('CalorificValue');
 			$kwh = round($this->GetValue("GCM_UsedKWH"), 3);
-			$kwhCosts = $kwh * $this->ReadpropertyFloat('PriceValueKWH');
+			$kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
 			$costs = $kwhCosts + $baseCosts;
 			$this->SetValue("GCM_DayCosts", $costs);
 		}

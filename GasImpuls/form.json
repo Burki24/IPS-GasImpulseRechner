@@ -9,7 +9,7 @@
                 },
                 {
                     "type": "SelectVariable",
-                    "name": "ImpulseProvider",
+                    "name": "ImpulseID",
                     "validVariableTypes": [
                         0
                     ],
@@ -167,7 +167,7 @@
                 },
                 {
                     "type": "NumberSpinner",
-                    "name": "PriceValueKWH",
+                    "name": "KWHPrice",
                     "caption": "KW/h price",
                     "digits": 3,
                     "moreDigits": "true",

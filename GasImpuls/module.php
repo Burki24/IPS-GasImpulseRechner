@@ -26,7 +26,7 @@
 
 
 			// Zur Berechnung bereitzustellende Werte
-			$this->RegisterAttributeFloat('c', 0);
+			$this->RegisterAttributeFloat('Attrib_CounterValueOld', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);
@@ -94,11 +94,15 @@
 			if($impulseProvider && $impulseProvider > 0) {
 				$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
 				$impulseState = GetValue($impulseProvider);
+				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue'));
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+				$this->WriteAttributeFloat('Attrib_CounterValueOld', $installCounterValueOld)
 				$this->SetValue("GCM_CounterValue", $this->ReadpropertyFloat('InstallCounterValue'));
 				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
 				$this->GasCounter();
 				$this->SendDebug("CounterValue", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
+				$this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
+				$this->SendDebug("installCounterValue", $this->ReadpropertyFloat('InstallCounterValue'), 0);
 			}
 
 			//Impulse resett bei Änderung von InstallCounterValue
@@ -151,7 +155,7 @@
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
 			$this->SetBuffer("installCounterValue", $installCounterValue);
-			$this->SendDebug("Buffer_installCounterValue", $this->GetBuffer("installCounterValue"), 0);
+			// $this->SendDebug("Buffer_installCounterValue", $this->GetBuffer("installCounterValue"), 0);
 			$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValue);
     		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
     		$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');

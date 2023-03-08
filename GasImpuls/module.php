@@ -55,9 +55,6 @@
 
 			//Messages
 			$this->RegisterMessage(0, IPS_KERNELMESSAGE);
-
-			//Timer
-			$this->RegisterTimer('CloseDay', 0, 'GCM_timerSetting($_IPS[\'TARGET\']);');
 		}
 
 		public function Destroy()

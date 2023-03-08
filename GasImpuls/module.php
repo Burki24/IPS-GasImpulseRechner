@@ -113,7 +113,7 @@
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
 		{
     		IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
-				$counterValue = $this->ReadAttributeFloat('Attrib_UsedM3');
+				// $counterValue = $this->ReadAttributeFloat('Attrib_UsedM3');
 				switch ($Message) {
 					case VM_UPDATE:
 						$impulseCounter = $this->ReadPropertyInteger('ImpulseID');

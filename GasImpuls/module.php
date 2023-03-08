@@ -162,7 +162,7 @@
     		$this->updateInstallCounterValue();
 
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
-    		$installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+    		// $installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
     		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
 
     		// if ($installCounterValue != $installCounterValueOld) {

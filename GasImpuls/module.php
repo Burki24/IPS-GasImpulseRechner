@@ -153,6 +153,39 @@
     		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
     		$impulseID = $this->ReadPropertyInteger('ImpulseID');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
+    		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
+    		$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
+    		$impulse = GetValue($impulseProvider);
+    		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
+    		$counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
+
+    		$this->updateInstallCounterValue();
+
+    		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
+    		$installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+    		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
+
+    		if ($installCounterValue != $installCounterValueOld) {
+        		$counterValue = 0; // setzen Sie den Wert von $counterValue auf Null, wenn $installCounterValue geändert wird
+    		}
+
+    		if ($impulse) {
+        		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
+        		$counterValue += $impulseValue; // erhöhen Sie den Wert von $counterValue um $impulseValue
+        		$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
+        		$this->SetValue("GCM_CounterValue", $final);
+    		}
+
+    		$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
+		}
+
+
+
+		private function GasCounter()
+		{
+    		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
+    		$impulseID = $this->ReadPropertyInteger('ImpulseID');
+    		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
 			$this->SetBuffer("installCounterValue", $installCounterValue);
 			// $this->SendDebug("Buffer_installCounterValue", $this->GetBuffer("installCounterValue"), 0);
@@ -300,5 +333,14 @@
     		}
     		IPS_SetEventScript($eid, 'GCM_timerSetting($_IPS[\'TARGET\']);');
     		return $eid;
+		}
+		private function updateInstallCounterValue()
+		{
+    		$installCounterValue = round($this->ReadPropertyFloat('InstallCounterValue'), 2);
+    		$installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+
+    		if ($installCounterValue != $installCounterValueOld) {
+    		    $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValue);
+    		}
 		}
 	}

@@ -26,7 +26,7 @@
 
 
 			// Zur Berechnung bereitzustellende Werte
-			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
+			$this->RegisterAttributeFloat('c', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);
@@ -78,28 +78,31 @@
     		if (IPS_VariableExists($this->GetIDForIdent("GCM_InvoiceCounterValue"))) {
 				$this->InvoiceCounterValue();
 			}
+
 			// Errechnung Zählerstanddifferenz bei Installation
     		if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
 				$this->Difference();
 			}
-			// Register starten
+
+			// Event Tagesende starten
 			if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
 				$this->RegisterEvent();
 			}
-			// Impuls Verwertung
 
+			// Impuls Verwertung
 			$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
 			if($impulseProvider && $impulseProvider > 0) {
 				$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
 				$impulseState = GetValue($impulseProvider);
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-				$this->GasCounter();
-				$installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
-				$this->SetValue("GCM_CounterValue", $installCounterValue);
+				$this->SetValue("GCM_CounterValue", $this->ReadpropertyFloat('InstallCounterValue'));
 				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
+				$this->GasCounter();
 				$this->SendDebug("CounterValue", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
-				$this->SendDebug("Tageszähler", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
 			}
+
+			//Impulse resett bei Änderung von InstallCounterValue
+
 		}
 
 		// MessageSink

@@ -26,7 +26,7 @@
 
 
 			// Zur Berechnung bereitzustellende Werte
-			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
+			// $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);
@@ -101,7 +101,7 @@
 				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
 				$this->GasCounter();
 				$this->SendDebug("CounterValue", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
-				$this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
+				// $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
 				$this->SendDebug("installCounterValue", $this->ReadpropertyFloat('InstallCounterValue'), 0);
 			}
 
@@ -165,9 +165,9 @@
     		$installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
     		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
 
-    		if ($installCounterValue != $installCounterValueOld) {
-        		$counterValue = 0; // setzen Sie den Wert von $counterValue auf Null, wenn $installCounterValue geändert wird
-    		}
+    		// if ($installCounterValue != $installCounterValueOld) {
+        		// $counterValue = 0; // setzen Sie den Wert von $counterValue auf Null, wenn $installCounterValue geändert wird
+    		// }
 
     		if ($impulse) {
         		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
@@ -297,13 +297,20 @@
     		IPS_SetEventScript($eid, 'GCM_timerSetting($_IPS[\'TARGET\']);');
     		return $eid;
 		}
-		private function updateInstallCounterValue()
+		function updateInstallCounterValue()
 		{
-    		$installCounterValue = round($this->ReadPropertyFloat('InstallCounterValue'), 2);
-    		$installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
-
-    		if ($installCounterValue != $installCounterValueOld) {
-    		    $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValue);
-    		}
+			$InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
+			static $InstallCounterValueOld;
+			if ($InstallCounterValue != $InstallCounterValueOld) {
+				// Aktion durchführen
+				$InstallCounterValueOld = $InstallCounterValue;
+			}
 		}
+
+
+
+
+
+
+
 	}

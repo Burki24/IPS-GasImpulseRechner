@@ -90,9 +90,9 @@
 			}
 
 			// Impuls Verwertung
-			$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
+			$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
 			if($impulseProvider && $impulseProvider > 0) {
-				$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
+				$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
 				$impulseState = GetValue($impulseProvider);
 				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
@@ -116,7 +116,7 @@
 				$counterValue = $this->ReadAttributeFloat('Attrib_UsedM3');
 				switch ($Message) {
 					case VM_UPDATE:
-						$impulseCounter = $this->ReadPropertyInteger('ImpulseProvider');
+						$impulseCounter = $this->ReadPropertyInteger('ImpulseID');
 						$impulseState = GetValue($impulseCounter);
 						$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
 						$this->GasCounter();
@@ -150,7 +150,7 @@
 		}
 		private function GasCounter()
 		{
-    		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseProvider'), VM_UPDATE);
+    		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
     		$impulseID = $this->ReadPropertyInteger('ImpulseID');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
@@ -158,7 +158,7 @@
 			// $this->SendDebug("Buffer_installCounterValue", $this->GetBuffer("installCounterValue"), 0);
 			$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValue);
     		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
-    		$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
+    		$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
     		$impulse = GetValue($impulseProvider);
     		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
     		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue

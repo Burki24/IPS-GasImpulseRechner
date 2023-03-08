@@ -96,7 +96,7 @@
 				$impulseState = GetValue($impulseProvider);
 				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-				$this->WriteAttributeFloat('Attrib_CounterValueOld', $installCounterValueOld);
+				$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);
 				$this->SetValue("GCM_CounterValue", $this->ReadpropertyFloat('InstallCounterValue'));
 				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
 				$this->GasCounter();

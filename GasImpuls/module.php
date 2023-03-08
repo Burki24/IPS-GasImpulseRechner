@@ -94,7 +94,7 @@
 			if($impulseProvider && $impulseProvider > 0) {
 				$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
 				$impulseState = GetValue($impulseProvider);
-				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue'));
+				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
 				$this->WriteAttributeFloat('Attrib_CounterValueOld', $installCounterValueOld)
 				$this->SetValue("GCM_CounterValue", $this->ReadpropertyFloat('InstallCounterValue'));

@@ -26,7 +26,7 @@
 
 
 			// Zur Berechnung bereitzustellende Werte
-			$this->RegisterAttributeFloat('Attrib_CounterValueOld', 0);
+			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);

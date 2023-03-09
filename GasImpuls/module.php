@@ -88,7 +88,6 @@
 				$this->RegisterEvent();
 
 			// Impuls Verwertung
-				$this->ImpulseCount();
 		}
 		// MessageSink
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
@@ -104,6 +103,7 @@
 						$this->CostsSinceInvoice();
 						$this->CostActualDay();
 						$this->Difference();
+						$this->ImpulseCount();
 					break;
                 default:
                     $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);

@@ -157,6 +157,7 @@
         		$counterValue += $impulseValue; // erhöhen Sie den Wert von $counterValue um $impulseValue
         		$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
         		$this->SetValue("GCM_CounterValue", $final);
+				$this->SetValue("GCM_UsedM3", $final);
     		}
     		$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
 		}

@@ -155,8 +155,8 @@
     		if ($impulse) {
         		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
         		$counterValue += $impulseValue; // erhöhen Sie den Wert von $counterValue um $impulseValue
-				$cubicMeter = GetValue("GCM_UsedM3");
-        		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
+				$cubicMeter = $this->GetValue("GCM_UsedM3");
+        		//$calorificValue = $this->ReadPropertyFloat('CalorificValue');
 				$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
         		$this->SetValue("GCM_CounterValue", $final);
 				$this->SetValue("GCM_UsedM3", $counterValue);

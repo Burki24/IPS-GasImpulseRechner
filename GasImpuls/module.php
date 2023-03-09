@@ -225,6 +225,8 @@
         	return $result;}
 		private function calculateKWH($calorificValue, $cubicMeter)	{
 			$kwh = $calorificValue * $cubicMeter;
+			$this->SendDebug("cubicmeter", $cubicMeter, 0);
+			$this->SendDebug("kwh calculate", $kwh, 0);
         	return $kwh;
 			$this->SetValue("GCM_UsedKWH", $kwh);}
 		private function getCurrentDate() {

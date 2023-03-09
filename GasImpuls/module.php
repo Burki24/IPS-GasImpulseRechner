@@ -24,7 +24,6 @@
 			$this->RegisterPropertyFloat('InstallCounterValue', 0);
 			$this->RegisterPropertyFloat('KWHPrice', 0);
 
-
 			// Zur Berechnung bereitzustellende Werte
 			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);

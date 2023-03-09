@@ -304,11 +304,3 @@
 			//Impulse resett bei Änderung von InstallCounterValue
 
 		}
-
-
-
-
-
-
-
-	}

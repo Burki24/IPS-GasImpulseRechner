@@ -286,10 +286,10 @@
 		}
 		private function ImpulseCount()
 		{
-		$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
-			if($impulseProvider && $impulseProvider > 0) {
-				$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
-				$impulseState = GetValue($impulseProvider);
+		$impulseID = $this->ReadPropertyInteger('ImpulseID');
+			if($impulseID && $impulseID > 0) {
+				// $impulseID = $this->ReadPropertyInteger('ImpulseID');
+				$impulseState = GetValue($impulseID);
 				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
 				// $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);

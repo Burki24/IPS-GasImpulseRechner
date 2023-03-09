@@ -89,7 +89,7 @@
 
 			// Impuls Verwertung
 				$this->ImpulseCount();
-
+		}
 		// MessageSink
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
 		{

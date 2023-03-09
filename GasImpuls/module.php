@@ -87,6 +87,9 @@
 			// ImpulseCounter zurücksetzen
 			$old = ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
 			$new = $this->ReadPropertyFloat('InstallCounterValue');
+			$this->SendDebug("Counter old Var", $old, 0);
+			$this->SendDebug("Counter new Var", $new, 0);
+
 			If ($old !== $new) {
 			$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
 			$this->SendDebug("Counter old", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);

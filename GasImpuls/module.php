@@ -106,7 +106,7 @@
 						$impulseCounter = $this->ReadPropertyInteger('ImpulseID');
 						$impulseState = GetValue($impulseCounter);
 
-						$calorificValue = $this->ReadPropertyInteger('CalorificValue');
+						$calorificValue = $this->ReadPropertyFloat('CalorificValue');
 						$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
 						$this->GasCounter();
 						$this->CostsSinceInvoice();

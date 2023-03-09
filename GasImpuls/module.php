@@ -93,7 +93,7 @@
 			If ($old !== $new) {
 			$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
 			$this->SendDebug("Counter old", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
-			$this->SendDebug("Counter new", $this->ReadAttributeFloat('InstallCounterValue'), 0);
+			$this->SendDebug("Counter new", $this->ReadPropertyFloat('InstallCounterValue'), 0);
 			}
 			// Event Tagesende starten
 				$this->RegisterEvent();

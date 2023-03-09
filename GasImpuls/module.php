@@ -85,29 +85,10 @@
 			}
 
 			// Event Tagesende starten
-			if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
 				$this->RegisterEvent();
-			}
 
 			// Impuls Verwertung
-			$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
-			if($impulseProvider && $impulseProvider > 0) {
-				$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
-				$impulseState = GetValue($impulseProvider);
-				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
-				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-				// $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);
-				$this->SetValue("GCM_CounterValue", $this->ReadpropertyFloat('InstallCounterValue'));
-				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
-				$this->GasCounter();
-				$this->SendDebug("CounterValue", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
-				// $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
-				$this->SendDebug("installCounterValue", $this->ReadpropertyFloat('InstallCounterValue'), 0);
-			}
 
-			//Impulse resett bei Änderung von InstallCounterValue
-
-		}
 
 		// MessageSink
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
@@ -162,7 +143,7 @@
     		$this->updateInstallCounterValue();
 
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
-    		// $installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+    		//$installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
     		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
 
     		// if ($installCounterValue != $installCounterValueOld) {
@@ -305,6 +286,26 @@
 				// Aktion durchführen
 				$InstallCounterValueOld = $InstallCounterValue;
 			}
+		}
+		private function ImpulseCount()
+		{
+		$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
+			if($impulseProvider && $impulseProvider > 0) {
+				$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
+				$impulseState = GetValue($impulseProvider);
+				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
+				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+				// $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);
+				$this->SetValue("GCM_CounterValue", $this->ReadpropertyFloat('InstallCounterValue'));
+				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
+				$this->GasCounter();
+				$this->SendDebug("CounterValue", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
+				// $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
+				$this->SendDebug("installCounterValue", $this->ReadpropertyFloat('InstallCounterValue'), 0);
+			}
+		}
+			//Impulse resett bei Änderung von InstallCounterValue
+
 		}
 
 

@@ -14,17 +14,19 @@
 			parent::Create();
 
 			//Werte aus dem Formular
-			$this->RegisterPropertyInteger('ImpulseProvider', 0);
-			$this->RegisterPropertyString('BasePricePeriod', 'month');
+			$this->RegisterPropertyInteger('ImpulseID', 0);
 			$this->RegisterPropertyFloat('ImpulseValue', 0);
 			$this->RegisterPropertyFloat('BasePrice', 0);
+			$this->RegisterPropertyString('BasePricePeriod', 'month');
 			$this->RegisterPropertyFloat('CalorificValue', 0);
 			$this->RegisterPropertyFloat('InvoiceCounterValue', 0);
-			$this->RegisterPropertyFloat('InstallCounterValue', 0);
-			$this->RegisterPropertyFloat('PriceValueKWH', 0);
 			$this->RegisterPropertyString('InvoiceDate', $this->getCurrentDate());
+			$this->RegisterPropertyFloat('InstallCounterValue', 0);
+			$this->RegisterPropertyFloat('KWHPrice', 0);
+
 
 			// Zur Berechnung bereitzustellende Werte
+			// $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);
@@ -35,9 +37,9 @@
 			$this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
 
 			// Profil erstellen
-			if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
+			// if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
 			$this->RegisterProfileFloat('GCM.Gas.kWh', 'Flame', 0, ' kWh', 0, 0, 0, 2);
-			}
+			// }
 
 			// Variablen erstellen
 			$this->RegisterVariableFloat("GCM_UsedKWH", $this->Translate('Daily Cosnumption kW/h'), "GCM.Gas.kWh");
@@ -54,9 +56,6 @@
 
 			//Messages
 			$this->RegisterMessage(0, IPS_KERNELMESSAGE);
-
-			//Timer
-			$this->RegisterTimer('CloseDay', 0, 'GCM_timerSetting($_IPS[\'TARGET\']);');
 		}
 
 		public function Destroy()
@@ -79,42 +78,51 @@
     		if (IPS_VariableExists($this->GetIDForIdent("GCM_InvoiceCounterValue"))) {
 				$this->InvoiceCounterValue();
 			}
+
 			// Errechnung Zählerstanddifferenz bei Installation
     		if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
 				$this->Difference();
 			}
 
-			// Impuls Verwertung
-
-			$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
-			if($impulseProvider && $impulseProvider > 0) {
-				$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
-				$impulseState = GetValue($impulseProvider);
-				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-				$this->GasCounter();
-				$installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
-				$this->SetValue("GCM_CounterValue", $installCounterValue);
-				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
-				$this->SendDebug("CounterValue", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
-				$this->SendDebug("Tageszähler", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
+			// Event Tagesende starten
+			if (IPS_VariableExists($this->GetIDForIdent("GCM_CurrentConsumption"))) {
+				$this->RegisterEvent();
 			}
+
+			// Impuls Verwertung
+			$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
+			if($impulseProvider && $impulseProvider > 0) {
+				$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
+				$impulseState = GetValue($impulseProvider);
+				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
+				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+				// $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);
+				$this->SetValue("GCM_CounterValue", $this->ReadpropertyFloat('InstallCounterValue'));
+				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
+				$this->GasCounter();
+				$this->SendDebug("CounterValue", $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
+				// $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
+				$this->SendDebug("installCounterValue", $this->ReadpropertyFloat('InstallCounterValue'), 0);
+			}
+
+			//Impulse resett bei Änderung von InstallCounterValue
+
 		}
 
 		// MessageSink
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
 		{
     		IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
-				$counterValue = $this->ReadAttributeFloat('Attrib_UsedM3');
+				// $counterValue = $this->ReadAttributeFloat('Attrib_UsedM3');
 				switch ($Message) {
 					case VM_UPDATE:
-						$impulseCounter = $this->ReadPropertyInteger('ImpulseProvider');
+						$impulseCounter = $this->ReadPropertyInteger('ImpulseID');
 						$impulseState = GetValue($impulseCounter);
 						$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
 						$this->GasCounter();
 						$this->CostsSinceInvoice();
 						$this->CostActualDay();
 						$this->Difference();
-						// $this->timerSetting();
 					break;
                 default:
                     $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
@@ -142,36 +150,33 @@
 		}
 		private function GasCounter()
 		{
-    		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseProvider'), VM_UPDATE);
-    		$impulseID = $this->ReadPropertyInteger('ImpulseProvider');
+    		$this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
+    		$impulseID = $this->ReadPropertyInteger('ImpulseID');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
+    		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
+    		$impulseProvider = $this->ReadPropertyInteger('ImpulseID');
+    		$impulse = GetValue($impulseProvider);
+    		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
+    		$counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
+
+    		$this->updateInstallCounterValue();
+
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
-    		$lastInstallCounterValue = round($this->GetBuffer("lastInstallCounterValue"), 2);
-    		$lastCalculation = round($this->GetBuffer("calculation"), 2);
-			$calorificValue = $this->ReadPropertyFloat('CalorificValue');
-			$impulseProvider = $this->ReadPropertyInteger('ImpulseProvider');
-			$impulseState = GetValue($impulseProvider);
-			$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
-			$this->SetBuffer("installCounterValue", $installCounterValue);
-    		if ($impulseState) {
-        		$result = $this->GetBuffer("calculation") + $impulseValue;
-        		$this->SetBuffer("calculation", round($result, 2));
-        		$finalResult = $this->GetBuffer("installCounterValue") + round($result, 2);
-				// $this->SendDebug("$finalResult", $finalResult, 0);
-        		$this->SetValue("GCM_CounterValue", round($finalResult, 2));
-        		// $this->SendDebug("Stand aktuell", round($result, 2), 0);
-				$this->WriteAttributeFloat('Attrib_UsedM3', $result);
-				$this->SetValue("GCM_UsedM3", $result);
-				$calorificValue = $this->ReadPropertyFloat('CalorificValue');
-				// $this->SendDebug("Faktor", $calorificValue, 0);
-				$cubicMeter = $this->GetValue("GCM_UsedM3");
-				// $this->SendDebug("M3", $cubicMeter, 0);
-				$yesterdaykwh = $calorificValue * $cubicMeter;
-				$this->SetValue("GCM_UsedKWH", $yesterdaykwh);
-				$this->SendDebug("Yesterday kwh", $yesterdaykwh, 0);
-        		// $this->SendDebug("Stand aktuell Final", round($finalResult, 2), 0);
-				$this->WriteAttributeFloat('Attrib_CounterValue', round($result, 2));
+    		// $installCounterValueOld = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+    		$final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
+
+    		// if ($installCounterValue != $installCounterValueOld) {
+        		// $counterValue = 0; // setzen Sie den Wert von $counterValue auf Null, wenn $installCounterValue geändert wird
+    		// }
+
+    		if ($impulse) {
+        		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
+        		$counterValue += $impulseValue; // erhöhen Sie den Wert von $counterValue um $impulseValue
+        		$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
+        		$this->SetValue("GCM_CounterValue", $final);
     		}
+
+    		$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
 		}
 
 		private function CostsSinceInvoice()
@@ -183,7 +188,7 @@
 			$baseCosts = (round($this->GetValue("GCM_BasePrice"), 2) * $days_since);
 			$calorificValue = $this->ReadpropertyFloat('CalorificValue');
 			$kwh = round($this->GetValue("GCM_CurrentConsumption") * $calorificValue, 3);
-			$kwhCosts = $kwh * $this->ReadpropertyFloat('PriceValueKWH');
+			$kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
 			$costs = $kwhCosts + $baseCosts;
 			$this->SetValue("GCM_CostsSinceInvoice", $costs);
 			// $this->SendDebug("Grundpreis seit Rechnungsstellung", $baseCosts, 0);
@@ -197,34 +202,23 @@
 			$baseCosts = (round($this->GetValue("GCM_BasePrice"), 2));
 			$calorificValue = $this->ReadpropertyFloat('CalorificValue');
 			$kwh = round($this->GetValue("GCM_UsedKWH"), 3);
-			$kwhCosts = $kwh * $this->ReadpropertyFloat('PriceValueKWH');
+			$kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
 			$costs = $kwhCosts + $baseCosts;
 			$this->SetValue("GCM_DayCosts", $costs);
 		}
 
 		public function timerSetting()
 		{
-			// Bestimme das nächste Ausführungsdatum um 23:59:50 Uhr heute
-			$today = date('Y-m-d');
-			$nextExecution = strtotime($today . ' 23:59:50');
-			// Wenn das nächste Ausführungsdatum bereits vergangen ist, setze es auf das nächste Datum
-			if ($nextExecution <= time()) {
-			    $nextExecution = strtotime('+1 day', $nextExecution);
-			}
-			// Berechne die verbleibende Zeit bis zum nächsten Ausführungsdatum
-			$timeRemaining = $nextExecution - time();
-			$this->SendDebug ("Verbleibend", $timeRemaining, 0);
-			// Setze das Timer-Intervall entsprechend der verbleibenden Zeit
-			$this->SetTimerInterval('CloseDay', $timeRemaining);
-			if ($_IPS['SENDER'] == 'TimerEvent' && $_IPS['EVENT'] == $this->GetIDForIdent('CloseDay')) {
-				$this->SetValue("GCM_ConsumptionYesterdayM3", $this->GetValue("GCM_UsedM3"));
-				$this->SetValue("GCM_ConsumptionYesterdayKWH", $this->GetValue("GCM_UsedKWH"));
-				$this->SetValue("GCM_CostsYesterday", $this->GetValue("GCM_DayCosts"));
-				$this->SetValue("GCM_UsedM3", 0);
-				$this->SetValue("GCM_UsedKWH", 0);
-				$this->SetValue("GCM_DayCosts", 0);
-			}
+    		// Speichern der gestrigen Verbrauchswerte
+    		$this->SetValue("GCM_ConsumptionYesterdayM3", $this->GetValue("GCM_UsedM3"));
+    		$this->SetValue("GCM_ConsumptionYesterdayKWH", $this->GetValue("GCM_UsedKWH"));
+    		$this->SetValue("GCM_CostsYesterday", $this->GetValue("GCM_DayCosts"));
+    		$this->SetValue("GCM_UsedM3", 0);
+    		$this->SetValue("GCM_UsedKWH", 0);
+    		$this->SetValue("GCM_DayCosts", 0);
 		}
+
+
 
 		// Property-Funktionen
 		private function calculatePeriod($value, $period)
@@ -283,4 +277,40 @@
 
 			return json_encode($dateArray);
 		}
+		private function RegisterEvent()
+		{
+    		$eid = @$this->GetIDForIdent('GCM_EndOfDayTimer');
+    		if ($eid == 0) {
+        		$eid = IPS_CreateEvent(1);
+        		IPS_SetParent($eid, $this->InstanceID);
+        		IPS_SetIdent($eid, 'GCM_EndOfDayTimer');
+        		IPS_SetName($eid, $this->Translate('End Of Day Timer'));
+        		IPS_SetEventActive($eid, true);
+				IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+        		IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+        		IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
+    		} else {
+        		IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+        		IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+        		IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
+    		}
+    		IPS_SetEventScript($eid, 'GCM_timerSetting($_IPS[\'TARGET\']);');
+    		return $eid;
+		}
+		function updateInstallCounterValue()
+		{
+			$InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
+			static $InstallCounterValueOld;
+			if ($InstallCounterValue != $InstallCounterValueOld) {
+				// Aktion durchführen
+				$InstallCounterValueOld = $InstallCounterValue;
+			}
+		}
+
+
+
+
+
+
+
 	}

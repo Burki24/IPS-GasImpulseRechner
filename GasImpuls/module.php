@@ -26,7 +26,7 @@
 
 
 			// Zur Berechnung bereitzustellende Werte
-			// $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
+			$this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
 			$this->RegisterAttributeFloat('Attrib_UsedM3', 0);
 			$this->RegisterAttributeFloat('Attrib_DayCosts', 0);
@@ -84,6 +84,14 @@
 				$this->Difference();
 			}
 
+			// ImpulseCounter zurücksetzen
+			$old = ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
+			$new = $this->ReadPropertyFloat('InstallCounterValue');
+			If ($old !== $new) {
+			$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
+			$this->SendDebug("Counter old", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
+			$this->SendDebug("Counter new", $this->ReadAttributeFloat('InstallCounterValue'), 0);
+			}
 			// Event Tagesende starten
 				$this->RegisterEvent();
 
@@ -286,9 +294,8 @@
 		}
 		private function ImpulseCount()
 		{
-		$impulseID = $this->ReadPropertyInteger('ImpulseID');
+			$impulseID = $this->ReadPropertyInteger('ImpulseID');
 			if($impulseID && $impulseID > 0) {
-				//$impulseID = $this->ReadPropertyInteger('ImpulseID');
 				$impulseState = GetValue($impulseID);
 				$installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
 				$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);

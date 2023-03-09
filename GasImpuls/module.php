@@ -88,7 +88,7 @@
 				$this->RegisterEvent();
 
 			// Impuls Verwertung
-
+				$this->ImpulseCount();
 
 		// MessageSink
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
@@ -198,9 +198,6 @@
     		$this->SetValue("GCM_UsedKWH", 0);
     		$this->SetValue("GCM_DayCosts", 0);
 		}
-
-
-
 		// Property-Funktionen
 		private function calculatePeriod($value, $period)
     	{

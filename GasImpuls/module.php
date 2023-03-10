@@ -20,7 +20,7 @@
 			if (!file_exists($configFile)) {
 				// Standardkonfiguration
 				$cubicMeter = "0";
-				$counterValue = "0";
+				$counterValue = "1";
 
 				// Konfigurationsdatei erstellen
 				$configData = "<?php\n";

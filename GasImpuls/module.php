@@ -103,7 +103,6 @@
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
 		{
     		IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
-				// $counterValue = $this->ReadAttributeFloat('Attrib_UsedM3');
 				switch ($Message) {
 					case VM_UPDATE:
 						$impulseID = $this->ReadPropertyInteger('ImpulseID');
@@ -159,9 +158,7 @@
         		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
         		$counterValue += $impulseValue;
 				$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
-				$this->WriteAttributeFloat('Attrib_UsedM3', $counterValue);
         		$this->SetValue("GCM_CounterValue", $final);
-				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_UsedM3'));
 				$this->calculateKWH($calorificValue, $cubicMeter);
 				$this->CostActualDay(); // Neu, wenn geht alles andere löschen
     		}
@@ -180,6 +177,14 @@
 			$kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
 			$costs = $kwhCosts + $baseCosts;
 			$this->SetValue("GCM_CostsSinceInvoice", $costs);
+		}
+		private function DayCaounter()
+		{
+			$counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
+			$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
+			$counterValue += $impulseValue;
+			$this->WriteAttributeFloat('Attrib_UsedM3', $counterValue);
+			$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_UsedM3'));
 		}
 		private function CostActualDay()
 		{

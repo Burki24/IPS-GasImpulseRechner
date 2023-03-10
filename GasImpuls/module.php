@@ -90,7 +90,8 @@
 				$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
 			$this->WriteAttributeFloat('Attrib_CounterValue', 0);
 			$day = $this->GetBuffer("day");
-			$this->WriteAttributeFloat('Attrib_UsedM3', $day);
+				$this->SendDebug("Day Buffer", $day, 9);
+			// $this->WriteAttributeFloat('Attrib_UsedM3', $day);
 			}
 			// Event Tagesende starten
 				$this->RegisterEvent();

@@ -144,7 +144,7 @@
     		$impulseID = $this->ReadPropertyInteger('ImpulseID');
     		$impulseValue = $this->ReadPropertyFloat('ImpulseValue');
     		$calorificValue = $this->ReadPropertyFloat('CalorificValue');
-    		$impulse = GetValue($impulseProvider);
+    		$impulse = GetValue($impulseID);
     		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
     		$counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
 

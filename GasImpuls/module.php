@@ -13,27 +13,6 @@
 			//Never delete this line!
 			parent::Create();
 
-			// Konfigurationsdatei
-			$configFile = __DIR__ . '/config.php';
-
-			// Prüfen, ob die Konfigurationsdatei bereits vorhanden ist
-			if (!file_exists($configFile)) {
-				// Standardkonfiguration
-				$cubicMeter = "0";
-				$counterValue = "1";
-
-				// Konfigurationsdatei erstellen
-				$configData = "<?php\n";
-				$configData .= "\$cubicMeter = '".$cubicMeter."';\n";
-				$configData .= "\$CounterValue = '".$counterValue."';\n";
-				$configData .= "?>";
-				file_put_contents($configFile, $configData);
-			}
-
-			// Konfigurationsdatei einbinden
-			include($configFile);
-
-
 			//Werte aus dem Formular
 			$this->RegisterPropertyInteger('ImpulseID', 0);
 			$this->RegisterPropertyFloat('ImpulseValue', 0);
@@ -166,6 +145,7 @@
     		$impulse = GetValue($impulseID);
     		$impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
     		$counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
+			$cubicMeter = $this->GetValue("GCM_UsedM3");
 
     		$this->updateInstallCounterValue();
     		$installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
@@ -173,13 +153,12 @@
     		if ($impulse) {
         		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
         		$counterValue += $impulseValue; // erhöhen Sie den Wert von $counterValue um $impulseValue
-				$cubicMeter = $this->GetValue("GCM_UsedM3");
-        		//$calorificValue = $this->ReadPropertyFloat('CalorificValue');
+				// $cubicMeter = $this->GetValue("GCM_UsedM3");
+        		// $calorificValue = $this->ReadPropertyFloat('CalorificValue');
 				$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
         		$this->SetValue("GCM_CounterValue", $final);
 				$this->SetValue("GCM_UsedM3", $counterValue);
 				$this->calculateKWH($calorificValue, $cubicMeter);
-				$this->saveConfigValues($counterValue, $cubicMeter);
 				$this->CostActualDay(); // Neu, wenn geht alles andere löschen
     		}
     		$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);

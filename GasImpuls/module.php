@@ -154,8 +154,9 @@
         		$final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
         		$counterValue += $impulseValue;
 				$this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
+				$this->WriteAttributeFloat('Attrib_UsedM3', $counterValue);
         		$this->SetValue("GCM_CounterValue", $final);
-				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_CounterValue'));
+				$this->SetValue("GCM_UsedM3", $this->ReadAttributeFloat('Attrib_UsedM3'));
 				$this->calculateKWH($calorificValue, $cubicMeter);
 				$this->CostActualDay(); // Neu, wenn geht alles andere löschen
     		}

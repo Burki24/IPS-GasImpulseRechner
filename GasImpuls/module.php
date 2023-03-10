@@ -19,8 +19,8 @@
 			// Prüfen, ob die Konfigurationsdatei bereits vorhanden ist
 			if (!file_exists($configFile)) {
 				// Standardkonfiguration
-				$cubicMeter = "Wert1";
-				$counterValue = "Wert2";
+				$cubicMeter = "0";
+				$counterValue = "0";
 
 				// Konfigurationsdatei erstellen
 				$configData = "<?php\n";

@@ -231,8 +231,9 @@
 			$kwh = $calorificValue * $cubicMeter;
 			$this->SendDebug("cubicmeter", $cubicMeter, 0);
 			$this->SendDebug("kwh calculate", $kwh, 0);
-        	return $kwh;
 			$this->SetValue("GCM_UsedKWH", $kwh);}
+        	return $kwh;
+
 		private function getCurrentDate() {
 			$date = date('Y-m-d');
 			list($year, $month, $day) = explode('-', $date);

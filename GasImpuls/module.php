@@ -101,8 +101,8 @@
 				// $counterValue = $this->ReadAttributeFloat('Attrib_UsedM3');
 				switch ($Message) {
 					case VM_UPDATE:
-						$impulseCounter = $this->ReadPropertyInteger('ImpulseID');
-						$impulseState = GetValue($impulseCounter);
+						$impulseID = $this->ReadPropertyInteger('ImpulseID');
+						$impulseState = GetValue($impulseID);
 						$cubicMeter = $this->GetValue("GCM_UsedM3");
 						$calorificValue = $this->ReadPropertyFloat('CalorificValue');
 						$this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);

@@ -87,7 +87,7 @@
 			$newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
 			If ($oldCounterValue !== $newCounterValue) {
 				$day = $this->ReadAttributeFloat('Attrib_CounterValue');
-			$this->SetBuffer("Day", $this->ReadAttributeFloat('Attrib_CounterValue'));
+			$this->SetBuffer("Day", $day);
 				$this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
 			$this->WriteAttributeFloat('Attrib_CounterValue', 0);
 			$day = $this->GetBuffer("day");

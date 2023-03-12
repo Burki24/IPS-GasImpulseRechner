@@ -36,9 +36,9 @@
 			$this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
 
 			// Profil erstellen
-			// if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
+			if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
 			$this->RegisterProfileFloat('GCM.Gas.kWh', 'Flame', 0, ' kWh', 0, 0, 0, 2);
-			// }
+			}
 
 			// Variablen erstellen
 			$this->RegisterVariableFloat("GCM_UsedKWH", $this->Translate('Daily Cosnumption kW/h'), "GCM.Gas.kWh");

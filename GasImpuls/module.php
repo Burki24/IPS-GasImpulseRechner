@@ -91,6 +91,7 @@
                 $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('DayCount'));
                 $this->SendDebug('GCM_USedM3', $this->GetValue('GCM_UsedM3'), 0);
                 $day = $this->ReadAttributeFloat('Attrib_CounterValue');
+                $this->SendDebug('Day Variable', $day, 0);
                 $this->SetBuffer('Day', $day);
                 $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
                 $this->WriteAttributeFloat('Attrib_CounterValue', 0);

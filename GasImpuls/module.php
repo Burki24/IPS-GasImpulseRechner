@@ -198,7 +198,7 @@
             $costs = $kwhCosts + $baseCosts;
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
         }
-        private function DayCaounter()
+        private function DayCounter()
         {
             $counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');

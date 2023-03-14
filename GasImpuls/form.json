@@ -163,6 +163,24 @@
             "items": [
                 {
                     "type": "Label",
+                    "caption": "Used day m3. Need to be from midnight:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "DayCount",
+                    "caption": "Value",
+                    "digits": 2,
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "width": "100px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
                     "caption": "The current kwh price can be found in your gas supplier contract:      "
                 },
                 {

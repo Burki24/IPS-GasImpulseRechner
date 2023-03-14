@@ -23,6 +23,8 @@
             $this->RegisterPropertyString('InvoiceDate', $this->getCurrentDate());
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
+                        $this->RegisterPropertyFloat('DayCount', 0);
+
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -310,16 +312,5 @@
                 $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
                 $this->CostActualDay();
             }
-        }
-        private function saveConfigValues($counterValue, $cubicMeter)
-        {
-            $configFile = __DIR__ . '/../config.php';
-            $config = include $configFile;
-            // Speichern der Variablenwerte in der Konfigurationsdatei
-            $config['counterValue'] = $counterValue;
-            $config['cubicMeter'] = $cubicMeter;
-
-            $configContent = '<?php return ' . var_export($config, true) . ';';
-            file_put_contents($configFile, $configContent);
         }
     }

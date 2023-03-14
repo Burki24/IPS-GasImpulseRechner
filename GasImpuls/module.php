@@ -36,6 +36,7 @@
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
             $this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
+            $this->RegisterAttributeFloat('Attrib_DayValue', 0);
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
@@ -176,13 +177,17 @@
             $dayCount =
 
             $this->updateInstallCounterValue();
-            $installCounterValue = round($this->ReadpropertyFloat('InstallCounterValue'), 2);
+            $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
+            $finalDay = $InstallDayCount;
             if ($impulse) {
                 $final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
+                $finalDay = $finalDay + $counterValue + $imuplseValue;
                 $counterValue += $impulseValue;
                 $this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
                 $this->SetValue('GCM_CounterValue', $final);
+                $this->WriteAttributeFloat('Attrib_DayValue');
+                $this->SetValue('GCM_UsedM3');
                 $this->calculateKWH($calorificValue, $cubicMeter);
                 $this->CostActualDay(); // Neu, wenn geht alles andere löschen
             }

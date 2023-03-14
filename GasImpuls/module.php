@@ -93,6 +93,7 @@
                 $this->WriteAttributeFloat('Attrib_CounterValue', 0);
                 $day = $this->GetBuffer('day');
                 $this->SendDebug('Day Buffer', $day, 0);
+                $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('DayCount'));
                 // $this->WriteAttributeFloat('Attrib_UsedM3', $day);
             }
             // Event Tagesende starten
@@ -123,12 +124,13 @@
                     break;
                 }
         }
-        public function timerSetting()
+        public function DayEnd()
         {
             // Speichern der gestrigen Verbrauchswerte
             $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
             $this->SetValue('GCM_ConsumptionYesterdayKWH', $this->GetValue('GCM_UsedKWH'));
             $this->SetValue('GCM_CostsYesterday', $this->GetValue('GCM_DayCosts'));
+            // Zurücksetzen der Tageswerte
             $this->SetValue('GCM_UsedM3', 0);
             $this->SetValue('GCM_UsedKWH', 0);
             $this->SetValue('GCM_DayCosts', 0);
@@ -305,6 +307,7 @@
                 // $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);
                 $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
                 $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_UsedM3'));
+                $this->WriteRegisterFloat('DayCount', $this - ReadAttributeFloat('Attrib_UsedM3'));
                 $this->GasCounter();
                 $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
                 // $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);

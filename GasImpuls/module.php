@@ -179,7 +179,7 @@
             $this->updateInstallCounterValue();
             $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
-            $finalDay = $InstallDayCount;
+            $finalDay = $this->ReadPropertyFloat('InstallDayCount');
             if ($impulse) {
                 $final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
                 $finalDay = $finalDay + $counterValue + $imuplseValue;

@@ -87,13 +87,13 @@
             $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
             if ($oldCounterValue !== $newCounterValue) {
+                $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('DayCount'));
                 $day = $this->ReadAttributeFloat('Attrib_CounterValue');
                 $this->SetBuffer('Day', $day);
                 $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
                 $this->WriteAttributeFloat('Attrib_CounterValue', 0);
                 $day = $this->GetBuffer('day');
                 $this->SendDebug('Day Buffer', $day, 0);
-                $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('DayCount'));
                 // $this->WriteAttributeFloat('Attrib_UsedM3', $day);
             }
             // Event Tagesende starten

@@ -309,6 +309,7 @@
                 $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
                 $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_UsedM3'));
                 $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
+                $this->SendDebug('Attribute DayCount', $this - ReadAttributeFloat('Attrib_DayCount'), 0);
                 $this->GasCounter();
                 $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
                 // $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);

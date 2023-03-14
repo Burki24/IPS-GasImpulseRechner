@@ -127,7 +127,7 @@
                     break;
                 }
         }
-        public function DayEnd()
+        private function DayEnd()
         {
             // Speichern der gestrigen Verbrauchswerte
             $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
@@ -138,7 +138,7 @@
             $this->SetValue('GCM_UsedKWH', 0);
             $this->SetValue('GCM_DayCosts', 0);
         }
-        public function updateInstallCounterValue()
+        private function updateInstallCounterValue()
         {
             $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             static $InstallCounterValueOld;
@@ -297,7 +297,7 @@
                 IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
                 IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
             }
-            IPS_SetEventScript($eid, 'GCM_timerSetting($_IPS[\'TARGET\']);');
+            IPS_SetEventScript($eid, 'GCM_DayEnd($_IPS[\'TARGET\']);');
             return $eid;
         }
         private function ImpulseCount()

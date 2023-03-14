@@ -167,7 +167,7 @@
                 },
                 {
                     "type": "NumberSpinner",
-                    "name": "DayCount",
+                    "name": "InstallDayCount",
                     "caption": "Value",
                     "digits": 2,
                     "moreDigits": "true",

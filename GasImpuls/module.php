@@ -35,6 +35,7 @@
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayKWH', 0);
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
             $this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
+            $this->RegisterAttributeFloat('Attrib_DayCount', $this->ReadPropertyFloat('DayCount'));
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
@@ -307,7 +308,8 @@
                 // $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);
                 $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
                 $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_UsedM3'));
-                $this->WritePropertyFloat('DayCount', $this - ReadAttributeFloat('Attrib_UsedM3'));
+                $this->
+                $this->WriteAttributeFloat('Attrib_DayCount', $this - ReadAttributeFloat('Attrib_UsedM3'));
                 $this->GasCounter();
                 $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
                 // $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);

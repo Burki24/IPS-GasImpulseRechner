@@ -303,16 +303,13 @@
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             if ($impulseID && $impulseID > 0) {
                 $impulseState = GetValue($impulseID);
-                $installCounterValueOld = $this->ReadpropertyFloat('InstallCounterValue');
                 $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-                // $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $installCounterValueOld);
                 $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
-                $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_UsedM3'));
-                $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
-                $this->SendDebug('Attribute DayCount', $this->ReadAttributeFloat('Attrib_DayCount'), 0);
+                $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
+                // $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
+                // $this->SendDebug('Attribute DayCount', $this->ReadAttributeFloat('Attrib_DayCount'), 0);
                 $this->GasCounter();
                 $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
-                // $this->SendDebug("installCounterValueOld", $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'), 0);
                 $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
                 $this->CostActualDay();
             }

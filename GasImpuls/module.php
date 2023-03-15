@@ -88,14 +88,8 @@
             // ImpulseCounter zurücksetzen
             $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
-            $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
-            $this->SendDebug('Install Day Count', $newDayCount, 0);
             if ($oldCounterValue !== $newCounterValue) {
-                $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
-                $this->SendDebug('GCM_USedM3', $this->GetValue('GCM_UsedM3'), 0);
-                $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
-                $this->WriteAttributeFloat('Attrib_CounterValue', 0);
-                // $this->SetValue('GCM_UsedM3', $newDayCount);
+                $this->ImpulseCounterReset();
             }
             // Event Tagesende starten
             $this->RegisterEvent();
@@ -322,5 +316,17 @@
                 $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
                 $this->CostActualDay();
             }
+        }
+        private function ImpulseCounterReset()
+        {
+            $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+            $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
+            $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
+            $this->SendDebug('Install Day Count', $newDayCount, 0);
+            $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
+                $this->SendDebug('GCM_USedM3', $this->GetValue('GCM_UsedM3'), 0);
+                $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
+                $this->WriteAttributeFloat('Attrib_CounterValue', 0);
+                $this->SetValue('GCM_UsedM3', $newDayCount);
         }
     }

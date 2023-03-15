@@ -187,7 +187,7 @@
                 $this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
                 $this->SetValue('GCM_CounterValue', $final);
                 $this->WriteAttributeFloat('Attrib_DayValue', $finalDay);
-                $this->SetValue('GCM_UsedM3');
+                $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayValue'));
                 $this->calculateKWH($calorificValue, $cubicMeter);
                 $this->CostActualDay(); // Neu, wenn geht alles andere löschen
             }

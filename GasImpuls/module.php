@@ -72,17 +72,21 @@
 
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
-                $this->BasePriceCalculation();
+                $value = $this->ReadPropertyFloat('BasePrice');
+                $period = $this->ReadPropertyString('BasePricePeriod');
+                $result = $this->calculatePeriod($value, $period);
+                $this->SetValue('GCM_BasePrice', $result);
             }
 
             // Eintragung Zählerstand bei Rechnungsstellung
             if (IPS_VariableExists($this->GetIDForIdent('GCM_InvoiceCounterValue'))) {
-                $this->InvoiceCounterValue();
+                $Value = $this->ReadPropertyFloat('InvoiceCounterValue');
+                $this->SetValue('GCM_InvoiceCounterValue', $Value);
             }
 
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                $this->Difference();
+                $this->DifferenceFromInvoice();
             }
 
             // ImpulseCounter zurücksetzen
@@ -110,8 +114,8 @@
                         $this->GasCounter();
                         $this->CostsSinceInvoice();
                         $this->calculateKWH($calorificValue, $cubicMeter);
-                        $this->CostActualDay();
-                        $this->Difference();
+                        $this->CalculateCostActualDay();
+                        $this->DifferenceFromInvoice();
                         $this->DayCounter();
                     break;
                 default:
@@ -139,19 +143,7 @@
                 $InstallCounterValueOld = $InstallCounterValue;
             }
         }
-        private function BasePriceCalculation()
-        {
-            $value = $this->ReadPropertyFloat('BasePrice');
-            $period = $this->ReadPropertyString('BasePricePeriod');
-            $result = $this->calculatePeriod($value, $period);
-            $this->SetValue('GCM_BasePrice', $result);
-        }
-        private function InvoiceCounterValue()
-        {
-            $Value = $this->ReadPropertyFloat('InvoiceCounterValue');
-            $this->SetValue('GCM_InvoiceCounterValue', $Value);
-        }
-        private function Difference()
+        private function DifferenceFromInvoice()
         {
             $actual = $this->GetValue('GCM_CounterValue');
             $invoice = $this->ReadPropertyFloat('InvoiceCounterValue');
@@ -183,7 +175,7 @@
                 $this->WriteAttributeFloat('Attrib_DayValue', $finalDay);
                 $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayValue'));
                 $this->calculateKWH($calorificValue, $cubicMeter);
-                $this->CostActualDay(); // Neu, wenn geht alles andere löschen
+                $this->CalculateCostActualDay(); // Neu, wenn geht alles andere löschen
             }
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
         }
@@ -210,7 +202,7 @@
             $this->WriteAttributeFloat('Attrib_UsedM3', $counterValue);
             $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_UsedM3'));
         }
-        private function CostActualDay()
+        private function CalculateCostActualDay()
         {
             $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2));
             $calorificValue = $this->ReadpropertyFloat('CalorificValue');
@@ -311,7 +303,7 @@
                 $this->GasCounter();
                 $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
                 $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
-                $this->CostActualDay();
+                $this->CalculateCostActualDay();
             }
         }
         private function ImpulseCounterReset()

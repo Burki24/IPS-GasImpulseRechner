@@ -101,7 +101,7 @@
             // Impuls Verwertung
             $this->ImpulseCount();
         }
-        getCurrentInstallValue()
+        private function getCurrentInstallValue()
         {
             $installCounterValue = $this->ReadPropertyInteger('InstallCounterValue');
             if ($installCounterValue && $installCounterValue > 0) {

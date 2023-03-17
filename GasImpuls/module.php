@@ -181,7 +181,7 @@
             $kwh = $calorificValue * $newCubicMeter;
             // Setzen Sie die Werte in die Werte
             $this->SetValue('GCM_CounterValue', $newCounterValue);
-            $this->SetValue('GCM_KWH', $kwh);
+            $this->SetValue('GCM_UsedKWH', $kwh);
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
         }

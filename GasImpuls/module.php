@@ -177,13 +177,12 @@
                 $newCounterValue = $currentCounterValue;
                 $newCubicMeter = $cubicMeter;
             }
-                // Berechnen Sie die kWh basierend auf dem aktuellen kJ/m³ und m³
-                $kwh = $calorificValue * $newCubicMeter;
-                // Setzen Sie die Werte in die Werte
-                $this->SetValue('GCM_CounterValue', $newCounterValue);
-                $this->SetValue('GCM_KWH', $kwh);
-                $this->SetValue('GCM_UsedM3', $newCubicMeter);
-            }
+            // Berechnen Sie die kWh basierend auf dem aktuellen kJ/m³ und m³
+            $kwh = $calorificValue * $newCubicMeter;
+            // Setzen Sie die Werte in die Werte
+            $this->SetValue('GCM_CounterValue', $newCounterValue);
+            $this->SetValue('GCM_KWH', $kwh);
+            $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
         }
 

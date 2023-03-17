@@ -21,7 +21,7 @@
             $this->RegisterPropertyFloat('CalorificValue', 0);
             $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
             $this->RegisterPropertyString('InvoiceDate', $this->getCurrentDate());
-            $this->RegisterPropertyFloat('InstallCounterValue', $this->getCurrentInstallValue());
+            $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyFloat('InstallDayCount', 0);
 
@@ -122,14 +122,6 @@
                     $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
                     break;
                 }
-        }
-        private function getCurrentInstallValue()
-        {
-
-            if ($this->ReadPropertyFloat('InstallCounterValue') && $this->ReadPropertyFloat('InstallCounterValue') > 0) {
-                $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
-                SetValue('GCM_CounterValue', $installCounterValue);
-            }
         }
         private function DayEnd()
         {

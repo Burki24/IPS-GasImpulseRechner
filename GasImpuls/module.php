@@ -156,26 +156,33 @@
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
             $calorificValue = $this->ReadPropertyFloat('CalorificValue');
-            $impulse = GetValue($impulseID);
             $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
             $counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
             $cubicMeter = $this->GetValue('GCM_UsedM3');
-            $dayCount =
+            $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
+            $currentCounterValue = $this->GetValue('GCM_CounterValue');
+            // $dayCount =
 
             $this->updateInstallCounterValue();
             $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
             $finalDay = $this->ReadPropertyFloat('InstallDayCount');
+            $impulse = GetValue($impulseID);
             if ($impulse) {
-                $final = $installCounterValue + $counterValue + $impulseValue; // addieren Sie den Wert von $impulseValue und $counterValue zu $installCounterValue hinzu, um den aktuellen Zählerstand zu erhalten
-                $finalDay = $finalDay + $counterValue + $impulseValue;
-                $counterValue += $impulseValue;
-                $this->WriteAttributeFloat('Attrib_CounterValue', $counterValue); // speichern Sie den aktualisierten Wert von $counterValue in den Attributen
-                $this->SetValue('GCM_CounterValue', $final);
-                $this->WriteAttributeFloat('Attrib_DayValue', $finalDay);
-                $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayValue'));
-                $this->calculateKWH($calorificValue, $cubicMeter);
-                $this->CalculateCostActualDay(); // Neu, wenn geht alles andere löschen
+                // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
+                $newCounterValue = $currentCounterValue + $impulseValue;
+                $newCubicMeter = $cubicMeter + $impulseValue;
+            } else {
+                // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
+                $newCounterValue = $currentCounterValue;
+                $newCubicMeter = $cubicMeter;
+            }
+                // Berechnen Sie die kWh basierend auf dem aktuellen kJ/m³ und m³
+                $kwh = $calorificValue * $newCubicMeter;
+                // Setzen Sie die Werte in die Werte
+                $this->SetValue('GCM_CounterValue', $newCounterValue);
+                $this->SetValue('GCM_KWH', $kwh);
+                $this->SetValue('GCM_UsedM3', $newCubicMeter);
             }
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
         }

@@ -101,12 +101,6 @@
             // Impuls Verwertung
             $this->ImpulseCount();
         }
-        private function getCurrentInstallValue()
-        {
-            $installCounterValue = $this->ReadPropertyInteger('InstallCounterValue');
-            if ($installCounterValue && $installCounterValue > 0) {
-                SetValue('GCM_CounterValue', $installCounterValue);
-        }
         public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
         {
             IPS_LogMessage('MessageSink', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . "\r\n Data: " . print_r($Data, true));
@@ -128,6 +122,13 @@
                     $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
                     break;
                 }
+        }
+        private function getCurrentInstallValue()
+        {
+            $installCounterValue = $this->ReadPropertyInteger('InstallCounterValue');
+            if ($installCounterValue && $installCounterValue > 0) {
+                SetValue('GCM_CounterValue', $installCounterValue);
+            }
         }
         private function DayEnd()
         {

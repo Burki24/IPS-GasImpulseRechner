@@ -21,7 +21,7 @@
             $this->RegisterPropertyFloat('CalorificValue', 0);
             $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
             $this->RegisterPropertyString('InvoiceDate', $this->getCurrentDate());
-            $this->RegisterPropertyFloat('InstallCounterValue', 0);
+            $this->RegisterPropertyFloat('InstallCounterValue', $this->getCurrentValue());
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyFloat('InstallDayCount', 0);
 
@@ -100,6 +100,12 @@
 
             // Impuls Verwertung
             $this->ImpulseCount();
+        }
+        getCurrentInstallValue()
+        {
+            $installCounterValue = $this->ReadPropertyInteger('InstallCounterValue');
+            if ($installCounterValue && $installCounterValue > 0) {
+                SetValue('GCM_CounterValue', $installCounterValue);
         }
         public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
         {

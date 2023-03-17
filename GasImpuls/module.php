@@ -125,8 +125,9 @@
         }
         private function getCurrentInstallValue()
         {
-            $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
-            if ($installCounterValue && $installCounterValue > 0) {
+
+            if ($this->ReadPropertyFloat('InstallCounterValue') && $this->ReadPropertyFloat('InstallCounterValue') > 0) {
+                $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
                 SetValue('GCM_CounterValue', $installCounterValue);
             }
         }

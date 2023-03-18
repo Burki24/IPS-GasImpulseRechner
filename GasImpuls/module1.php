@@ -100,25 +100,4 @@
             // Impuls Verwertung
             $this->ImpulseCount();
         }
-        public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
-        {
-            IPS_LogMessage('MessageSink', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . "\r\n Data: " . print_r($Data, true));
-            switch ($Message) {
-                    case VM_UPDATE:
-                        $impulseID = $this->ReadPropertyInteger('ImpulseID');
-                        $impulseState = GetValue($impulseID);
-                        $cubicMeter = $this->GetValue('GCM_UsedM3');
-                        $calorificValue = $this->ReadPropertyFloat('CalorificValue');
-                        $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-                        $this->GasCounter();
-                        $this->CostsSinceInvoice();
-                        $this->calculateKWH($calorificValue, $cubicMeter);
-                        $this->CalculateCostActualDay();
-                        $this->DifferenceFromInvoice();
-                        $this->DayCounter();
-                    break;
-                default:
-                    $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
-                    break;
-                }
-        }
+    }

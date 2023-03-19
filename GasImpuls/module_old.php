@@ -112,6 +112,7 @@
                         $cubicMeter = $this->GetValue('GCM_UsedM3');
                         $calorificValue = $this->ReadPropertyFloat('CalorificValue');
                         $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+                        $this->SendDebug('Impulse State Message', $impulseState, 0);
                         $this->GasCounter();
                         $this->CostsSinceInvoice();
                         $this->calculateKWH($calorificValue, $cubicMeter);

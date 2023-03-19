@@ -27,16 +27,16 @@
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
-            $this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
+            // $this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
             $this->RegisterAttributeFloat('Attrib_UsedM3', 0);
-            $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
-            $this->RegisterAttributeFloat('Attrib_CounterValue', 0);
-            $this->RegisterAttributeFloat('Attrib_CostsYesterday', 0);
-            $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayKWH', 0);
+            // $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
+            $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
+            // $this->RegisterAttributeFloat('Attrib_CostsYesterday', 0);
+            // $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayKWH', 0);
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
             $this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
-            $this->RegisterAttributeFloat('Attrib_DayValue', 0);
+            // $this->RegisterAttributeFloat('Attrib_DayValue', 0);
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
@@ -56,15 +56,16 @@
             $this->RegisterVariableFloat('GCM_InvoiceCounterValue', $this->Translate('Meter Reading On Last Invoice'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
 
-            //Messages
+            // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
+
+            // Event einrichten Tagesende
         }
         public function Destroy()
         {
             //Never delete this line!
             parent::Destroy();
         }
-
         public function ApplyChanges()
         {
             //Never delete this line!
@@ -95,54 +96,83 @@
             if ($oldCounterValue !== $newCounterValue) {
                 $this->ImpulseCounterReset();
             }
+
             // Event Tagesende starten
-            $this->RegisterEvent();
+            $eid = @$this->GetIDForIdent('GCM_EndOfDayTimer');
+            if ($eid == 0) {
+                $eid = IPS_CreateEvent(1);
+                IPS_SetParent($eid, $this->InstanceID);
+                IPS_SetIdent($eid, 'GCM_EndOfDayTimer');
+                IPS_SetName($eid, $this->Translate('End Of Day Timer'));
+                IPS_SetEventActive($eid, true);
+                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+                IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
+            } else {
+                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+                IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
+            }
+            IPS_SetEventScript($eid, 'GCM_DayEnd($_IPS[\'TARGET\']);');
 
             // Impuls Verwertung
-            $this->ImpulseCount();
+            $this->GasCounter();
         }
-        public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+
+        // Aktuelles Datum berechnen
+        private function getCurrentDate()
         {
-            IPS_LogMessage('MessageSink', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . "\r\n Data: " . print_r($Data, true));
-            switch ($Message) {
-                    case VM_UPDATE:
-                        $impulseID = $this->ReadPropertyInteger('ImpulseID');
-                        $impulseState = GetValue($impulseID);
-                        $cubicMeter = $this->GetValue('GCM_UsedM3');
-                        $calorificValue = $this->ReadPropertyFloat('CalorificValue');
-                        $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-                        $this->GasCounter();
-                        $this->CostsSinceInvoice();
-                        $this->calculateKWH($calorificValue, $cubicMeter);
-                        $this->CalculateCostActualDay();
-                        $this->DifferenceFromInvoice();
-                        $this->DayCounter();
-                    break;
-                default:
-                    $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
-                    break;
-                }
+            $date = date('Y-m-d');
+            list($year, $month, $day) = explode('-', $date);
+
+            $dateArray = [
+                'year'  => (int) $year,
+                'month' => (int) $month,
+                'day'   => (int) $day
+            ];
+
+            return json_encode($dateArray);
         }
-        private function DayEnd()
+        // Grundpreisperiode berechnen
+        private function calculatePeriod($value, $period)
         {
-            // Speichern der gestrigen Verbrauchswerte
-            $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
-            $this->SetValue('GCM_ConsumptionYesterdayKWH', $this->GetValue('GCM_UsedKWH'));
-            $this->SetValue('GCM_CostsYesterday', $this->GetValue('GCM_DayCosts'));
-            // Zurücksetzen der Tageswerte
-            $this->SetValue('GCM_UsedM3', 0);
-            $this->SetValue('GCM_UsedKWH', 0);
-            $this->SetValue('GCM_DayCosts', 0);
-        }
-        private function updateInstallCounterValue()
-        {
-            $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
-            static $InstallCounterValueOld;
-            if ($InstallCounterValue != $InstallCounterValueOld) {
-                // Aktion durchführen
-                $InstallCounterValueOld = $InstallCounterValue;
+            // Berechnung Schaltjahr
+            $daysInYear = 365;
+            if (checkdate(2, 29, (int) date('Y'))) {
+                $daysInYear = 366;
             }
+
+            switch ($period) {
+                // Jahreszahlung
+                case 'year':
+                    $result = $value / $daysInYear;
+                    break;
+                // Halbjahreszahlung
+                case 'half_year':
+                    $daysInPeriod = $daysInYear / 2;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Viertljährliche Zahlung
+                case 'quarter_year':
+                    $daysInPeriod = $daysInYear / 4;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Monatliche Zahlung
+                case 'month':
+                    $daysInPeriod = $daysInYear / 12;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Tägliche Zahlung
+                case 'day':
+                    $result = $value / 1;
+                    break;
+                // Falsche Zeitraumangabe
+                default:
+                    throw new InvalidArgumentException('Invalid period provided.');
+            }
+            return $result;
         }
+        // Berechnung Verbrauch seit Ablesung in m3
         private function DifferenceFromInvoice()
         {
             $actual = $this->GetValue('GCM_CounterValue');
@@ -150,19 +180,44 @@
             $result = ($actual - $invoice);
             $this->SetValue('GCM_CurrentConsumption', $result);
         }
+        // Counterreset wenn InstallCounter geändert
+        private function ImpulseCounterReset()
+        {
+            $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+            $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
+            $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
+            $this->SetValue('GCM_UsedM3', $newDayCount);
+            $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
+            $this->WriteAttributeFloat('Attrib_CounterValue', 0);
+            // Debug
+            $this->SendDebug('Install Day Count', $newDayCount, 0);
+        }
+        // private function ImpulseCount()
+        {
+            $impulseID = $this->ReadPropertyInteger('ImpulseID');
+            if ($impulseID && $impulseID > 0) {
+                $impulseState = GetValue($impulseID);
+                $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+                // $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
+                // $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
+                // $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
+                // $this->SendDebug('Attribute DayCount', $this->ReadAttributeFloat('Attrib_DayCount'), 0);
+                $this->GasCounter();
+                $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_ActualCounterValue'), 0);
+                $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
+                $this->CalculateCostActualDay();
+            }
+        }
         private function GasCounter()
         {
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
-            $calorificValue = $this->ReadPropertyFloat('CalorificValue');
             $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
-            $counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
+            $counterValue = $this->ReadAttributeFloat('Attrib_ActualCounterValue');
             $cubicMeter = $this->GetValue('GCM_UsedM3');
             $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
             $currentCounterValue = $this->GetValue('GCM_CounterValue');
-            // $dayCount =
-
             $this->updateInstallCounterValue();
             $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
@@ -177,80 +232,10 @@
                 $newCounterValue = $currentCounterValue;
                 $newCubicMeter = $cubicMeter;
             }
-            // Berechnen Sie die kWh basierend auf dem aktuellen kJ/m³ und m³
-            $kwh = $calorificValue * $newCubicMeter;
             // Setzen Sie die Werte in die Werte
             $this->SetValue('GCM_CounterValue', $newCounterValue);
-            $this->SetValue('GCM_UsedKWH', $kwh);
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
         }
 
-        private function CostsSinceInvoice()
-        {
-            $json = $this->ReadpropertyString('InvoiceDate');
-            $date = json_decode($json, true);
-            $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-            $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
-            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2) * $days_since);
-            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $kwh = round($this->GetValue('GCM_CurrentConsumption') * $calorificValue, 3);
-            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
-            $costs = $kwhCosts + $baseCosts;
-            $this->SetValue('GCM_CostsSinceInvoice', $costs);
-        }
-        private function DayCounter()
-        {
-            $counterValue = $this->ReadAttributeFloat('Attrib_CounterValue');
-            $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
-            $counterValue += $impulseValue;
-            $this->WriteAttributeFloat('Attrib_DayCount', $counterValue);
-            $this->WriteAttributeFloat('Attrib_UsedM3', $counterValue);
-            $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_UsedM3'));
-        }
-        private function CalculateCostActualDay()
-        {
-            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2));
-            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
-            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
-            $costs = $kwhCosts + $baseCosts;
-            $this->SetValue('GCM_DayCosts', $costs);
-        }
-        private function calculateKWH($calorificValue, $cubicMeter)
-        {
-            $kwh = $calorificValue * $cubicMeter;
-            $this->SendDebug('cubicmeter', $cubicMeter, 0);
-            $this->SendDebug('kwh calculate', $kwh, 0);
-            $this->SetValue('GCM_UsedKWH', $kwh);
-            return $kwh;
-        }
-        private function ImpulseCount()
-        {
-            $impulseID = $this->ReadPropertyInteger('ImpulseID');
-            if ($impulseID && $impulseID > 0) {
-                $impulseState = GetValue($impulseID);
-                $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-                $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
-                $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
-                // $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
-                // $this->SendDebug('Attribute DayCount', $this->ReadAttributeFloat('Attrib_DayCount'), 0);
-                $this->GasCounter();
-                $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_CounterValue'), 0);
-                $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
-                $this->CalculateCostActualDay();
-            }
-        }
-        private function ImpulseCounterReset()
-        {
-            $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
-            $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
-            $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
-            $this->SendDebug('Install Day Count', $newDayCount, 0);
-            $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
-            $this->SendDebug('GCM_USedM3', $this->GetValue('GCM_UsedM3'), 0);
-            $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $this->ReadPropertyFloat('InstallCounterValue'));
-            $this->WriteAttributeFloat('Attrib_CounterValue', 0);
-            $this->SetValue('GCM_UsedM3', $newDayCount);
-        }
     }

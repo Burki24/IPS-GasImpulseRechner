@@ -84,7 +84,7 @@ trait CalculationHelper
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice($actualCounterValue, $invoiceCount)
     {
-        $result = ($actual - $invoice);
+        $result = ($actualCounterValue - $invoiceCount);
         $this->SetValue('GCM_CurrentConsumption', $result);
     }
 

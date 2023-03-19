@@ -154,6 +154,7 @@
             $this->SetValue('GCM_UsedM3', $newDayCount);
             $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
+            $this->SetValue('GCM_CounterValue', $newCounterValue);
             // Debug
             $this->SendDebug('Install Day Count', $newDayCount, 0);
         }
@@ -195,7 +196,7 @@
                 $newCubicMeter = $cubicMeter;
             }
             // Setzen Sie die Werte in die Werte
-            $this->SetValue('GCM_CounterValue', $newCounterValue);
+
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);

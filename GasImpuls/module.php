@@ -173,7 +173,7 @@
             $basePrice = (round($this->GetValue('GCM_BasePrice'), 2));
             $invoiceDate = $this->ReadpropertyString('InvoiceDate');
             $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $currentConsumption = round($this->GetValue('GCM_CurrentConsumption');
+            $currentConsumption = (round($this->GetValue('GCM_CurrentConsumption'), 2));
             $kwhPrice = $this->ReadpropertyFloat('KWHPrice');
             // $counterValue = $this->ReadAttributeFloat('Attrib_ActualCounterValue');
             // $this->SendDebug('Attribute actual CounterValue -  GasCounter', $counterValue, 0);

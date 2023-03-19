@@ -116,7 +116,7 @@
             IPS_SetEventScript($eid, 'GCM_DayEnd($_IPS[\'TARGET\']);');
 
             // Impuls Verwertung
-            $this->ImpulseCounter();
+            $this->ImpulseCount();
         }
 
         // Aktuelles Datum berechnen

@@ -172,6 +172,15 @@
             }
             return $result;
         }
+        private function updateInstallCounterValue()
+        {
+            $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
+            static $InstallCounterValueOld;
+            if ($InstallCounterValue != $InstallCounterValueOld) {
+                // Aktion durchführen
+                $InstallCounterValueOld = $InstallCounterValue;
+            }
+        }
         // Berechnung Verbrauch seit Ablesung in m3
         private function DifferenceFromInvoice()
         {

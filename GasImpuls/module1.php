@@ -30,7 +30,7 @@
             // $this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
             $this->RegisterAttributeFloat('Attrib_UsedM3', 0);
             // $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
-            $this->RegisterAttributeFloat('Attrib_CounterValue', 0);
+            $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             // $this->RegisterAttributeFloat('Attrib_CostsYesterday', 0);
             // $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayKWH', 0);
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
@@ -56,8 +56,10 @@
             $this->RegisterVariableFloat('GCM_InvoiceCounterValue', $this->Translate('Meter Reading On Last Invoice'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
 
-            //Messages
+            // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
+
+            // Event einrichten Tagesende
         }
         public function Destroy()
         {
@@ -94,10 +96,146 @@
             if ($oldCounterValue !== $newCounterValue) {
                 $this->ImpulseCounterReset();
             }
+
             // Event Tagesende starten
-            $this->RegisterEvent();
+            $eid = @$this->GetIDForIdent('GCM_EndOfDayTimer');
+            if ($eid == 0) {
+                $eid = IPS_CreateEvent(1);
+                IPS_SetParent($eid, $this->InstanceID);
+                IPS_SetIdent($eid, 'GCM_EndOfDayTimer');
+                IPS_SetName($eid, $this->Translate('End Of Day Timer'));
+                IPS_SetEventActive($eid, true);
+                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+                IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
+            } else {
+                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
+                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+                IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
+            }
+            IPS_SetEventScript($eid, 'GCM_DayEnd($_IPS[\'TARGET\']);');
 
             // Impuls Verwertung
-            $this->ImpulseCount();
+            $this->GasCounter();
         }
+
+        // Aktuelles Datum berechnen
+        private function getCurrentDate()
+        {
+            $date = date('Y-m-d');
+            list($year, $month, $day) = explode('-', $date);
+
+            $dateArray = [
+                'year'  => (int) $year,
+                'month' => (int) $month,
+                'day'   => (int) $day
+            ];
+
+            return json_encode($dateArray);
+        }
+        // Grundpreisperiode berechnen
+        private function calculatePeriod($value, $period)
+        {
+            // Berechnung Schaltjahr
+            $daysInYear = 365;
+            if (checkdate(2, 29, (int) date('Y'))) {
+                $daysInYear = 366;
+            }
+
+            switch ($period) {
+                // Jahreszahlung
+                case 'year':
+                    $result = $value / $daysInYear;
+                    break;
+                // Halbjahreszahlung
+                case 'half_year':
+                    $daysInPeriod = $daysInYear / 2;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Viertljährliche Zahlung
+                case 'quarter_year':
+                    $daysInPeriod = $daysInYear / 4;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Monatliche Zahlung
+                case 'month':
+                    $daysInPeriod = $daysInYear / 12;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Tägliche Zahlung
+                case 'day':
+                    $result = $value / 1;
+                    break;
+                // Falsche Zeitraumangabe
+                default:
+                    throw new InvalidArgumentException('Invalid period provided.');
+            }
+            return $result;
+        }
+        // Berechnung Verbrauch seit Ablesung in m3
+        private function DifferenceFromInvoice()
+        {
+            $actual = $this->GetValue('GCM_CounterValue');
+            $invoice = $this->ReadPropertyFloat('InvoiceCounterValue');
+            $result = ($actual - $invoice);
+            $this->SetValue('GCM_CurrentConsumption', $result);
+        }
+        // Counterreset wenn InstallCounter geändert
+        private function ImpulseCounterReset()
+        {
+            $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+            $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
+            $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
+            $this->SetValue('GCM_UsedM3', $newDayCount);
+            $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
+            $this->WriteAttributeFloat('Attrib_CounterValue', 0);
+            // Debug
+            $this->SendDebug('Install Day Count', $newDayCount, 0);
+        }
+        // private function ImpulseCount()
+        {
+            $impulseID = $this->ReadPropertyInteger('ImpulseID');
+            if ($impulseID && $impulseID > 0) {
+                $impulseState = GetValue($impulseID);
+                $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+                // $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
+                // $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
+                // $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
+                // $this->SendDebug('Attribute DayCount', $this->ReadAttributeFloat('Attrib_DayCount'), 0);
+                $this->GasCounter();
+                $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_ActualCounterValue'), 0);
+                $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
+                $this->CalculateCostActualDay();
+            }
+        }
+        private function GasCounter()
+        {
+            $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
+            $impulseID = $this->ReadPropertyInteger('ImpulseID');
+            $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
+            $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
+            $counterValue = $this->ReadAttributeFloat('Attrib_ActualCounterValue');
+            $cubicMeter = $this->GetValue('GCM_UsedM3');
+            $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
+            $currentCounterValue = $this->GetValue('GCM_CounterValue');
+            $this->updateInstallCounterValue();
+            $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
+            $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
+            $finalDay = $this->ReadPropertyFloat('InstallDayCount');
+            $impulse = GetValue($impulseID);
+            if ($impulse) {
+                // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
+                $newCounterValue = $currentCounterValue + $impulseValue;
+                $newCubicMeter = $cubicMeter + $impulseValue;
+            } else {
+                // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
+                $newCounterValue = $currentCounterValue;
+                $newCubicMeter = $cubicMeter;
+            }
+            // Setzen Sie die Werte in die Werte
+            $this->SetValue('GCM_CounterValue', $newCounterValue);
+            $this->SetValue('GCM_UsedM3', $newCubicMeter);
+            $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
+        }
+
     }

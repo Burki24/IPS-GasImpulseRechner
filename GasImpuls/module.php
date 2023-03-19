@@ -217,44 +217,6 @@
             $costs = $kwhCosts + $baseCosts;
             $this->SetValue('GCM_DayCosts', $costs);
         }
-        private function calculatePeriod($value, $period)
-        {
-            // Berechnung Schaltjahr
-            $daysInYear = 365;
-            if (checkdate(2, 29, (int) date('Y'))) {
-                $daysInYear = 366;
-            }
-
-            switch ($period) {
-                // Jahreszahlung
-                case 'year':
-                    $result = $value / $daysInYear;
-                    break;
-                // Halbjahreszahlung
-                case 'half_year':
-                    $daysInPeriod = $daysInYear / 2;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Viertljährliche Zahlung
-                case 'quarter_year':
-                    $daysInPeriod = $daysInYear / 4;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Monatliche Zahlung
-                case 'month':
-                    $daysInPeriod = $daysInYear / 12;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Tägliche Zahlung
-                case 'day':
-                    $result = $value / 1;
-                    break;
-                // Falsche Zeitraumangabe
-                default:
-                    throw new InvalidArgumentException('Invalid period provided.');
-            }
-            return $result;
-        }
         private function calculateKWH($calorificValue, $cubicMeter)
         {
             $kwh = $calorificValue * $cubicMeter;
@@ -262,39 +224,6 @@
             $this->SendDebug('kwh calculate', $kwh, 0);
             $this->SetValue('GCM_UsedKWH', $kwh);
             return $kwh;
-        }
-        private function getCurrentDate()
-        {
-            $date = date('Y-m-d');
-            list($year, $month, $day) = explode('-', $date);
-
-            $dateArray = [
-                'year'  => (int) $year,
-                'month' => (int) $month,
-                'day'   => (int) $day
-            ];
-
-            return json_encode($dateArray);
-        }
-        private function RegisterEvent()
-        {
-            $eid = @$this->GetIDForIdent('GCM_EndOfDayTimer');
-            if ($eid == 0) {
-                $eid = IPS_CreateEvent(1);
-                IPS_SetParent($eid, $this->InstanceID);
-                IPS_SetIdent($eid, 'GCM_EndOfDayTimer');
-                IPS_SetName($eid, $this->Translate('End Of Day Timer'));
-                IPS_SetEventActive($eid, true);
-                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
-                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
-                IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
-            } else {
-                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
-                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
-                IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
-            }
-            IPS_SetEventScript($eid, 'GCM_DayEnd($_IPS[\'TARGET\']);');
-            return $eid;
         }
         private function ImpulseCount()
         {

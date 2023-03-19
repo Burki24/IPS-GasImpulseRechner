@@ -187,7 +187,7 @@
             $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
             $this->SendDebug('Impulse Status GasCounter', $impulseAttrib, 0);
             $counterValue = $this->ReadAttributeFloat('Attrib_ActualCounterValue');
-            $this->SendDebug('Attribute actual CounterValue -  GasCounter', $impulseAttrib, 0);
+            $this->SendDebug('Attribute actual CounterValue -  GasCounter', $counterValue, 0);
             $cubicMeter = $this->GetValue('GCM_UsedM3');
             $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
             $currentCounterValue = $this->GetValue('GCM_CounterValue');

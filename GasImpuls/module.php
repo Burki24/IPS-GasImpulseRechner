@@ -210,11 +210,11 @@
         private function DifferenceFromInvoice()
         {
             $actual = $this->GetValue('GCM_CounterValue');
-            $this->SendDebug('CounterValue - DifferenceFromInvoice', $actual, 2);
+            $this->SendDebug('CounterValue - DifferenceFromInvoice', $actual, 0);
             $invoice = $this->ReadPropertyFloat('InvoiceCounterValue');
-            $this->SendDebug('InvoiceCounterValue - DifferenceFromInvoice', $invoice, 2);
+            $this->SendDebug('InvoiceCounterValue - DifferenceFromInvoice', $invoice, 0);
             $result = ($actual - $invoice);
-            $this->SendDebug('Result - DifferenceFromInvoice', $result, 2);
+            $this->SendDebug('Result - DifferenceFromInvoice', $result, 0);
             $this->SetValue('GCM_CurrentConsumption', $result);
         }
 

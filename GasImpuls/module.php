@@ -130,7 +130,6 @@
                         $calorificValue = $this->ReadPropertyFloat('CalorificValue');
                         $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
                         $this->GasCounter();
-                        // $this->CostsSinceInvoice();
                         $this->calculateKWH($calorificValue, $cubicMeter);
                         $this->CalculateCostActualDay();
                         $this->DifferenceFromInvoice();
@@ -171,6 +170,11 @@
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
             $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
             $this->SendDebug('Impulse Status GasCounter', $impulseAttrib, 0);
+            $basePrice = (round($this->GetValue('GCM_BasePrice'), 2));
+            $invoiceDate = $this->ReadpropertyString('InvoiceDate');
+            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
+            $currentConsumption = round($this->GetValue('GCM_CurrentConsumption');
+            $kwhPrice = $this->ReadpropertyFloat('KWHPrice');
             // $counterValue = $this->ReadAttributeFloat('Attrib_ActualCounterValue');
             // $this->SendDebug('Attribute actual CounterValue -  GasCounter', $counterValue, 0);
             $cubicMeter = $this->GetValue('GCM_UsedM3');
@@ -186,7 +190,7 @@
                 // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
                 $newCounterValue = $currentCounterValue + $impulseValue;
                 $newCubicMeter = $cubicMeter + $impulseValue;
-                $this->CostsSinceInvoice();
+                $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
             } else {
                 // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                 $newCounterValue = $currentCounterValue;
@@ -200,20 +204,7 @@
 
         // Kalkulationen
 
-        // Kosten seit Abrechnung
-        private function CostsSinceInvoice()
-        {
-            $json = $this->ReadpropertyString('InvoiceDate');
-            $date = json_decode($json, true);
-            $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-            $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
-            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2) * $days_since);
-            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $kwh = round($this->GetValue('GCM_CurrentConsumption') * $calorificValue, 3);
-            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
-            $costs = $kwhCosts + $baseCosts;
-            $this->SetValue('GCM_CostsSinceInvoice', $costs);
-        }
+
 
         // Berechnung Verbrauch seit Ablesung in m3
         private function DifferenceFromInvoice()

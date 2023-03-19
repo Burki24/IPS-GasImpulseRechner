@@ -23,8 +23,6 @@ trait CalculationHelper
     private function calculateKWH($calorificValue, $cubicMeter)
     {
         $kwh = $calorificValue * $cubicMeter;
-        $this->SendDebug('cubicmeter', $cubicMeter, 0);
-        $this->SendDebug('kwh calculate', $kwh, 0);
         $this->SetValue('GCM_UsedKWH', $kwh);
         return $kwh;
     }
@@ -67,5 +65,19 @@ trait CalculationHelper
                 throw new InvalidArgumentException('Invalid period provided.');
         }
         return $result;
+    }
+
+    // Kosten seit Abrechnung
+    private function CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
+    {
+        $date = json_decode($invoiceDate, true);
+        $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
+        $baseCosts = ($basePrice * $days_since);
+        $kwh = $currentConsumption * $calorificValue;
+        $kwhCosts = $kwh * $kwhPrice;
+        $costs = $kwhCosts + $baseCosts;
+        $this->SetValue('GCM_CostsSinceInvoice', $costs);
+        return $costs;
     }
 }

@@ -33,7 +33,7 @@ trait CalculationHelper
         // Berechnung Schaltjahr
         $daysInYear = 365;
         if (checkdate(2, 29, (int) date('Y'))) {
-           $daysInYear = 366;
+            $daysInYear = 366;
         }
 
         switch ($period) {

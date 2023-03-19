@@ -127,7 +127,6 @@
                         $cubicMeter = $this->GetValue('GCM_UsedM3');
                         $calorificValue = $this->ReadPropertyFloat('CalorificValue');
                         $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-                        $this->SendDebug('Impulse State Message', $impulseState, 0);
                         $this->GasCounter();
                         $this->CostsSinceInvoice();
                         $this->calculateKWH($calorificValue, $cubicMeter);
@@ -286,5 +285,15 @@
                     throw new InvalidArgumentException('Invalid period provided.');
             }
             return $result;
+        }
+
+        // Umrechnung m3 in kwh
+        private function calculateKWH($calorificValue, $cubicMeter)
+        {
+            $kwh = $calorificValue * $cubicMeter;
+            $this->SendDebug('cubicmeter', $cubicMeter, 0);
+            $this->SendDebug('kwh calculate', $kwh, 0);
+            $this->SetValue('GCM_UsedKWH', $kwh);
+            return $kwh;
         }
     }

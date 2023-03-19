@@ -80,4 +80,32 @@ trait CalculationHelper
         $this->SetValue('GCM_CostsSinceInvoice', $costs);
         return $costs;
     }
+
+    // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
+    private function DifferenceFromInvoice($actualCounterValue, $invoiceCount)
+    {
+        $result = ($actual - $invoice);
+        $this->SetValue('GCM_CurrentConsumption', $result);
+    }
+
+    // Kosten aktueller Tag
+    private function CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice)
+    {
+        $kwhCosts = $kwh * $kwhPrice;
+        $costs = $kwhCosts + $basePrice;
+        $this->SetValue('GCM_DayCosts', $costs);
+    }
+
+    // Aktuelles Datum berechnen
+    private function GetCurrentDate()
+    {
+        $date = date('Y-m-d');
+        list($year, $month, $day) = explode('-', $date);
+        $dateArray = [
+            'year'  => (int) $year,
+            'month' => (int) $month,
+            'day'   => (int) $day
+        ];
+        return json_encode($dateArray);
+    }
 }

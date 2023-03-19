@@ -22,7 +22,7 @@
             $this->RegisterPropertyString('BasePricePeriod', 'month');
             $this->RegisterPropertyFloat('CalorificValue', 0);
             $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
-            $this->RegisterPropertyString('InvoiceDate', $this->getCurrentDate());
+            $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyFloat('InstallDayCount', 0);
@@ -171,6 +171,9 @@
             $calorificValue = $this->ReadpropertyFloat('CalorificValue');
             $currentConsumption = (round($this->GetValue('GCM_CurrentConsumption'), 2));
             $kwhPrice = $this->ReadpropertyFloat('KWHPrice');
+            $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
+            $actualCounterValue = $this->GetValue('GCM_CounterValue');
+            $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
             // $counterValue = $this->ReadAttributeFloat('Attrib_ActualCounterValue');
             // $this->SendDebug('Attribute actual CounterValue -  GasCounter', $counterValue, 0);
             $cubicMeter = $this->GetValue('GCM_UsedM3');
@@ -188,58 +191,17 @@
                 $newCubicMeter = $cubicMeter + $impulseValue;
                 $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
                 $this->calculateKWH($calorificValue, $cubicMeter);
-                $this->CalculateCostActualDay();
-                $this->DifferenceFromInvoice();
+                $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
+                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
             } else {
                 // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                 $newCounterValue = $currentCounterValue;
                 $newCubicMeter = $cubicMeter;
             }
-            // Setzen Sie die Werte in die Werte
 
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
             $this->SetValue('GCM_CounterValue', $newCounterValue);
-        }
-
-        // Kalkulationen
-
-        // Berechnung Verbrauch seit Ablesung in m3
-        private function DifferenceFromInvoice()
-        {
-            $actual = $this->GetValue('GCM_CounterValue');
-            $this->SendDebug('CounterValue - DifferenceFromInvoice', $actual, 0);
-            $invoice = $this->ReadPropertyFloat('InvoiceCounterValue');
-            $this->SendDebug('InvoiceCounterValue - DifferenceFromInvoice', $invoice, 0);
-            $result = ($actual - $invoice);
-            $this->SendDebug('Result - DifferenceFromInvoice', $result, 0);
-            $this->SetValue('GCM_CurrentConsumption', $result);
-        }
-
-        // Kosten aktueller Tag
-        private function CalculateCostActualDay()
-        {
-            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2));
-            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
-            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
-            $costs = $kwhCosts + $baseCosts;
-            $this->SetValue('GCM_DayCosts', $costs);
-        }
-
-        // Aktuelles Datum berechnen
-        private function getCurrentDate()
-        {
-            $date = date('Y-m-d');
-            list($year, $month, $day) = explode('-', $date);
-
-            $dateArray = [
-                'year'  => (int) $year,
-                'month' => (int) $month,
-                'day'   => (int) $day
-            ];
-
-            return json_encode($dateArray);
         }
     }

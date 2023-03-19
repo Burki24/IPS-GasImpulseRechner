@@ -154,7 +154,6 @@
             $this->SetValue('GCM_UsedM3', $newDayCount);
             $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
-            $this->SetValue('GCM_CounterValue');
             // Debug
             $this->SendDebug('Install Day Count', $newDayCount, 0);
         }

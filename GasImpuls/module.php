@@ -132,7 +132,7 @@
                         $this->calculateKWH($calorificValue, $cubicMeter);
                         $this->CalculateCostActualDay();
                         $this->DifferenceFromInvoice();
-                        $this->DayCounter();
+                        // $this->DayCounter();
                     break;
                 default:
                     $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);

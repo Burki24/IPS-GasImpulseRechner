@@ -88,7 +88,10 @@
 
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                $this->DifferenceFromInvoice();
+                $actualCounterValue = $this->GetValue('GCM_CounterValue');
+                $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
+
+                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
             }
 
             // ImpulseCounter zurücksetzen
@@ -165,7 +168,6 @@
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
             $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
-            $this->SendDebug('Impulse Status GasCounter', $impulseAttrib, 0);
             $basePrice = (round($this->GetValue('GCM_BasePrice'), 2));
             $invoiceDate = $this->ReadpropertyString('InvoiceDate');
             $calorificValue = $this->ReadpropertyFloat('CalorificValue');
@@ -174,10 +176,7 @@
             $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
             $actualCounterValue = $this->GetValue('GCM_CounterValue');
             $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
-            // $counterValue = $this->ReadAttributeFloat('Attrib_ActualCounterValue');
-            // $this->SendDebug('Attribute actual CounterValue -  GasCounter', $counterValue, 0);
             $cubicMeter = $this->GetValue('GCM_UsedM3');
-            $this->SendDebug('CubicMeter  -  GasCounter', $cubicMeter, 0);
             $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
             $currentCounterValue = $this->GetValue('GCM_CounterValue');
             $this->updateInstallCounterValue();
@@ -198,7 +197,6 @@
                 $newCounterValue = $currentCounterValue;
                 $newCubicMeter = $cubicMeter;
             }
-
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);

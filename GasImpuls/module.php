@@ -27,9 +27,8 @@
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
-            // $this->RegisterAttributeFloat('Attrib_UsedKWH', 0);
             $this->RegisterAttributeFloat('Attrib_UsedM3', 0);
-            // $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
+            $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             // $this->RegisterAttributeFloat('Attrib_CostsYesterday', 0);
             // $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayKWH', 0);
@@ -215,6 +214,7 @@
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             if ($impulseID && $impulseID > 0) {
                 $impulseState = GetValue($impulseID);
+                $this->SendDebug('Impulse Status', $impulseState, 0);
                 $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
                 $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
                 $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));

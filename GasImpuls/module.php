@@ -172,6 +172,15 @@
             }
             return $result;
         }
+        private function CalculateCostActualDay()
+        {
+            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2));
+            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
+            $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
+            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
+            $costs = $kwhCosts + $baseCosts;
+            $this->SetValue('GCM_DayCosts', $costs);
+        }
         private function updateInstallCounterValue()
         {
             $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');

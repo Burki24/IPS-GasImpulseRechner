@@ -126,13 +126,8 @@
                     case VM_UPDATE:
                         $impulseID = $this->ReadPropertyInteger('ImpulseID');
                         $impulseState = GetValue($impulseID);
-                        $cubicMeter = $this->GetValue('GCM_UsedM3');
-                        $calorificValue = $this->ReadPropertyFloat('CalorificValue');
                         $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
                         $this->GasCounter();
-                        $this->calculateKWH($calorificValue, $cubicMeter);
-                        $this->CalculateCostActualDay();
-                        $this->DifferenceFromInvoice();
                         // $this->DayCounter();
                     break;
                 default:
@@ -191,6 +186,9 @@
                 $newCounterValue = $currentCounterValue + $impulseValue;
                 $newCubicMeter = $cubicMeter + $impulseValue;
                 $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
+                $this->calculateKWH($calorificValue, $cubicMeter);
+                $this->CalculateCostActualDay();
+                $this->DifferenceFromInvoice();
             } else {
                 // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                 $newCounterValue = $currentCounterValue;

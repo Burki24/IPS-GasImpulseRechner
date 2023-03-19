@@ -204,8 +204,6 @@
 
         // Kalkulationen
 
-
-
         // Berechnung Verbrauch seit Ablesung in m3
         private function DifferenceFromInvoice()
         {
@@ -243,7 +241,4 @@
 
             return json_encode($dateArray);
         }
-
-
-
     }

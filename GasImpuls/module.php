@@ -115,7 +115,7 @@
             IPS_SetEventScript($eid, 'GCM_DayEnd($_IPS[\'TARGET\']);');
 
             // Impuls Verwertung
-            // $this->ImpulseCount();
+            $this->ImpulseCount();
         }
         public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
         {

@@ -130,7 +130,7 @@
                         $calorificValue = $this->ReadPropertyFloat('CalorificValue');
                         $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
                         $this->GasCounter();
-                        $this->CostsSinceInvoice();
+                        // $this->CostsSinceInvoice();
                         $this->calculateKWH($calorificValue, $cubicMeter);
                         $this->CalculateCostActualDay();
                         $this->DifferenceFromInvoice();
@@ -186,6 +186,7 @@
                 // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
                 $newCounterValue = $currentCounterValue + $impulseValue;
                 $newCubicMeter = $cubicMeter + $impulseValue;
+                $this->CostsSinceInvoice();
             } else {
                 // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                 $newCounterValue = $currentCounterValue;

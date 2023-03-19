@@ -100,6 +100,7 @@
 
             // Impuls Verwertung
             $this->ImpulseCount();
+            $this->GasCounter();
         }
         public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
         {

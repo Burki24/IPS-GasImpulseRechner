@@ -162,23 +162,23 @@
             // Debug
             $this->SendDebug('Install Day Count', $newDayCount, 0);
         }
-        private function ImpulseCount()
-        {
-            $impulseID = $this->ReadPropertyInteger('ImpulseID');
-            if ($impulseID && $impulseID > 0) {
-                $impulseState = GetValue($impulseID);
-                $this->SendDebug('Impulse Status', $impulseState, 0);
-                $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
-                $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
-                $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
-                $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
-                $this->SendDebug('Attribute DayCount', $this->ReadAttributeFloat('Attrib_DayCount'), 0);
-                $this->GasCounter();
-                $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_ActualCounterValue'), 0);
-                $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
-                $this->CalculateCostActualDay();
-            }
-        }
+        // private function ImpulseCount()
+        // {
+        //    $impulseID = $this->ReadPropertyInteger('ImpulseID');
+        //    if ($impulseID && $impulseID > 0) {
+        //        $impulseState = GetValue($impulseID);
+        //        $this->SendDebug('Impulse Status', $impulseState, 0);
+        //        $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+        //        $this->SetValue('GCM_CounterValue', $this->ReadpropertyFloat('InstallCounterValue'));
+        //        $this->SetValue('GCM_UsedM3', $this->ReadPropertyFloat('InstallDayCount'));
+        //        $this->WriteAttributeFloat('Attrib_DayCount', $this->ReadAttributeFloat('Attrib_UsedM3'));
+        //        $this->SendDebug('Attribute DayCount', $this->ReadAttributeFloat('Attrib_DayCount'), 0);
+        //        $this->GasCounter();
+        //        $this->SendDebug('CounterValue', $this->ReadAttributeFloat('Attrib_ActualCounterValue'), 0);
+        //        $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
+        //        $this->CalculateCostActualDay();
+        //    }
+        // }
         private function GasCounter()
         {
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);

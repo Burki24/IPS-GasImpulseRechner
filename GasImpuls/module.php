@@ -140,69 +140,6 @@
                     break;
                 }
         }
-
-        // Aktuelles Datum berechnen
-        private function getCurrentDate()
-        {
-            $date = date('Y-m-d');
-            list($year, $month, $day) = explode('-', $date);
-
-            $dateArray = [
-                'year'  => (int) $year,
-                'month' => (int) $month,
-                'day'   => (int) $day
-            ];
-
-            return json_encode($dateArray);
-        }
-        // Grundpreisperiode berechnen
-        private function calculatePeriod($value, $period)
-        {
-            // Berechnung Schaltjahr
-            $daysInYear = 365;
-            if (checkdate(2, 29, (int) date('Y'))) {
-                $daysInYear = 366;
-            }
-
-            switch ($period) {
-                // Jahreszahlung
-                case 'year':
-                    $result = $value / $daysInYear;
-                    break;
-                // Halbjahreszahlung
-                case 'half_year':
-                    $daysInPeriod = $daysInYear / 2;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Viertljährliche Zahlung
-                case 'quarter_year':
-                    $daysInPeriod = $daysInYear / 4;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Monatliche Zahlung
-                case 'month':
-                    $daysInPeriod = $daysInYear / 12;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Tägliche Zahlung
-                case 'day':
-                    $result = $value / 1;
-                    break;
-                // Falsche Zeitraumangabe
-                default:
-                    throw new InvalidArgumentException('Invalid period provided.');
-            }
-            return $result;
-        }
-        private function CalculateCostActualDay()
-        {
-            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2));
-            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
-            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
-            $costs = $kwhCosts + $baseCosts;
-            $this->SetValue('GCM_DayCosts', $costs);
-        }
         private function updateInstallCounterValue()
         {
             $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
@@ -212,14 +149,7 @@
                 $InstallCounterValueOld = $InstallCounterValue;
             }
         }
-        // Berechnung Verbrauch seit Ablesung in m3
-        private function DifferenceFromInvoice()
-        {
-            $actual = $this->GetValue('GCM_CounterValue');
-            $invoice = $this->ReadPropertyFloat('InvoiceCounterValue');
-            $result = ($actual - $invoice);
-            $this->SetValue('GCM_CurrentConsumption', $result);
-        }
+
         // Counterreset wenn InstallCounter geändert
         private function ImpulseCounterReset()
         {
@@ -278,5 +208,97 @@
             $this->SetValue('GCM_CounterValue', $newCounterValue);
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
+        }
+
+        // Kalkulationen
+
+        // Kosten seit Abrechnung
+        private function CostsSinceInvoice()
+        {
+            $json = $this->ReadpropertyString('InvoiceDate');
+            $date = json_decode($json, true);
+            $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+            $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
+            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2) * $days_since);
+            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
+            $kwh = round($this->GetValue('GCM_CurrentConsumption') * $calorificValue, 3);
+            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
+            $costs = $kwhCosts + $baseCosts;
+            $this->SetValue('GCM_CostsSinceInvoice', $costs);
+        }
+
+        // Berechnung Verbrauch seit Ablesung in m3
+        private function DifferenceFromInvoice()
+        {
+            $actual = $this->GetValue('GCM_CounterValue');
+            $invoice = $this->ReadPropertyFloat('InvoiceCounterValue');
+            $result = ($actual - $invoice);
+            $this->SetValue('GCM_CurrentConsumption', $result);
+        }
+
+        // Kosten aktueller Tag
+        private function CalculateCostActualDay()
+        {
+            $baseCosts = (round($this->GetValue('GCM_BasePrice'), 2));
+            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
+            $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
+            $kwhCosts = $kwh * $this->ReadpropertyFloat('KWHPrice');
+            $costs = $kwhCosts + $baseCosts;
+            $this->SetValue('GCM_DayCosts', $costs);
+        }
+
+        // Aktuelles Datum berechnen
+        private function getCurrentDate()
+        {
+            $date = date('Y-m-d');
+            list($year, $month, $day) = explode('-', $date);
+
+            $dateArray = [
+                'year'  => (int) $year,
+                'month' => (int) $month,
+                'day'   => (int) $day
+            ];
+
+            return json_encode($dateArray);
+        }
+
+        // Grundpreisperiode berechnen
+        private function calculatePeriod($value, $period)
+        {
+            // Berechnung Schaltjahr
+            $daysInYear = 365;
+            if (checkdate(2, 29, (int) date('Y'))) {
+                $daysInYear = 366;
+            }
+
+            switch ($period) {
+                // Jahreszahlung
+                case 'year':
+                    $result = $value / $daysInYear;
+                    break;
+                // Halbjahreszahlung
+                case 'half_year':
+                    $daysInPeriod = $daysInYear / 2;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Viertljährliche Zahlung
+                case 'quarter_year':
+                    $daysInPeriod = $daysInYear / 4;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Monatliche Zahlung
+                case 'month':
+                    $daysInPeriod = $daysInYear / 12;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Tägliche Zahlung
+                case 'day':
+                    $result = $value / 1;
+                    break;
+                // Falsche Zeitraumangabe
+                default:
+                    throw new InvalidArgumentException('Invalid period provided.');
+            }
+            return $result;
         }
     }

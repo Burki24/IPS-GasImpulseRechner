@@ -31,7 +31,7 @@
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
             $this->RegisterAttributeFloat('Attrib_UsedM3', 0);
             $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
-            // $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
+            $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             // $this->RegisterAttributeFloat('Attrib_CostsYesterday', 0);
             // $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayKWH', 0);
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
@@ -153,7 +153,7 @@
             $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
             $this->SetValue('GCM_UsedM3', $newDayCount);
             $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
-            $this->WriteAttributeFloat('Attrib_CounterValue', 0);
+            $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->SetValue('GCM_CounterValue');
             // Debug
             $this->SendDebug('Install Day Count', $newDayCount, 0);
@@ -199,6 +199,7 @@
             $this->SetValue('GCM_CounterValue', $newCounterValue);
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
+            $this->WriteAttributeFloat('actualCounterValue', $newCounterValue);
         }
 
         // Kalkulationen

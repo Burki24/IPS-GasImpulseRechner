@@ -207,7 +207,7 @@
         //        $this->SendDebug('installCounterValue', $this->ReadpropertyFloat('InstallCounterValue'), 0);
         //        $this->CalculateCostActualDay();
         //    }
-        }
+        // }
         private function GasCounter()
         {
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);

@@ -25,7 +25,6 @@
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
-            $this->RegisterPropertyFloat('InstallDayCount', 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -152,14 +151,11 @@
         {
             $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
-            $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
             $this->WriteAttributeFloat('Attrib_DayCount', $this->GetValue('GCM_UsedM3'));
             $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->SetValue('GCM_CounterValue', $newCounterValue);
             $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayCount'));
-            // Debug
-            $this->SendDebug('Install Day Count', $newDayCount, 0);
         }
 
         private function GasCounter()
@@ -182,7 +178,6 @@
             $this->updateInstallCounterValue();
             $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
-            $finalDay = $this->ReadPropertyFloat('InstallDayCount');
             if ($impulseID > 0) {
                 $impulseID = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulseID);

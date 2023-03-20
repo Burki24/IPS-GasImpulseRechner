@@ -129,7 +129,6 @@
                         $impulseState = GetValue($impulseID);
                         $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
                         $this->GasCounter();
-                        // $this->DayCounter();
                     break;
                 default:
                     $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
@@ -193,6 +192,10 @@
                     // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                     $newCounterValue = $currentCounterValue;
                     $newCubicMeter = $cubicMeter;
+                    $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
+                    $this->calculateKWH($calorificValue, $cubicMeter);
+                    $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
+                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
                 }
                 $this->SetValue('GCM_UsedM3', $newCubicMeter);
                 $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);

@@ -183,6 +183,7 @@
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
             $finalDay = $this->ReadPropertyFloat('InstallDayCount');
             if ($impulseID > 0) {
+                $impulseID = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = $this->GetValue($impulseID);
                 if ($impulse) {
                     // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue

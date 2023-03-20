@@ -90,7 +90,6 @@
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
                 $actualCounterValue = $this->GetValue('GCM_CounterValue');
                 $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
-
                 $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
             }
 
@@ -183,7 +182,7 @@
             $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
             $finalDay = $this->ReadPropertyFloat('InstallDayCount');
-            $impulse = GetValue($impulseID);
+            $impulse = $this->GetValue($impulseID);
             if ($impulse) {
                 // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
                 $newCounterValue = $currentCounterValue + $impulseValue;

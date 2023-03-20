@@ -153,7 +153,7 @@
             $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
             $newDayCount = $this->ReadPropertyFloat('InstallDayCount');
-            $this->WriteAttributeFloat('Attrib_DayCount');
+            $this->WriteAttributeFloat('Attrib_DayCount', $this->GetValue('GCM_UsedM3'));
             $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->SetValue('GCM_CounterValue', $newCounterValue);

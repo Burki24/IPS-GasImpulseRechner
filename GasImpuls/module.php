@@ -197,10 +197,10 @@
                     $newCounterValue = $currentCounterValue;
                     $newCubicMeter = $cubicMeter;
                 }
+                $this->SetValue('GCM_UsedM3', $newCubicMeter);
+                $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
+                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
+                $this->SetValue('GCM_CounterValue', $newCounterValue);
             }
-            $this->SetValue('GCM_UsedM3', $newCubicMeter);
-            $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
-            $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
-            $this->SetValue('GCM_CounterValue', $newCounterValue);
         }
     }

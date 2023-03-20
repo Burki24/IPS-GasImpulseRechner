@@ -182,19 +182,21 @@
             $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
             $finalDay = $this->ReadPropertyFloat('InstallDayCount');
-            $impulse = $this->GetValue($impulseID);
-            if ($impulse) {
-                // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
-                $newCounterValue = $currentCounterValue + $impulseValue;
-                $newCubicMeter = $cubicMeter + $impulseValue;
-                $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
-                $this->calculateKWH($calorificValue, $cubicMeter);
-                $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
-                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
-            } else {
-                // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
-                $newCounterValue = $currentCounterValue;
-                $newCubicMeter = $cubicMeter;
+            if ($impulseID > 0) {
+                $impulse = $this->GetValue($impulseID);
+                if ($impulse) {
+                    // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
+                    $newCounterValue = $currentCounterValue + $impulseValue;
+                    $newCubicMeter = $cubicMeter + $impulseValue;
+                    $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
+                    $this->calculateKWH($calorificValue, $cubicMeter);
+                    $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
+                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
+                } else {
+                    // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
+                    $newCounterValue = $currentCounterValue;
+                    $newCubicMeter = $cubicMeter;
+                }
             }
             $this->SetValue('GCM_UsedM3', $newCubicMeter);
             $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);

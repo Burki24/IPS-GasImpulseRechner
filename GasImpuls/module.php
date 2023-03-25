@@ -115,7 +115,7 @@
                 IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
                 IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
             }
-            IPS_SetEventScript($eid, 'GCM_DayEnd($_IPS[\'TARGET\']);');
+            IPS_SetEventScript($eid, 'GCM_DaySwitch($_IPS[\'TARGET\']);');
 
             // Impuls Verwertung
             $this->GasCounter();
@@ -202,5 +202,16 @@
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
                 $this->SetValue('GCM_CounterValue', $newCounterValue);
             }
+        }
+        private function DaySwitch()
+        {
+            // Speichern der gestrigen Verbrauchswerte
+            $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
+            $this->SetValue('GCM_ConsumptionYesterdayKWH', $this->GetValue('GCM_UsedKWH'));
+            $this->SetValue('GCM_CostsYesterday', $this->GetValue('GCM_DayCosts'));
+            // Zurücksetzen der Tageswerte
+            $this->SetValue('GCM_UsedM3', 0);
+            $this->SetValue('GCM_UsedKWH', 0);
+            $this->SetValue('GCM_DayCosts', 0);
         }
     }

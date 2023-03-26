@@ -203,7 +203,7 @@
                 $this->SetValue('GCM_CounterValue', $newCounterValue);
             }
         }
-        private function DaySwitch()
+        public function DaySwitch()
         {
             // Speichern der gestrigen Verbrauchswerte
             $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));

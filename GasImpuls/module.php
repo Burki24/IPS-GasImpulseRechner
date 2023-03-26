@@ -120,6 +120,8 @@
             // Impuls Verwertung
             $this->GasCounter();
         }
+
+        // Messagesink - Impulseauswertung
         public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
         {
             IPS_LogMessage('MessageSink', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . "\r\n Data: " . print_r($Data, true));
@@ -135,6 +137,8 @@
                     break;
                 }
         }
+
+        // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()
         {
             $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
@@ -157,6 +161,7 @@
             $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayCount'));
         }
 
+        // Hauptfunktion des Moduls
         private function GasCounter()
         {
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
@@ -203,6 +208,8 @@
                 $this->SetValue('GCM_CounterValue', $newCounterValue);
             }
         }
+
+        //Tagesabschluss
         public function DaySwitch()
         {
             // Speichern der gestrigen Verbrauchswerte

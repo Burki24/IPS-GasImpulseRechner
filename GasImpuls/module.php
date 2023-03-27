@@ -155,14 +155,9 @@
             $instanceID = $_IPS['TARGET'];
             $instanceID1 = $this->GetValue('GCM_CounterValue');
             $this->SendDebug('ID des Moduls', $instanceID, 0);
-            $this->SendDebug('ID des Property', $instanceID1, 0);
-            if (IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID) > 0) {
-                $propertyID = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);
-                if ($this->ReadAttributeFloat('Attrib_InstallCounterValueOld') > 0) {
-                    $Value = $this->GetValue('GCM_CounterValue');
-                    $this->SetValue($propertyID, $Value);
-                }
-            }
+            $this->SendDebug('Wert GCM_CounterValue', $instanceID1, 0);
+            $Value = $this->GetValue('GCM_CounterValue');
+            $this->SetValue($propertyID, $Value);
         }
 
         // Eintrag neuer InstallCounterwert

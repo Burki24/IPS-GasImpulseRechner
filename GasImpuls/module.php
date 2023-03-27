@@ -152,7 +152,7 @@
         // Übertrag InstallcounterValue bei Modulupdate
         private function InstallCounterValue()
         {
-            $instanceID = IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'];
+            $instanceID = $_IPS['TARGET'];
             $this->SendDebug('ID des Moduls', $instanceID, 0);
             if (IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID)) {
                 $propertyID = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);

@@ -23,7 +23,7 @@
             $this->RegisterPropertyFloat('CalorificValue', 0);
             $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
-            $this->RegisterPropertyFloat('InstallCounterValue', 0);
+            $this->RegisterPropertyFloat('InstallCounterValue', $thia->InstallCounterValue());
             $this->RegisterPropertyFloat('KWHPrice', 0);
 
             // Zur Berechnung bereitzustellende Werte
@@ -31,8 +31,6 @@
             $this->RegisterAttributeFloat('Attrib_UsedM3', 0);
             $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
-            // $this->RegisterAttributeFloat('Attrib_CostsYesterday', 0);
-            // $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayKWH', 0);
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
             $this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
@@ -149,6 +147,17 @@
             $this->SetValue('GCM_UsedM3', 0);
             $this->SetValue('GCM_UsedKWH', 0);
             $this->SetValue('GCM_DayCosts', 0);
+        }
+
+        // Übertrag InstallcounterValue bei Modulupdate
+        private function InstallCounterValue()
+        {
+            $instanceID = IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'];
+            $propertyID = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);
+            if (attribute_exists('Attrib_InstallCounterValueOld')) {
+                $Value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+                $this->SetValue($propertyID, $Value);
+            }
         }
 
         // Eintrag neuer InstallCounterwert

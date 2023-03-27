@@ -153,10 +153,12 @@
         private function InstallCounterValue()
         {
             $instanceID = IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'];
-            $propertyID = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);
-            if ($this->attribute_exists('Attrib_InstallCounterValueOld')) {
-                $Value = $this->GetValue('GCM_CounterValue');
-                $this->SetValue($propertyID, $Value);
+            if (IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID) > 0) {
+                $propertyID = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);
+                if ($this->ReadAttributeFloat('Attrib_InstallCounterValueOld') > 0) {
+                    $Value = $this->GetValue('GCM_CounterValue');
+                    $this->SetValue($propertyID, $Value);
+                }
             }
         }
 

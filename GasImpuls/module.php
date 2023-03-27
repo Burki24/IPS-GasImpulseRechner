@@ -138,6 +138,19 @@
                 }
         }
 
+        //Tagesabschluss
+        public function DaySwitch()
+        {
+            // Speichern der gestrigen Verbrauchswerte
+            $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
+            $this->SetValue('GCM_ConsumptionYesterdayKWH', $this->GetValue('GCM_UsedKWH'));
+            $this->SetValue('GCM_CostsYesterday', $this->GetValue('GCM_DayCosts'));
+            // Zurücksetzen der Tageswerte
+            $this->SetValue('GCM_UsedM3', 0);
+            $this->SetValue('GCM_UsedKWH', 0);
+            $this->SetValue('GCM_DayCosts', 0);
+        }
+
         // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()
         {
@@ -207,18 +220,5 @@
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
                 $this->SetValue('GCM_CounterValue', $newCounterValue);
             }
-        }
-
-        //Tagesabschluss
-        public function DaySwitch()
-        {
-            // Speichern der gestrigen Verbrauchswerte
-            $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
-            $this->SetValue('GCM_ConsumptionYesterdayKWH', $this->GetValue('GCM_UsedKWH'));
-            $this->SetValue('GCM_CostsYesterday', $this->GetValue('GCM_DayCosts'));
-            // Zurücksetzen der Tageswerte
-            $this->SetValue('GCM_UsedM3', 0);
-            $this->SetValue('GCM_UsedKWH', 0);
-            $this->SetValue('GCM_DayCosts', 0);
         }
     }

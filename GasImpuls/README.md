@@ -52,7 +52,7 @@ Grundpreis| Der Grundpreis (auch Arbeitspreis), der vom Anbieter verlangt wird
 Zahlungszeitraum | Der Zeitraum, für den der Grundpreis gilt (tgl., monatlich, Vierteljährlich, halbjährlich, jährlich) Der Zeitraum ist zwingend nötig, damit der Kostenaufwand auf den Tag heruntergebrochen werden kann. Dabei wird automatisch mit einbezogen, ob es sich aktuell um ein Schaltjahr handelt, oder nicht.
 Brennwert | Der Brennwert findet sich i.d.R. auf der letzten Abschlussrechnung. Er stellt den Faktor von m³ zu kW/h dar. Sollte er in der Abschlussrechnung variieren, so ist der Mittelwert zu nehmen.
 Zählerstand in m³ | Der Zählerstand bei der letzten Abrechnung
-Ablesedatum | Datum der Abschlussablesung zur letzten Rechnung
+Ablesedatum | Datum der Abschlussablesung zur letzten Rechnung wird zur Berechnung des Gesamtverbrauchs seit Abrechnung benötigt.
 Zählerstand | Aktueller Zählerstand zum Zeitpunkt der Modulinstallation
 kW/h Preis | Der aktuelle Kilowatt Preis des Anbieters
 
@@ -64,14 +64,14 @@ Die Statusvariablen/Kategorien werden automatisch angelegt. Das Löschen einzeln
 
 Ident | Name   | Typ     | Beschreibung
 ------ | -------------- | ------- | ------------
-GCM_UsedKWH       | Heutiger Verbrauch in kw/h | Float        | Aktuell verbrauchte Kilowatt
-GCM_UsedM3       | Heutiger Verbrauch in m3 | Float        | Aktuell verbrauchte m³
+GCM_UsedKWH       | Heutiger Verbrauch in kw/h | Float        | Aktuell verbrauchte Kilowattstunden
+GCM_UsedM3       | Heutiger Verbrauch in m3 | Float        | Aktuell verbrauchte Kubikmeter
 GCM_DayCosts       | Heutige Kosten | Float       | Aktuelle Tageskosten inklusive des Tagesgrundpreis (Arbeitspreis)
 GCM_CounterValue       | Aktueller Zählerstand | Float       | Aktueller Zählerstand
-GCM_CurrentConsumption       | Verbrauch seit Rechnungsablesung im m3 | Float       | Verbrauch seit letzter Ablesung in m³
+GCM_CurrentConsumption       | Verbrauch seit Rechnungsablesung im m3 | Float       | Verbrauch seit letzter Ablesung in Kubikmeter
 GCM_CostsYesterday       | Gestrige Kosten | Float       | Kosten des Vortages
-GCM_ConsumptionYesterdayKWH       | Gestriger Verbrauch in kW/h | Float       | Verbrauch des Vortages in kW/h
-GCM_ConsumptionYesterdayM3       | Gestriger Verbrauch in m3 | Float       | Verbrauch des Vortages in m³
+GCM_ConsumptionYesterdayKWH       | Gestriger Verbrauch in kW/h | Float       | Verbrauch des Vortages in Kilowattstunden
+GCM_ConsumptionYesterdayM3       | Gestriger Verbrauch in m3 | Float       | Verbrauch des Vortages in Qubikmeter
 GCM_BasePrice       | Basispreis | Float       | Grundpreis/Arbeitspreis auf den Tag berechnet
 GCM_InvoiceCounterValue       | Zählerstand bei letzter Abrechnung | Float       | Zählerstand bei Rechnugsablesung, wird benötigt um den Gesamtverbrauch seit Abrechnung zu ermitteln
 GCM_CostsSinceInvoice       | Kosten seit letzter Abrechnung | Float       | Kosten seit letzter Abschlussrechnung inklusive dem täglichen Grund-/Arbeitspreis
@@ -88,7 +88,7 @@ Name   | Typ
 
 Ident   | Name | Zweck
 ----- | ----- | -----
-GCM_EndOfDayTimer | Tagesabrechnung zum Ende des Tages | Erstellt um 23.59 Uhr den Tagesabschluss und beschreibt die gestrigen Variablen
+GCM_EndOfDayTimer | Tagesabrechnung zum Ende des Tages | Erstellt um 23.59 Uhr den Tagesabschluss und beschreibt die Variablen für den gestrigen Tag.
 
 ### 6. WebFront
 

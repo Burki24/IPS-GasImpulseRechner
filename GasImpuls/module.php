@@ -155,7 +155,7 @@
             $instanceID = IPS_GetInstance($this->InstanceID)['ModuleInfo']['ModuleID'];
             $propertyID = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);
             if (attribute_exists('Attrib_InstallCounterValueOld')) {
-                $Value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+                $Value = $this->GetValue('GCM_CounterValue');
                 $this->SetValue($propertyID, $Value);
             }
         }

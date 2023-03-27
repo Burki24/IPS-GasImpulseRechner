@@ -181,11 +181,10 @@
         {
             "type": "Label",
             "bold": "true",
-            "caption": "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module. Dieses Modul ist für die PRIVATE Anwendung kostenlos."
+            "caption": "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module."
         },
         {
             "type": "Label",
-            "bold": "false",
             "caption": "This module is free for PRIVATE use."
         }
     ],

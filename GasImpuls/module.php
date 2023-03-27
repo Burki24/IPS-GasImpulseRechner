@@ -157,7 +157,7 @@
             $this->SendDebug('ID des Moduls', $instanceID, 0);
             $this->SendDebug('Wert GCM_CounterValue', $instanceID1, 0);
             $Value = $this->GetValue('GCM_CounterValue');
-            $this->SetValue($propertyID, $Value);
+            $this->SetValue('InstallCounterValue', $Value);
         }
 
         // Eintrag neuer InstallCounterwert

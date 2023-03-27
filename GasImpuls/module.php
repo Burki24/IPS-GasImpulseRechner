@@ -153,7 +153,9 @@
         private function InstallCounterValue()
         {
             $instanceID = $_IPS['TARGET'];
+            $instanceID1 = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);
             $this->SendDebug('ID des Moduls', $instanceID, 0);
+            $this->SendDebug('ID des Property', $instanceID1, 0);
             if (IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID) > 0) {
                 $propertyID = IPS_GetObjectIDByIdent('InstallCounterValue', $instanceID);
                 if ($this->ReadAttributeFloat('Attrib_InstallCounterValueOld') > 0) {

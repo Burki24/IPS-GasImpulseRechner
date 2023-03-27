@@ -23,7 +23,7 @@
             $this->RegisterPropertyFloat('CalorificValue', 0);
             $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
-            $this->RegisterPropertyFloat('InstallCounterValue', $thia->InstallCounterValue());
+            $this->RegisterPropertyFloat('InstallCounterValue', $this->InstallCounterValue());
             $this->RegisterPropertyFloat('KWHPrice', 0);
 
             // Zur Berechnung bereitzustellende Werte

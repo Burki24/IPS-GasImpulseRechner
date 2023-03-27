@@ -19,12 +19,12 @@ Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impu
 		- aktuellen Tag
 		- letzten Tag
 		- seit letzter Abrechnung
-		
+
 	- Kosten in € für:
 		- aktuellen Tag
 		- letzten Tag
 		- seit letzter Abrechnung
-		
+
 
 ### 2. Voraussetzungen
 
@@ -39,7 +39,7 @@ Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impu
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
- Unter 'Instanz hinzufügen' kann das 'Gas Impuls Verbrauchsanalyse'-Modul mithilfe des Schnellfilters gefunden werden.  
+ Unter 'Instanz hinzufügen' kann das Gerät 'Gas Impuls Verbrauchsanalyse' mithilfe des Schnellfilters gefunden werden.
 	- Weitere Informationen zum Hinzufügen von Instanzen in der [Dokumentation der Instanzen](https://www.symcon.de/service/dokumentation/konzepte/instanzen/#Instanz_hinzufügen)
 
 __Konfigurationsseite__:
@@ -47,9 +47,9 @@ __Konfigurationsseite__:
 Name     | Beschreibung
 -------- | ------------------
 Instanz ID | ID der Impulsgeberinstanz
-Impulswert| Der Impulswert, der laut Aufschrift auf dem Zähler anzusetzen ist
-Grundpreis| Der Arbeitspreis, der vom Anbieter verlangt wird
-Zahlungszeitraum | Der Zeitraum, für den der Grundpreis gilt (tgl., monatlich, Vierteljährlich, halbjährlich, jährlich) Der Zeitraum ist zwingend nötig, damit der Kostenaufwand auf den Tag heruntergebrochen werden kann.
+Impulswert| Der Impulswert in m3, der laut Aufschrift auf dem Zähler anzusetzen ist
+Grundpreis| Der Grundpreis (auch Arbeitspreis), der vom Anbieter verlangt wird
+Zahlungszeitraum | Der Zeitraum, für den der Grundpreis gilt (tgl., monatlich, Vierteljährlich, halbjährlich, jährlich) Der Zeitraum ist zwingend nötig, damit der Kostenaufwand auf den Tag heruntergebrochen werden kann. Dabei wird automatisch mit einbezogen, ob es sich aktuell um ein Schaltjahr handelt, oder nicht.
 Brennwert | Der Brennwert findet sich i.d.R. auf der letzten Abschlussrechnung. Er stellt den Faktor von m³ zu kW/h dar. Sollte er in der Abschlussrechnung variieren, so ist der Mittelwert zu nehmen.
 Zählerstand in m³ | Der Zählerstand bei der letzten Abrechnung
 Ablesedatum | Datum der Abschlussablesung zur letzten Rechnung
@@ -62,19 +62,19 @@ Die Statusvariablen/Kategorien werden automatisch angelegt. Das Löschen einzeln
 
 #### Statusvariablen
 
-Name   | Typ     | Beschreibung
------- | ------- | ------------
-GCM_UsedKWH       | Float        | Aktuell verbrauchte Kilowatt
-GCM_UsedM3       | Float        | Aktuell verbrauchte m³
-GCM_DayCosts       | Float       | Aktuelle Tageskosten
-GCM_CounterValue       | Float       | Aktueller Zählerstand
-GCM_CurrentConsumption       | Float       | Verbrauch seit letzter Ablesung in m³
-GCM_CostsYesterday       | Float       | Kosten des Vortages
-GCM_ConsumptionYesterdayKWH       | Float       | Verbrauch des Vortages in kW/h
-GCM_ConsumptionYesterdayM3       | Float       | Verbrauch des Vortages in m³
-GCM_BasePrice       | Float       | Grundpreis täglich
-GCM_InvoiceCounterValue       | Float       | Zählerstand bei Rechnugsablesung
-GCM_CostsSinceInvoice       | Float       | Kosten seit letzter Abschlussrechnung
+Ident | Name   | Typ     | Beschreibung
+------ | -------------- | ------- | ------------
+GCM_UsedKWH       | Heutiger Verbrauch in kw/h | Float        | Aktuell verbrauchte Kilowatt
+GCM_UsedM3       | Heutiger Verbrauch in m3 | Float        | Aktuell verbrauchte m³
+GCM_DayCosts       | Heutige Kosten | Float       | Aktuelle Tageskosten inklusive des Tagesgrundpreis (Arbeitspreis)
+GCM_CounterValue       | Aktueller Zählerstand | Float       | Aktueller Zählerstand
+GCM_CurrentConsumption       | Verbrauch seit Rechnungsablesung im m3 | Float       | Verbrauch seit letzter Ablesung in m³
+GCM_CostsYesterday       | Gestrige Kosten | Float       | Kosten des Vortages
+GCM_ConsumptionYesterdayKWH       | Gestriger Verbrauch in kW/h | Float       | Verbrauch des Vortages in kW/h
+GCM_ConsumptionYesterdayM3       | Gestriger Verbrauch in m3 | Float       | Verbrauch des Vortages in m³
+GCM_BasePrice       | Basispreis | Float       | Grundpreis/Arbeitspreis auf den Tag berechnet
+GCM_InvoiceCounterValue       | Zählerstand bei letzter Abrechnung | Float       | Zählerstand bei Rechnugsablesung, wird benötigt um den Gesamtverbrauch seit Abrechnung zu ermitteln
+GCM_CostsSinceInvoice       | Kosten seit letzter Abrechnung | Float       | Kosten seit letzter Abschlussrechnung inklusive dem täglichen Grund-/Arbeitspreis
 
 
 
@@ -82,9 +82,13 @@ GCM_CostsSinceInvoice       | Float       | Kosten seit letzter Abschlussrechnun
 
 Name   | Typ
 ------ | -------
- GCM.Gas.kWh      | Float-Profil 
+ GCM.Gas.kWh      | Float-Profil
 
+#### Events
 
+Ident   | Name | Zweck
+----- | ----- | -----
+GCM_EndOfDayTimer | Tagesabrechnung zum Ende des Tages | Erstellt um 23.59 Uhr den Tagesabschluss und beschreibt die gestrigen Variablen
 
 ### 6. WebFront
 

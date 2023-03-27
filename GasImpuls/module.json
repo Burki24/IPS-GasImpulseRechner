@@ -2,11 +2,11 @@
     "id": "{0494C19B-1DFB-734E-6DC5-80CB593C804D}",
     "name": "Gas Impuls Verbrauchsanalyse",
     "type": 3,
-    "vendor": "",
+    "vendor": "Burki24",
     "aliases": [],
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],
     "prefix": "GCM",
-    "url": "https://github.com/Burki24/IPS-Gasberechnung"
+    "url": "https://github.com/Burki24/IPS-GasImpulseRechner"
 }

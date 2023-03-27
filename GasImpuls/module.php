@@ -23,7 +23,7 @@
             $this->RegisterPropertyFloat('CalorificValue', 0);
             $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
-            $this->RegisterPropertyFloat('InstallCounterValue', $this->InstallCounterValue());
+            $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
 
             // Zur Berechnung bereitzustellende Werte
@@ -148,18 +148,6 @@
             $this->SetValue('GCM_UsedKWH', 0);
             $this->SetValue('GCM_DayCosts', 0);
         }
-
-        // Übertrag InstallcounterValue bei Modulupdate
-        private function InstallCounterValue()
-        {
-            $instanceID = $_IPS['TARGET'];
-            $instanceID1 = $this->GetValue('GCM_CounterValue');
-            $this->SendDebug('ID des Moduls', $instanceID, 0);
-            $this->SendDebug('Wert GCM_CounterValue', $instanceID1, 0);
-            $Value = $this->GetValue('GCM_CounterValue');
-            IPS_SetPropertyFloat($instanceID, 'InstallCounterValue', $Value);
-        }
-
         // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()
         {

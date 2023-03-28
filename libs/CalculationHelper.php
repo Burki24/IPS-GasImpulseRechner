@@ -73,6 +73,18 @@ trait CalculationHelper
         $date = json_decode($invoiceDate, true);
         $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
+
+        // Berechnen der verbleibenden Tage bis zum nächsten Jahr
+        $current_year = date('Y');
+        $next_year = $current_year + 1;
+        $next_invoice_date = date($next_year . '-m-d', strtotime($invoiceDate));
+        $next_timestamp = strtotime($next_invoice_date);
+        $days_until_next_year = floor(($next_timestamp - time()) / (60 * 60 * 24));
+
+        // Berechnen der Differenz zwischen dem Invoice-Datum und dem aktuellen Datum zuzüglich einem Jahr
+        $one_year_in_seconds = 365 * 24 * 60 * 60;
+        $difference_plus_one_year = floor((time() + $one_year_in_seconds - $timestamp) / (60 * 60 * 24));
+
         $baseCosts = round($basePrice * $days_since, 2);
         $kwh = round($currentConsumption * $calorificValue, 2);
         $kwhCosts = round($kwh * $kwhPrice, 2);
@@ -81,6 +93,8 @@ trait CalculationHelper
         $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
         $this->SetValue('GCM_CostsSinceInvoice', $costs);
         $this->SetValue('GCM_DaysSinceInvoice', $days_since);
+        $this->SetValue('GCM_DaysUntilNextYear', $days_until_next_year);
+        $this->SetValue('GCM_DaysTillInvoice', $difference_plus_one_year);
         return $costs;
     }
 

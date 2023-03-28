@@ -42,7 +42,8 @@
             "kW/h since Invoice": "kW/h seit letzter Abrecnung",
             "Days since Invoice": "Tage seit letzter Abrechnung",
             "Days": "Tage",
-            "Days remaining in billing period": "Tage bis zur nächsten Abrechnung"
+            "Days remaining in billing period": "Tage bis zur nächsten Abrechnung",
+            "assumed amount of the next bill": "Zu erwartende Kosten"
         }
     }
 }

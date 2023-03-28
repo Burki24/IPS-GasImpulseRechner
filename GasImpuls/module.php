@@ -70,7 +70,7 @@
 
             // Forecast
             $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice'), 'GCM.Days');
-            $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days to next Invoice'), 'GCM.Days');
+            $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
             $this->RegisterVariableInteger('GCM_DaysUntilNextYear', $this->Translate('Days to next Invoice'), 'GCM.Days');
 
             // Messages

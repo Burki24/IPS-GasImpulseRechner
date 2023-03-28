@@ -80,10 +80,12 @@ trait CalculationHelper
         $kwhCosts = round($kwh * $kwhPrice, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
         $costs_forecast = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * ($days_since + $daysUntil));
+        $costs_forecast_heating = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * (($days_since + $daysUntil) * 0.75));
         $kwh_forecast = (($kwh / $days_since) * ($days_since + $daysUntil));
         $this->SendDebug('Zeitstempel', $timestamp, 0);
         $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
-
+        $this->SendDebug('costs ohne Heizung', $costs_forecast, 0);
+        $this->SendDebug('costs mit Heizung', $costs_forecast_heating, 0);
         $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
         $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
         $this->SendDebug('Tage bis Rechnung', $daysUntil, 0);

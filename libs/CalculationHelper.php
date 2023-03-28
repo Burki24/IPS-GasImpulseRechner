@@ -72,6 +72,7 @@ trait CalculationHelper
     {
         $date = json_decode($invoiceDate, true);
         $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $timestamp_plus_one_year = strtotime('+1 year', $timestamp);
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
         $baseCosts = round($basePrice * $days_since, 2);
         $kwh = round($currentConsumption * $calorificValue, 2);

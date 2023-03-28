@@ -74,9 +74,9 @@ trait CalculationHelper
         $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
         $baseCosts = round($basePrice * $days_since, 2);
-        $kwh = $currentConsumption * $calorificValue;
-        $kwhCosts = $kwh * $kwhPrice;
-        $costs = $kwhCosts + $baseCosts;
+        $kwh = round($currentConsumption * $calorificValue, 2);
+        $kwhCosts = round ($kwh * $kwhPrice, 2);
+        $costs = round($kwhCosts + $baseCosts, 2);
         $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
         $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
         $this->SetValue('GCM_CostsSinceInvoice', $costs);

@@ -71,8 +71,6 @@ trait CalculationHelper
     private function CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
     {
         $date = DateTime::createFromFormat('Y-m-d', $invoiceDate);
-        var_dump($invoiceDate);
-
         $invoiceDate = $date->format('Y-m-d');
         $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));

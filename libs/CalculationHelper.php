@@ -78,7 +78,7 @@ trait CalculationHelper
         $current_year = date('Y');
         $next_year = $current_year + 1;
         $next_invoice_date = date($next_year . '-m-d', strtotime($invoiceDate));
-        $next_timestamp = strtotime($next_invoice_date);
+        $next_timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $next_year);
         $days_until_next_year = floor(($next_timestamp - time()) / (60 * 60 * 24));
 
         // Berechnen der Differenz zwischen dem Invoice-Datum und dem aktuellen Datum zuzüglich einem Jahr

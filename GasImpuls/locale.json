@@ -38,7 +38,8 @@
             "Meter Reading On Last Invoice": "Zählerstand bei letzter Abrechnung",
             "Costs Since Invoice": "Kosten seit letzter Abrechnung",
             "End Of Day Timer": "Tagesabrechnung zum Ende des Tages",
-            "This module is free for PRIVATE use.": "Dieses Modul ist für den PRIVATEN Gebrauch kostenlos."
+            "This module is free for PRIVATE use.": "Dieses Modul ist für den PRIVATEN Gebrauch kostenlos.",
+            "kW/h since Invoice": "kW/h seit letzter Abrecnung"
         }
     }
 }

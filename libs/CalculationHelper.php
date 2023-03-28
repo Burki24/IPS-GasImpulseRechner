@@ -75,7 +75,7 @@ trait CalculationHelper
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
         $baseCosts = round($basePrice * $days_since, 2);
         $kwh = round($currentConsumption * $calorificValue, 2);
-        $kwhCosts = round ($kwh * $kwhPrice, 2);
+        $kwhCosts = round($kwh * $kwhPrice, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
         $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
         $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
@@ -84,10 +84,12 @@ trait CalculationHelper
     }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
-    private function DifferenceFromInvoice($actualCounterValue, $invoiceCount)
+    private function DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue)
     {
         $result = ($actualCounterValue - $invoiceCount);
+        $kwh = ($result * $calorificValue);
         $this->SetValue('GCM_CurrentConsumption', $result);
+        $this->Setvalue('GCM_KWHSinceInvoice');
     }
 
     // Kosten aktueller Tag

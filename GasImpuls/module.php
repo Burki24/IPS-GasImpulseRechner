@@ -54,6 +54,7 @@
             $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
             $this->RegisterVariableFloat('GCM_InvoiceCounterValue', $this->Translate('Meter Reading On Last Invoice'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
+            $this->RegisterVariableFloat('GCM_KWHSinceInvoice', $this->Translate('kW/h since Invoice'), 'GCM.Gas.kWh');
 
             // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -88,7 +89,8 @@
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
                 $actualCounterValue = $this->GetValue('GCM_CounterValue');
                 $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
-                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
+                $calorificValue = $this->ReadPropertyFloat('CalorificValue');
+                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
             }
 
             // ImpulseCounter zurücksetzen

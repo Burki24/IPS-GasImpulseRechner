@@ -213,7 +213,7 @@
                     $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
                     $this->calculateKWH($calorificValue, $cubicMeter);
                     $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
-                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
+                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
                 }
                 $this->SetValue('GCM_UsedM3', $newCubicMeter);
                 $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);

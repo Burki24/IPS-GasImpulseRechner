@@ -77,6 +77,8 @@ trait CalculationHelper
         $kwh = $currentConsumption * $calorificValue;
         $kwhCosts = $kwh * $kwhPrice;
         $costs = $kwhCosts + $baseCosts;
+        $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
+        $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
         $this->SetValue('GCM_CostsSinceInvoice', $costs);
         return $costs;
     }

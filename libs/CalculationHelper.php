@@ -72,7 +72,7 @@ trait CalculationHelper
     {
         $date = DateTime::createFromFormat('Y-m-d', $invoiceDate);
         $invoiceDate = $date->format('Y-m-d');
-        $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $timestamp = mktime(0, 0, 0, $date->format('m'), $date->format('d'), $date->format('Y'));
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
 
         // Berechnen der verbleibenden Tage bis zum nächsten Jahr

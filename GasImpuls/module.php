@@ -43,7 +43,7 @@
             }
             if (!IPS_VariableProfileExists('GCM.Days')) {
                 IPS_CreateVariableProfile('GCM.Days', VARIABLETYPE_INTEGER);
-                IPS_SetVariableProfileText('GCM.Days', '', ' ' . $this->Translate(' Days'));
+                IPS_SetVariableProfileText('GCM.Days', '', ' ' . $this->Translate('Days'));
                 IPS_SetVariableProfileIcon('GCM.Days', 'Calendar');
             }
 

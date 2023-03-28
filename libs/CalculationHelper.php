@@ -79,6 +79,9 @@ trait CalculationHelper
         $kwh = round($currentConsumption * $calorificValue, 2);
         $kwhCosts = round($kwh * $kwhPrice, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
+        $this->SendDebug('Zeitstempel', $timestamp, 0);
+        $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
+
         $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
         $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
         $this->SendDebug('Tage bis Rechnung', $daysUntil, 0);

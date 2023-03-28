@@ -80,6 +80,7 @@ trait CalculationHelper
         $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
         $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
         $this->SetValue('GCM_CostsSinceInvoice', $costs);
+        $this->SetValue('GCM_DaysSinceInvoice', $days_since);
         return $costs;
     }
 

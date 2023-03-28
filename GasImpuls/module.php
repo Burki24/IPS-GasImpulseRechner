@@ -41,20 +41,40 @@
                 IPS_SetVariableProfileText('GCM.Gas.kWh', '', ' kW/h');
                 IPS_SetVariableProfileIcon('GCM.Gas.kWh', 'Flame');
             }
+            if (!IPS_VariableProfileExists('GCM.Days')) {
+                IPS_CreateVariableProfile('GCM.Days', VARIABLETYPE_INTEGER);
+                IPS_SetVariableProfileText('GCM.Days', '', $this->Translate(' Days'));
+                IPS_SetVariableProfileIcon('GCM.Days', 'Calendar');
+            }
 
             // Variablen erstellen
+            // Zur Berechnung
+            $this->RegisterVariableFloat('GCM_CounterValue', $this->Translate('Current Meter Reading'), '~Gas');
+            $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
+
+            // Aktueller Tag
             $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_UsedM3', $this->Translate('Daily Cosnumption m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_DayCosts', $this->Translate('Costs Today'), '~Euro');
-            $this->RegisterVariableFloat('GCM_CounterValue', $this->Translate('Current Meter Reading'), '~Gas');
-            $this->RegisterVariableFloat('GCM_CurrentConsumption', $this->Translate('Total Consumption Actually in m3'), '~Gas');
+
+            // Gestriger Tag
             $this->RegisterVariableFloat('GCM_CostsYesterday', $this->Translate('Total Cost Last Day'), '~Euro');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayKWH', $this->Translate('Total Consumption Last Day kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayM3', $this->Translate('Total Consumption Last Day m3'), '~Gas');
-            $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
+
+            // Seit Rechnungsstellung
             $this->RegisterVariableFloat('GCM_InvoiceCounterValue', $this->Translate('Meter Reading On Last Invoice'), '~Gas');
+            $this->RegisterVariableFloat('GCM_CurrentConsumption', $this->Translate('Total Consumption Actually in m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
             $this->RegisterVariableFloat('GCM_KWHSinceInvoice', $this->Translate('kW/h since Invoice'), 'GCM.Gas.kWh');
+
+            // Forecast
+            $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice', 'GCM.Days'))
+
+
+
+
+
 
             // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -150,6 +170,8 @@
             $this->SetValue('GCM_UsedM3', 0);
             $this->SetValue('GCM_UsedKWH', 0);
             $this->SetValue('GCM_DayCosts', 0);
+            // Tage seit Rechnung aktualisieren
+
         }
         // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()

@@ -73,7 +73,7 @@
             $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
             $this->RegisterVariableInteger('GCM_DaysUntilNextYear', $this->Translate('Days to next Invoice'), 'GCM.Days');
             $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
-            $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), '~Euro');
+            $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
 
             // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);

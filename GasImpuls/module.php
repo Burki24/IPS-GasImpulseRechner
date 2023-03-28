@@ -2,12 +2,10 @@
 
     declare(strict_types=1);
 
-    require_once __DIR__ . '/../libs/VariableProfileHelper.php';
     require_once __DIR__ . '/../libs/CalculationHelper.php';
 
     class GasImpulsVerbrauchsanalyse extends IPSModule
     {
-        use VariableProfileHelper;
         use CalculationHelper;
 
         public function Create()
@@ -38,8 +36,11 @@
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
-                $this->RegisterProfileFloat('GCM.Gas.kWh', 'Flame', 0, ' kWh', 0, 0, 0, 2);
-            }
+                IPS_CreateVariableProfile('GCM.Gas.kWh', VARIABLETYPE_FLOAT);
+                IPS_SetVariableProfileDigits('GCM.Gas.kWh', 2);
+                IPS_SetVariableProfileText('GCM.Gas.kWh', '', ' kW/h');
+                IPS_SetVariableProfileIcon('GCM.Gas.kWh', 'Flame');
+                }
 
             // Variablen erstellen
             $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');

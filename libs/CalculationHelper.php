@@ -74,8 +74,7 @@ trait CalculationHelper
         $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $timestampPlusOneYear = strtotime('+1 year', $timestamp);
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
-        $days_until = floor((time() - $timestampPlusOneYear) / (60 * 60 * 24));
-        $daysUntil = abs($days_until);
+        $daysUntil = abs(floor((time() - $timestampPlusOneYear) / (60 * 60 * 24)));
         $baseCosts = round($basePrice * $days_since, 2);
         $kwh = round($currentConsumption * $calorificValue, 2);
         $kwhCosts = round($kwh * $kwhPrice, 2);

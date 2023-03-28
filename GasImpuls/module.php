@@ -43,7 +43,7 @@
             }
             if (!IPS_VariableProfileExists('GCM.Days')) {
                 IPS_CreateVariableProfile('GCM.Days', VARIABLETYPE_INTEGER);
-                IPS_SetVariableProfileText('GCM.Days', '', ' Days');
+                IPS_SetVariableProfileText('GCM.Days', '', ' ' . $this->Translate('Days'));
                 IPS_SetVariableProfileIcon('GCM.Days', 'Calendar');
             }
 
@@ -69,7 +69,7 @@
             $this->RegisterVariableFloat('GCM_KWHSinceInvoice', $this->Translate('kW/h since Invoice'), 'GCM.Gas.kWh');
 
             // Forecast
-            $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice', 'GCM.Days'));
+            $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice'), 'GCM.Days');
 
             // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);

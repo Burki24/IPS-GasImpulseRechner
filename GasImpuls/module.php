@@ -40,7 +40,7 @@
                 IPS_SetVariableProfileDigits('GCM.Gas.kWh', 2);
                 IPS_SetVariableProfileText('GCM.Gas.kWh', '', ' kW/h');
                 IPS_SetVariableProfileIcon('GCM.Gas.kWh', 'Flame');
-                }
+            }
 
             // Variablen erstellen
             $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');

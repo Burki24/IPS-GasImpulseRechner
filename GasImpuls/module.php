@@ -223,7 +223,7 @@
                     $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
                     $this->calculateKWH($calorificValue, $cubicMeter);
                     $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
-                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
+                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
                 } else {
                     // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                     $newCounterValue = $currentCounterValue;

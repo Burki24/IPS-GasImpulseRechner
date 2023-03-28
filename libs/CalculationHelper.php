@@ -91,6 +91,7 @@ trait CalculationHelper
         $this->SetValue('GCM_CostsSinceInvoice', $costs);
         $this->SetValue('GCM_DaysSinceInvoice', $days_since);
         $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
+        $this->SetValue('GCM_CostsForecast', $costs_forecast);
         return $costs;
     }
 

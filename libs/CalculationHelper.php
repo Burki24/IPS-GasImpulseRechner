@@ -79,7 +79,7 @@ trait CalculationHelper
         $kwh = round($currentConsumption * $calorificValue, 2);
         $kwhCosts = round($kwh * $kwhPrice, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
-        $costs_forecast = (($daysUntil + $days_since) * $basePrice) + (($currentConsumption / $days_since) * ($days_since + $daysUntil));
+        $costs_forecast = (($daysUntil + $days_since) * $basePrice) + (($kwh / $days_since) * ($days_since + $daysUntil));
         $this->SendDebug('Zeitstempel', $timestamp, 0);
         $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
 

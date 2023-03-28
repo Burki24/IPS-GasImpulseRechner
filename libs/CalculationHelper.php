@@ -79,6 +79,7 @@ trait CalculationHelper
         $kwh = round($currentConsumption * $calorificValue, 2);
         $kwhCosts = round($kwh * $kwhPrice, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
+        $costs_forecast = ($daysUntil * $basePrice) + ();
         $this->SendDebug('Zeitstempel', $timestamp, 0);
         $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
 
@@ -89,7 +90,7 @@ trait CalculationHelper
 
         $this->SetValue('GCM_CostsSinceInvoice', $costs);
         $this->SetValue('GCM_DaysSinceInvoice', $days_since);
-        $this->SetValue('GCM_DaysUntilNextYear', $daysUntil);
+        $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
         return $costs;
     }
 

@@ -72,8 +72,9 @@ trait CalculationHelper
     {
         $date = json_decode($invoiceDate, true);
         $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $timestamp_plus_one_year = strtotime('+1 year', $timestamp);
+        $timestampPlusOneYear = strtotime('+1 year', $timestamp);
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
+        $daysUntil = floor((time() + $timestampPlusOneYear) / (60 * 60 * 24));
         $baseCosts = round($basePrice * $days_since, 2);
         $kwh = round($currentConsumption * $calorificValue, 2);
         $kwhCosts = round($kwh * $kwhPrice, 2);
@@ -82,6 +83,7 @@ trait CalculationHelper
         $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
         $this->SetValue('GCM_CostsSinceInvoice', $costs);
         $this->SetValue('GCM_DaysSinceInvoice', $days_since);
+        $this->SetValue('GCM_DaysUntilNextYear', $daysUntil);
         return $costs;
     }
 

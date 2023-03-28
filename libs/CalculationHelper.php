@@ -89,7 +89,7 @@ trait CalculationHelper
         $result = ($actualCounterValue - $invoiceCount);
         $kwh = ($result * $calorificValue);
         $this->SetValue('GCM_CurrentConsumption', $result);
-        $this->Setvalue('GCM_KWHSinceInvoice');
+        $this->Setvalue('GCM_KWHSinceInvoice', $kwh);
     }
 
     // Kosten aktueller Tag

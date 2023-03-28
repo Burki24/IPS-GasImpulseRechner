@@ -122,8 +122,8 @@ trait CalculationHelper
     // Aktuelles Datum berechnen
     private function GetCurrentDate()
     {
-        $date = date('Y-m-d');
-        list($year, $month, $day) = explode('-', $date);
+        $date = date('d.m.Y');
+        list($day, $month, $year) = explode('.', $date);
         $dateArray = [
             'year'  => (int) $year,
             'month' => (int) $month,

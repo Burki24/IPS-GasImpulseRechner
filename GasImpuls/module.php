@@ -106,6 +106,11 @@
                 $this->SetValue('GCM_InvoiceCounterValue', $Value);
             }
 
+            // Eintragung Zählerstand bei Installation
+            if (IPS_VariableExists($this->GetIDForIdent('GCM_CounterValue'))) {
+                $Value = $this->ReadPropertyFloat('InstallCounterValue');
+                $this->SetValue('GCM_CounterValue', $Value);
+            }
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
                 $actualCounterValue = $this->GetValue('GCM_CounterValue');

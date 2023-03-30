@@ -32,7 +32,6 @@
             $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
-            $this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
 
             // Profil erstellen
@@ -156,7 +155,6 @@
                     case VM_UPDATE:
                         $impulseID = $this->ReadPropertyInteger('ImpulseID');
                         $impulseState = GetValue($impulseID);
-                        // $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
                         $this->GasCounter();
                     break;
                 default:
@@ -184,7 +182,6 @@
             $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
             static $InstallCounterValueOld;
             if ($InstallCounterValue != $InstallCounterValueOld) {
-                // Aktion durchführen
                 $InstallCounterValueOld = $InstallCounterValue;
             }
         }
@@ -207,7 +204,6 @@
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
-            // $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
             $basePrice = (round($this->GetValue('GCM_BasePrice'), 2));
             $invoiceDate = $this->ReadpropertyString('InvoiceDate');
             $calorificValue = $this->ReadpropertyFloat('CalorificValue');
@@ -221,12 +217,11 @@
             $currentCounterValue = $this->GetValue('GCM_CounterValue');
             $this->updateInstallCounterValue();
             $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
-            $final = $installCounterValue; // initialisieren Sie die Variable $final mit dem Wert von $installCounterValue
+            $final = $installCounterValue;
             if ($impulseID > 0) {
                 $impulseID = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulseID);
                 if ($impulse) {
-                    // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
                     $newCounterValue = $currentCounterValue + $impulseValue;
                     $newCubicMeter = $cubicMeter + $impulseValue;
                     $this->calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
@@ -234,7 +229,6 @@
                     $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
                     $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
                 } else {
-                    // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                     $newCounterValue = $currentCounterValue;
                     $newCubicMeter = $cubicMeter;
                     $this->calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
@@ -243,7 +237,6 @@
                     $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
                 }
                 $this->SetValue('GCM_UsedM3', $newCubicMeter);
-                // $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
                 $this->SetValue('GCM_CounterValue', $newCounterValue);
             }

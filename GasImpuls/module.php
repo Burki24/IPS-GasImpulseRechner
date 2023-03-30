@@ -34,7 +34,6 @@
             $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
             $this->RegisterAttributeBoolean('Attrib_ImpulseState', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
-            // $this->RegisterAttributeFloat('Attrib_DayValue', 0);
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
@@ -97,6 +96,7 @@
                 $months = $this->ReadPropertyInteger('BillingMonths');
                 $result = $this->calculatePeriod($value, $period, $months);
                 $this->SetValue('GCM_BasePrice', $result);
+                $this->SendDebug('Anzahl Monate', $this->ReadPropertyInteger('BillingMonths'), 0);
             }
 
             // Eintragung Zählerstand bei Rechnungsstellung

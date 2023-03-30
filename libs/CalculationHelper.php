@@ -120,21 +120,21 @@ trait CalculationHelper
             $costs_forecast = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * ($days_since + $daysUntil));
             $costs_forecast_heating = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * (($days_since + $daysUntil) * 0.7));
             $kwh_forecast = (($kwh / $days_since) * ($days_since + $daysUntil));
-        }
-        $this->SendDebug('Zeitstempel', $timestamp, 0);
-        $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
-        $this->SendDebug('costs ohne Heizung', $costs_forecast, 0);
-        $this->SendDebug('costs mit Heizung', $costs_forecast_heating, 0);
-        $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
-        $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
-        $this->SendDebug('Tage bis Rechnung', $daysUntil, 0);
-        $this->SendDebug('Tage seit Rechnung', $days_since, 0);
+            $this->SendDebug('Zeitstempel', $timestamp, 0);
+            $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
+            $this->SendDebug('costs ohne Heizung', $costs_forecast, 0);
+            $this->SendDebug('costs mit Heizung', $costs_forecast_heating, 0);
+            $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
+            $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
+            $this->SendDebug('Tage bis Rechnung', $daysUntil, 0);
+            $this->SendDebug('Tage seit Rechnung', $days_since, 0);
 
-        $this->SetValue('GCM_CostsSinceInvoice', $costs);
-        $this->SetValue('GCM_DaysSinceInvoice', $days_since);
-        $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
-        $this->SetValue('GCM_CostsForecast', $costs_forecast);
-        $this->SetValue('GCM_kwhForecast', $kwh_forecast);
+            $this->SetValue('GCM_CostsSinceInvoice', $costs);
+            $this->SetValue('GCM_DaysSinceInvoice', $days_since);
+            $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
+            $this->SetValue('GCM_CostsForecast', $costs_forecast);
+            $this->SetValue('GCM_kwhForecast', $kwh_forecast);
+        }
         return $costs;
     }
 

@@ -52,7 +52,7 @@ Instanz ID | ID der Impulsgeberinstanz
 Impulswert| Der Impulswert in m3, der laut Aufschrift auf dem Zähler anzusetzen ist
 Grundpreis| Der Grundpreis (auch Arbeitspreis), der vom Anbieter verlangt wird
 Zahlungszeitraum | Der Zeitraum, für den der eingetragene Grundpreis gilt (tgl., monatlich, Vierteljährlich, halbjährlich, jährlich) Der Zeitraum ist zwingend nötig, damit der Kostenaufwand auf den Tag heruntergebrochen werden kann. Dabei wird automatisch mit einbezogen, ob es sich aktuell um ein Schaltjahr handelt, oder nicht.
-Anzahl der Abschlagsmonate | Es können 11 oder 12 Monate angegeben werden. Dies hat Einfluß auf den zu berchnenden Tagesgrundpreis <br> (Bsp.: bei einer monatlichen Zahlweise und einer Zahlungshöhe von 17,89€ ist der Tagesgrundpreis bei 12 Monatszahlungen 0,59€ bei 11 Monatszahlungen 0,54€) <br> Beachtet wird hierbei ebenso, ob es sich um ein Schaltjahr handelt, oder nicht
+Anzahl der Abschlagsmonate | Es können 11 oder 12 Monate angegeben werden. Dies hat Einfluß auf den zu berchnenden Tagesgrundpreis <br> (Bsp.: bei einer monatlichen Zahlweise und einer Zahlungshöhe von 17,89€ ist der Tagesgrundpreis bei 12 Monatszahlungen 0,59€ bei 11 Monatszahlungen 0,54€) <br> Beachtet wird hierbei ebenso, ob es sich um ein Schaltjahr handelt, oder nicht <br> Für die Forecast-Berechnung benötigt diese Modul KEINE archivierten Daten.
 Brennwert | Der Brennwert findet sich i.d.R. auf der letzten Abschlussrechnung. Er stellt den Faktor von m³ zu kW/h dar. Sollte er in der Abschlussrechnung variieren, so ist der Mittelwert zu nehmen.
 Zählerstand in m³ | Der Zählerstand bei der letzten Abrechnung
 Ablesedatum | Datum der Abschlussablesung zur letzten Rechnung wird zur Berechnung des Gesamtverbrauchs seit Abrechnung benötigt.

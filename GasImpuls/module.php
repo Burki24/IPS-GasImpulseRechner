@@ -23,6 +23,7 @@
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
+            $this->RegisterPropertyInteger('BillingMonths', 11);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -92,7 +93,8 @@
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
                 $value = $this->ReadPropertyFloat('BasePrice');
                 $period = $this->ReadPropertyString('BasePricePeriod');
-                $result = $this->calculatePeriod($value, $period);
+                $months = $this->ReadPropertyInteger('BillingMonths');
+                $result = $this->calculatePeriod($value, $period, $months);
                 $this->SetValue('GCM_BasePrice', $result);
             }
 

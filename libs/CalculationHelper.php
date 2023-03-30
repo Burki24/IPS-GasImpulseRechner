@@ -28,7 +28,7 @@ trait CalculationHelper
     }
 
     // Grundpreisperiode berechnen
-    private function calculatePeriod($value, $period)
+    private function calculatePeriod($value, $period, $months)
     {
         // Berechnung Schaltjahr
         $daysInYear = 365;

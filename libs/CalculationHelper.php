@@ -31,47 +31,13 @@ trait CalculationHelper
     private function calculatePeriod($value, $period, $months, $invoiceDate)
     {
         // Berechnung Schaltjahr
-        if ($months == 12) {
+        if ($months == 12){
             $daysInYear = 365;
             if (checkdate(2, 29, (int) date('Y'))) {
                 $daysInYear = 366;
             }
 
             switch ($period) {
-            // Jahreszahlung
-           case 'year':
-                $result = $value / $daysInYear;
-                break;
-            // Halbjahreszahlung
-            case 'half_year':
-                $daysInPeriod = $daysInYear / 2;
-                $result = $value / $daysInPeriod;
-                break;
-            // Viertljährliche Zahlung
-            case 'quarter_year':
-                $daysInPeriod = $daysInYear / 4;
-                $result = $value / $daysInPeriod;
-                break;
-            // Monatliche Zahlung
-            case 'month':
-                $daysInPeriod = $daysInYear / 12;
-                $result = $value / $daysInPeriod;
-                break;
-            // Tägliche Zahlung
-            case 'day':
-                $result = $value / 1;
-                break;
-            // Falsche Zeitraumangabe
-            default:
-                throw new InvalidArgumentException('Invalid period provided.');
-        }
-        }else {
-            if ($months == 11) {
-                $daysInYear = 335;
-                if (checkdate(2, 29, (int) date('Y'))) {
-                    $daysInYear = 336;
-                }
-                switch ($period) {
                 // Jahreszahlung
                case 'year':
                     $result = $value / $daysInYear;
@@ -99,8 +65,42 @@ trait CalculationHelper
                 default:
                     throw new InvalidArgumentException('Invalid period provided.');
             }
-        }
-        return $result;
+            return $result;
+        } else {
+            $daysInYear = 365;
+            if (checkdate(2, 29, (int) date('Y'))) {
+                $daysInYear = 366;
+            }
+
+            switch ($period) {
+                // Jahreszahlung
+               case 'year':
+                    $result = $value / $daysInYear;
+                    break;
+                // Halbjahreszahlung
+                case 'half_year':
+                    $daysInPeriod = $daysInYear / 2;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Viertljährliche Zahlung
+                case 'quarter_year':
+                    $daysInPeriod = $daysInYear / 4;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Monatliche Zahlung
+                case 'month':
+                    $daysInPeriod = $daysInYear / 12;
+                    $result = $value / $daysInPeriod;
+                    break;
+                // Tägliche Zahlung
+                case 'day':
+                    $result = $value / 1;
+                    break;
+                // Falsche Zeitraumangabe
+                default:
+                    throw new InvalidArgumentException('Invalid period provided.');
+            }
+            return $result;
     }
 
     // Kosten seit Abrechnung

@@ -24,6 +24,7 @@
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyInteger('BillingMonths', '11');
+                        $this->SendDebug('Anzahl Monate', $this->ReadPropertyInteger('BillingMonths'), 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);

@@ -2,12 +2,10 @@
 
     declare(strict_types=1);
 
-    require_once __DIR__ . '/../libs/VariableProfileHelper.php';
     require_once __DIR__ . '/../libs/CalculationHelper.php';
 
     class GasImpulsVerbrauchsanalyse extends IPSModule
     {
-        use VariableProfileHelper;
         use CalculationHelper;
 
         public function Create()
@@ -38,26 +36,47 @@
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
-                $this->RegisterProfileFloat('GCM.Gas.kWh', 'Flame', 0, ' kWh', 0, 0, 0, 2);
+                IPS_CreateVariableProfile('GCM.Gas.kWh', VARIABLETYPE_FLOAT);
+                IPS_SetVariableProfileDigits('GCM.Gas.kWh', 2);
+                IPS_SetVariableProfileText('GCM.Gas.kWh', '', ' kW/h');
+                IPS_SetVariableProfileIcon('GCM.Gas.kWh', 'Flame');
+            }
+            if (!IPS_VariableProfileExists('GCM.Days')) {
+                IPS_CreateVariableProfile('GCM.Days', VARIABLETYPE_INTEGER);
+                IPS_SetVariableProfileText('GCM.Days', '', ' ' . $this->Translate('Days'));
+                IPS_SetVariableProfileIcon('GCM.Days', 'Calendar');
             }
 
             // Variablen erstellen
+            // Zur Berechnung
+            $this->RegisterVariableFloat('GCM_CounterValue', $this->Translate('Current Meter Reading'), '~Gas');
+            $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
+
+            // Aktueller Tag
             $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_UsedM3', $this->Translate('Daily Cosnumption m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_DayCosts', $this->Translate('Costs Today'), '~Euro');
-            $this->RegisterVariableFloat('GCM_CounterValue', $this->Translate('Current Meter Reading'), '~Gas');
-            $this->RegisterVariableFloat('GCM_CurrentConsumption', $this->Translate('Total Consumption Actually in m3'), '~Gas');
+
+            // Gestriger Tag
             $this->RegisterVariableFloat('GCM_CostsYesterday', $this->Translate('Total Cost Last Day'), '~Euro');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayKWH', $this->Translate('Total Consumption Last Day kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayM3', $this->Translate('Total Consumption Last Day m3'), '~Gas');
-            $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
+
+            // Seit Rechnungsstellung
             $this->RegisterVariableFloat('GCM_InvoiceCounterValue', $this->Translate('Meter Reading On Last Invoice'), '~Gas');
+            $this->RegisterVariableFloat('GCM_CurrentConsumption', $this->Translate('Total Consumption Actually in m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
+            $this->RegisterVariableFloat('GCM_KWHSinceInvoice', $this->Translate('kW/h since Invoice'), 'GCM.Gas.kWh');
+
+            // Forecast
+            $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice'), 'GCM.Days');
+            $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
+            $this->RegisterVariableInteger('GCM_DaysUntilNextYear', $this->Translate('Days to next Invoice'), 'GCM.Days');
+            $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
+            $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
 
             // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
-
-            // Event einrichten Tagesende
         }
         public function Destroy()
         {
@@ -87,7 +106,8 @@
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
                 $actualCounterValue = $this->GetValue('GCM_CounterValue');
                 $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
-                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
+                $calorificValue = $this->ReadPropertyFloat('CalorificValue');
+                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
             }
 
             // ImpulseCounter zurücksetzen
@@ -147,6 +167,7 @@
             $this->SetValue('GCM_UsedM3', 0);
             $this->SetValue('GCM_UsedKWH', 0);
             $this->SetValue('GCM_DayCosts', 0);
+            // Tage seit Rechnung aktualisieren
         }
         // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()
@@ -199,18 +220,18 @@
                     // Wenn $impulse = true ist, erhöhen Sie den aktuellen Zählerstand um $impulseValue
                     $newCounterValue = $currentCounterValue + $impulseValue;
                     $newCubicMeter = $cubicMeter + $impulseValue;
-                    $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
+                    $this->calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
                     $this->calculateKWH($calorificValue, $cubicMeter);
                     $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
-                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
+                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
                 } else {
                     // Wenn $impulse = false ist, verwenden Sie den aktuellen Zählerstand ohne Erhöhung
                     $newCounterValue = $currentCounterValue;
                     $newCubicMeter = $cubicMeter;
-                    $this->CostsSinceInvoice($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
+                    $this->calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
                     $this->calculateKWH($calorificValue, $cubicMeter);
                     $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
-                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount);
+                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
                 }
                 $this->SetValue('GCM_UsedM3', $newCubicMeter);
                 $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);

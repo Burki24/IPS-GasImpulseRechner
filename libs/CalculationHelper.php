@@ -67,9 +67,9 @@ trait CalculationHelper
             }
             return $result;
         } else {
-            $daysInYear = 335;
+            $daysInYear = 395;
             if (checkdate(2, 29, (int) date('Y'))) {
-                $daysInYear = 336;
+                $daysInYear = 396;
             }
 
             switch ($period) {

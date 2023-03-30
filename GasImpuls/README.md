@@ -75,6 +75,9 @@ GCM_ConsumptionYesterdayM3       | Gestriger Verbrauch in m3 | Float       | Ver
 GCM_BasePrice       | Basispreis | Float       | Grundpreis/Arbeitspreis auf den Tag berechnet
 GCM_InvoiceCounterValue       | Zählerstand bei letzter Abrechnung | Float       | Zählerstand bei Rechnugsablesung, wird benötigt um den Gesamtverbrauch seit Abrechnung zu ermitteln
 GCM_CostsSinceInvoice       | Kosten seit letzter Abrechnung | Float       | Kosten seit letzter Abschlussrechnung inklusive dem täglichen Grund-/Arbeitspreis
+GCM_CostsForecast | Zu erwartende Kosten | Float | Errechnet aus den bisherigen Verbrauchsdaten (seit letzter Rechnungsstellung) die zu erwartenden Gesamtkosten bei nächster Abrechnung. Dieser Wert ändert sich anhand der zur Verfügung stehenden aktuellen Verbrauchswerte dynamisch. Inkludiert ist hier auch der Arbeitspreis (Grundpreis)
+GCM_kwhForecast | Zu erwartender Verbrauch | Float | Errechnet den für den aktuellen Abrechnungszeitraum zu erwartenden Gesamtverbrauch. Dieser Wert ändert sich gemäß den aktuellen Werten dynamisch.
+
 
 
 

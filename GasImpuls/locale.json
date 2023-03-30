@@ -44,7 +44,9 @@
             "Days": "Tage",
             "Days remaining in billing period": "Tage bis zur nächsten Abrechnung",
             "assumed amount of the next bill": "Zu erwartende Kosten",
-            "assumed consumption level in kWh": "Zu erwartender Verbrauch kW/h"
+            "assumed consumption level in kWh": "Zu erwartender Verbrauch kW/h",
+            "Number of billing months:       ": "Anzahl der Abschlagsmonate:       ",
+            "Billing months": "Abschlangsmonate"
         }
     }
 }

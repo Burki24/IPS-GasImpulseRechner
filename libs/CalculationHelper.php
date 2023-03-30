@@ -31,7 +31,7 @@ trait CalculationHelper
     private function calculatePeriod($value, $period, $months, $invoiceDate)
     {
         // Berechnung Schaltjahr
-        if ($months == 12){
+        if ($months == 12) {
             $daysInYear = 365;
             if (checkdate(2, 29, (int) date('Y'))) {
                 $daysInYear = 366;
@@ -101,6 +101,7 @@ trait CalculationHelper
                     throw new InvalidArgumentException('Invalid period provided.');
             }
             return $result;
+        }
     }
 
     // Kosten seit Abrechnung

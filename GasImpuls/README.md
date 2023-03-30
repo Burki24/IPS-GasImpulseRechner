@@ -19,11 +19,13 @@ Das Modul ist nicht Herstllerabhängig und verarbeitet jeden Impuls, da der Impu
 		- aktuellen Tag
 		- letzten Tag
 		- seit letzter Abrechnung
+		- Schätzwert ungefähr zu erwartender Jahresverbrauch (Forecast)
 
 	- Kosten in € für:
 		- aktuellen Tag
 		- letzten Tag
 		- seit letzter Abrechnung
+		- Schätzwert ungefähr zu erwartende Jahreskosten (Forecast)
 
 
 ### 2. Voraussetzungen
@@ -103,8 +105,3 @@ Im Webfront können vorerst nur die Werte angezeigt werden und wenn Archivierung
 ### 7. PHP-Befehlsreferenz
 
 Aktuell keine.
-
-
-
-### 8. Zukünftige geplante Ergänzungen
-- Forecast Errechnen für Verbrauch und Kosten

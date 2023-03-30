@@ -24,7 +24,7 @@
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyInteger('BillingMonths', 11);
-                        $this->SendDebug('Anzahl Monate', $this->ReadPropertyInteger('BillingMonths'), 0);
+            $this->SendDebug('Anzahl Monate', $this->ReadPropertyInteger('BillingMonths'), 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -97,7 +97,7 @@
                 $invoiceDate = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->calculatePeriod($value, $period, $months, $invoiceDate);
                 $this->SetValue('GCM_BasePrice', $result);
-                    $this->SendDebug('Anzahl Monate', $this->ReadPropertyInteger('BillingMonths'), 0);
+                $this->SendDebug('Anzahl Monate', $this->ReadPropertyInteger('BillingMonths'), 0);
             }
 
             // Eintragung Zählerstand bei Rechnungsstellung

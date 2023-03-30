@@ -156,7 +156,7 @@
                     case VM_UPDATE:
                         $impulseID = $this->ReadPropertyInteger('ImpulseID');
                         $impulseState = GetValue($impulseID);
-                        $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
+                        // $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulseState);
                         $this->GasCounter();
                     break;
                 default:
@@ -207,7 +207,7 @@
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
-            $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
+            // $impulseAttrib = $this->ReadAttributeBoolean('Attrib_ImpulseState');
             $basePrice = (round($this->GetValue('GCM_BasePrice'), 2));
             $invoiceDate = $this->ReadpropertyString('InvoiceDate');
             $calorificValue = $this->ReadpropertyFloat('CalorificValue');
@@ -243,7 +243,7 @@
                     $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
                 }
                 $this->SetValue('GCM_UsedM3', $newCubicMeter);
-                $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
+                // $this->WriteAttributeBoolean('Attrib_ImpulseState', $impulse);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
                 $this->SetValue('GCM_CounterValue', $newCounterValue);
             }

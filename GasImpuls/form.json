@@ -99,13 +99,20 @@
                     "caption": "Number of billing months:       "
                 },
                 {
-                    "type": "NumberSpinner",
+                    "type": "Select",
                     "caption": "Billing months",
-                    "moreDigits": "true",
                     "name": "BillingMonths",
                     "width": "100px",
-                    "minimum": "11",
-                    "maximum": "12"
+                    "options": [
+                        {
+                            "caption": "11 Monate",
+                            "value": "11"
+                        },
+                        {
+                            "caption": "12 Monate",
+                            "value": "12"
+                        }
+                    ]
                 }
             ]
         },

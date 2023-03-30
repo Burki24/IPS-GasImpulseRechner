@@ -11,10 +11,9 @@ Folgende Module beinhaltet das Gas Verbrauchsanalyse Repository:
 	Errechnet daraus:
 	- Verbrauchsdaten
 	- Kosten
+	- Forecast für die aktuelle Vertragszeit
+		- Hier ist dabei zu beachten, das der Forecast aus den bisherigen Verbreuchsdaten seit Abrechnung ermittelt wird. Er schwankt also je nach Tagesaktuellem Gasverbrauch und stellt nur einen "in etwa" Richtwert dar
 
 - Hardware-Tipp
 
 	- __eigenes Gehäuse__ ([Dokumentation](SensorCase))
-
-- Geplant:
-	- Forecast für Verbrauch und Kosten

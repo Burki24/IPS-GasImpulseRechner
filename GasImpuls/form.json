@@ -101,10 +101,11 @@
                 {
                     "type": "NumberSpinner",
                     "caption": "Billing months",
-                    "digits": 3,
                     "moreDigits": "true",
                     "name": "BillingMonths",
-                    "width": "100px"
+                    "width": "100px",
+                    "minimum": "11",
+                    "maximum": "12"
                 }
             ]
         },

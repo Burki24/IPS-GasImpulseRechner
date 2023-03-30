@@ -23,7 +23,7 @@
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
-            $this->RegisterPropertyInteger('BillingMonths', 11);
+            $this->RegisterPropertyInteger('BillingMonths', '11');
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);

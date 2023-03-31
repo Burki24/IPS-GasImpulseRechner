@@ -30,78 +30,30 @@ trait CalculationHelper
     // Grundpreisperiode berechnen
     private function calculatePeriod($value, $period, $months, $invoiceDate)
     {
-        // Berechnung Schaltjahr
-        if ($months == 12) {
-            $daysInYear = 365;
-            if (checkdate(2, 29, (int) date('Y'))) {
-                $daysInYear = 366;
-            }
-
-            switch ($period) {
-                // Jahreszahlung
-               case 'year':
-                    $result = $value / $daysInYear;
-                    break;
-                // Halbjahreszahlung
-                case 'half_year':
-                    $daysInPeriod = $daysInYear / 2;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Viertljährliche Zahlung
-                case 'quarter_year':
-                    $daysInPeriod = $daysInYear / 4;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Monatliche Zahlung
-                case 'month':
-                    $daysInPeriod = $daysInYear / 12;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Tägliche Zahlung
-                case 'day':
-                    $result = $value / 1;
-                    break;
-                // Falsche Zeitraumangabe
-                default:
-                    throw new InvalidArgumentException('Invalid period provided.');
-            }
-            return $result;
-        } else {
-            $daysInYear = 395;
-            if (checkdate(2, 29, (int) date('Y'))) {
-                $daysInYear = 396;
-            }
-
-            switch ($period) {
-                // Jahreszahlung
-               case 'year':
-                    $result = $value / $daysInYear;
-                    break;
-                // Halbjahreszahlung
-                case 'half_year':
-                    $daysInPeriod = $daysInYear / 2;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Viertljährliche Zahlung
-                case 'quarter_year':
-                    $daysInPeriod = $daysInYear / 4;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Monatliche Zahlung
-                case 'month':
-                    $daysInPeriod = $daysInYear / 12;
-                    $result = $value / $daysInPeriod;
-                    break;
-                // Tägliche Zahlung
-                case 'day':
-                    $result = $value / 1;
-                    break;
-                // Falsche Zeitraumangabe
-                default:
-                    throw new InvalidArgumentException('Invalid period provided.');
-            }
-            return $result;
+        $daysInYear = (int) date('L') ? 366 : 365;
+        if ($months != 12) {
+            $daysInYear = (int) date('L', strtotime('+2 months')) ? 396 : 395;
         }
+        switch ($period) {
+            case 'year':
+                $daysInPeriod = $daysInYear;
+                break;
+            case 'half_year':
+                $daysInPeriod = $daysInYear / 2;
+                break;
+            case 'quarter_year':
+                $daysInPeriod = $daysInYear / 4;
+                break;
+            case 'month':
+                $daysInPeriod = $daysInYear / 12;
+                break;
+            case 'day':
+                $daysInPeriod = 1;
+                break;
+            default:
+                throw new InvalidArgumentException('Invalid period provided.');
+        }
+        return $value / $daysInPeriod;
     }
 
     // Kosten seit Abrechnung
@@ -109,7 +61,7 @@ trait CalculationHelper
     {
         $date = json_decode($invoiceDate, true);
         $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $timestampPlusOneYear = strtotime('+1 year', $timestamp);
+        $timestampPlusOneYear = (new DateTimeImmutable())->setTimestamp($timestamp)->add(new DateInterval('P1Y'))->getTimestamp();
         $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
         $daysUntil = abs(floor((time() - $timestampPlusOneYear) / (60 * 60 * 24)));
         $baseCosts = round($basePrice * $days_since, 2);
@@ -117,18 +69,10 @@ trait CalculationHelper
         $kwhCosts = round($kwh * $kwhPrice, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
         if ($days_since > 0) {
-            $costs_forecast = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * ($days_since + $daysUntil));
-            $costs_forecast_heating = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * (($days_since + $daysUntil) * 0.7));
-            $kwh_forecast = (($kwh / $days_since) * ($days_since + $daysUntil));
-            $this->SendDebug('Zeitstempel', $timestamp, 0);
-            $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
-            $this->SendDebug('costs ohne Heizung', $costs_forecast, 0);
-            $this->SendDebug('costs mit Heizung', $costs_forecast_heating, 0);
-            $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
-            $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
-            $this->SendDebug('Tage bis Rechnung', $daysUntil, 0);
-            $this->SendDebug('Tage seit Rechnung', $days_since, 0);
-
+            $days_total = $days_since + $daysUntil;
+            $costs_forecast = ($days_total * $basePrice) + (($costs / $days_since) * $days_total);
+            $costs_forecast_heating = ($days_total * $basePrice) + (($costs / $days_since) * $days_total * 0.7);
+            $kwh_forecast = (($kwh / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
             $this->SetValue('GCM_DaysSinceInvoice', $days_since);
             $this->SetValue('GCM_DaysTillInvoice', $daysUntil);

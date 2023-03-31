@@ -57,8 +57,6 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-
-    // Kosten seit Abrechnung
     private function calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
     {
         $date = json_decode($invoiceDate, true);

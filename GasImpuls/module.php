@@ -24,14 +24,10 @@
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyInteger('BillingMonths', 11);
-            $this->SendDebug('Anzahl Monate', $this->ReadPropertyInteger('BillingMonths'), 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
-            $this->RegisterAttributeFloat('Attrib_UsedM3', 0);
-            $this->RegisterAttributeFloat('Attrib_DayCosts', 0);
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
-            $this->RegisterAttributeFloat('Attrib_ConsumptionYesterdayM3', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
 
             // Profil erstellen
@@ -202,12 +198,12 @@
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
             $impulseID = $this->ReadPropertyInteger('ImpulseID');
             $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
-            $basePrice = (round($this->GetValue('GCM_BasePrice'), 2));
+            $basePrice = $this->GetValue('GCM_BasePrice');
             $invoiceDate = $this->ReadpropertyString('InvoiceDate');
             $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $currentConsumption = (round($this->GetValue('GCM_CurrentConsumption'), 2));
+            $currentConsumption = $this->GetValue('GCM_CurrentConsumption');
             $kwhPrice = $this->ReadpropertyFloat('KWHPrice');
-            $kwh = round($this->GetValue('GCM_UsedKWH'), 3);
+            $kwh = $this->GetValue('GCM_UsedKWH');
             $actualCounterValue = $this->GetValue('GCM_CounterValue');
             $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
             $cubicMeter = $this->GetValue('GCM_UsedM3');

@@ -150,7 +150,6 @@
         // Messagesink - Impulseauswertung
         public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
         {
-            // IPS_LogMessage('MessageSink', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . "\r\n Data: " . print_r($Data, true));
             switch ($Message) {
                     case VM_UPDATE:
                         $impulseID = $this->ReadPropertyInteger('ImpulseID');

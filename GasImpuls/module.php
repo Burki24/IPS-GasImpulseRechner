@@ -211,7 +211,7 @@
             $current_counter_value = $this->GetValue('GCM_CounterValue');
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
-            $final = $install_counter_value;
+            // $final = $install_counter_value;
             if ($impulse_id > 0) {
                 $impulse_id = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulse_id);

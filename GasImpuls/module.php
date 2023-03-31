@@ -89,8 +89,8 @@
                 $value = $this->ReadPropertyFloat('BasePrice');
                 $period = $this->ReadPropertyString('BasePricePeriod');
                 $months = $this->ReadPropertyInteger('BillingMonths');
-                $invoiceDate = $this->ReadPropertyString('InvoiceDate');
-                $result = $this->calculatePeriod($value, $period, $months, $invoiceDate);
+                $invoice_date = $this->ReadPropertyString('InvoiceDate');
+                $result = $this->calculatePeriod($value, $period, $months, $invoice_date);
                 $this->SetValue('GCM_BasePrice', $result);
             }
 
@@ -107,16 +107,16 @@
             }
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                $actualCounterValue = $this->GetValue('GCM_CounterValue');
-                $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
-                $calorificValue = $this->ReadPropertyFloat('CalorificValue');
-                $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
+                $actual_counter_value = $this->GetValue('GCM_CounterValue');
+                $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
+                $calorific_value = $this->ReadPropertyFloat('CalorificValue');
+                $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
             }
 
             // ImpulseCounter zurücksetzen
-            $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
-            $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
-            if ($oldCounterValue !== $newCounterValue) {
+            $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+            $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
+            if ($old_counter_value !== $new_counter_value) {
                 $this->ImpulseCounterReset();
             }
 
@@ -143,16 +143,16 @@
         }
 
         // Messagesink - Impulseauswertung
-        public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+        public function MessageSink($time_stamp, $sender_id, $Message, $Data)
         {
             switch ($Message) {
                     case VM_UPDATE:
-                        $impulseID = $this->ReadPropertyInteger('ImpulseID');
-                        $impulseState = GetValue($impulseID);
+                        $impulse_id = $this->ReadPropertyInteger('ImpulseID');
+                        $impulse_state = GetValue($impulse_id);
                         $this->GasCounter();
                     break;
                 default:
-                    $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $SenderID, $Data, 0);
+                    $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $sender_id, $Data, 0);
                     break;
                 }
         }
@@ -173,22 +173,22 @@
         // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()
         {
-            $InstallCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
-            static $InstallCounterValueOld;
-            if ($InstallCounterValue != $InstallCounterValueOld) {
-                $InstallCounterValueOld = $InstallCounterValue;
+            $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
+            static $install_counter_value_old;
+            if ($install_counter_value != $install_counter_value_old) {
+                $install_counter_value_old = $install_counter_value;
             }
         }
 
         // Counterreset wenn InstallCounter geändert
         private function ImpulseCounterReset()
         {
-            $oldCounterValue = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
-            $newCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
+            $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+            $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
             $this->WriteAttributeFloat('Attrib_DayCount', $this->GetValue('GCM_UsedM3'));
-            $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $newCounterValue);
+            $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $new_counter_value);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
-            $this->SetValue('GCM_CounterValue', $newCounterValue);
+            $this->SetValue('GCM_CounterValue', $new_counter_value);
             $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayCount'));
         }
 
@@ -196,43 +196,43 @@
         private function GasCounter()
         {
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
-            $impulseID = $this->ReadPropertyInteger('ImpulseID');
-            $impulseValue = $this->ReadPropertyFloat('ImpulseValue');
-            $basePrice = $this->GetValue('GCM_BasePrice');
-            $invoiceDate = $this->ReadpropertyString('InvoiceDate');
-            $calorificValue = $this->ReadpropertyFloat('CalorificValue');
-            $currentConsumption = $this->GetValue('GCM_CurrentConsumption');
-            $kwhPrice = $this->ReadpropertyFloat('KWHPrice');
+            $impulse_id = $this->ReadPropertyInteger('ImpulseID');
+            $impulse_value = $this->ReadPropertyFloat('ImpulseValue');
+            $base_price = $this->GetValue('GCM_BasePrice');
+            $invoice_date = $this->ReadpropertyString('InvoiceDate');
+            $calorific_value = $this->ReadpropertyFloat('CalorificValue');
+            $current_consumption = $this->GetValue('GCM_CurrentConsumption');
+            $kwh_price = $this->ReadpropertyFloat('KWHPrice');
             $kwh = $this->GetValue('GCM_UsedKWH');
-            $actualCounterValue = $this->GetValue('GCM_CounterValue');
-            $invoiceCount = $this->ReadPropertyFloat('InvoiceCounterValue');
-            $cubicMeter = $this->GetValue('GCM_UsedM3');
-            $installCounterValue = $this->ReadPropertyFloat('InstallCounterValue');
-            $currentCounterValue = $this->GetValue('GCM_CounterValue');
+            $actual_counter_value = $this->GetValue('GCM_CounterValue');
+            $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
+            $cubic_meter = $this->GetValue('GCM_UsedM3');
+            $install_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
+            $current_counter_value = $this->GetValue('GCM_CounterValue');
             $this->updateInstallCounterValue();
-            $installCounterValue = $this->ReadpropertyFloat('InstallCounterValue');
-            $final = $installCounterValue;
-            if ($impulseID > 0) {
-                $impulseID = $this->ReadPropertyInteger('ImpulseID');
-                $impulse = GetValue($impulseID);
+            $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
+            $final = $install_counter_value;
+            if ($impulse_id > 0) {
+                $impulse_id = $this->ReadPropertyInteger('ImpulseID');
+                $impulse = GetValue($impulse_id);
                 if ($impulse) {
-                    $newCounterValue = $currentCounterValue + $impulseValue;
-                    $newCubicMeter = $cubicMeter + $impulseValue;
-                    $this->calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
-                    $this->calculateKWH($calorificValue, $cubicMeter);
-                    $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
-                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
+                    $new_counter_value = $current_counter_value + $impulse_value;
+                    $new_cubic_meter = $cubic_meter + $impulse_value;
+                    $this->calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price);
+                    $this->calculateKWH($calorific_value, $cubic_meter);
+                    $this->CalculateCostActualDay($base_price, $calorific_value, $kwh, $kwh_price);
+                    $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                 } else {
-                    $newCounterValue = $currentCounterValue;
-                    $newCubicMeter = $cubicMeter;
-                    $this->calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice);
-                    $this->calculateKWH($calorificValue, $cubicMeter);
-                    $this->CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice);
-                    $this->DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue);
+                    $new_counter_value = $current_counter_value;
+                    $new_cubic_meter = $cubic_meter;
+                    $this->calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price);
+                    $this->calculateKWH($calorific_value, $cubic_meter);
+                    $this->CalculateCostActualDay($base_price, $calorific_value, $kwh, $kwh_price);
+                    $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                 }
-                $this->SetValue('GCM_UsedM3', $newCubicMeter);
-                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $newCounterValue);
-                $this->SetValue('GCM_CounterValue', $newCounterValue);
+                $this->SetValue('GCM_UsedM3', $new_cubic_meter);
+                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
+                $this->SetValue('GCM_CounterValue', $new_counter_value);
             }
         }
     }

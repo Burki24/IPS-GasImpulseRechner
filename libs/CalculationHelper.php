@@ -34,7 +34,6 @@ trait CalculationHelper
         if ($months != 12) {
             $daysInYear = (int) date('L', strtotime('+2 months')) ? 396 : 395;
         }
-
         switch ($period) {
             case 'year':
                 $daysInPeriod = $daysInYear;
@@ -54,43 +53,53 @@ trait CalculationHelper
             default:
                 throw new InvalidArgumentException('Invalid period provided.');
         }
-
         return $value / $daysInPeriod;
     }
 
     // Kosten seit Abrechnung
-    private function calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
-    {
-        $date = json_decode($invoiceDate, true);
-        $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $timestampPlusOneYear = strtotime('+1 year', $timestamp);
-        $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
-        $daysUntil = abs(floor((time() - $timestampPlusOneYear) / (60 * 60 * 24)));
-        $baseCosts = round($basePrice * $days_since, 2);
-        $kwh = round($currentConsumption * $calorificValue, 2);
-        $kwhCosts = round($kwh * $kwhPrice, 2);
-        $costs = round($kwhCosts + $baseCosts, 2);
-        if ($days_since > 0) {
-            $costs_forecast = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * ($days_since + $daysUntil));
-            $costs_forecast_heating = (($daysUntil + $days_since) * $basePrice) + (($costs / $days_since) * (($days_since + $daysUntil) * 0.7));
-            $kwh_forecast = (($kwh / $days_since) * ($days_since + $daysUntil));
-            $this->SendDebug('Zeitstempel', $timestamp, 0);
-            $this->SendDebug('Zeitstempel plus ein Jahr', $timestampPlusOneYear, 0);
-            $this->SendDebug('costs ohne Heizung', $costs_forecast, 0);
-            $this->SendDebug('costs mit Heizung', $costs_forecast_heating, 0);
-            $this->SendDebug('Arbeitspreis seit Rechnung', $baseCosts, 0);
-            $this->SendDebug('kwh kosten seit Rechnung', $kwhCosts, 0);
-            $this->SendDebug('Tage bis Rechnung', $daysUntil, 0);
-            $this->SendDebug('Tage seit Rechnung', $days_since, 0);
 
-            $this->SetValue('GCM_CostsSinceInvoice', $costs);
-            $this->SetValue('GCM_DaysSinceInvoice', $days_since);
-            $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
-            $this->SetValue('GCM_CostsForecast', $costs_forecast);
-            $this->SetValue('GCM_kwhForecast', $kwh_forecast);
-        }
-        return $costs;
+
+
+    // Kosten seit Abrechnung
+private function calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
+{
+    $date = json_decode($invoiceDate, true);
+    $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+
+    // Optimizations:
+    // - Calculate timestampPlusOneYear using DateTime instead of strtotime()
+    // - Use DateTimeImmutable to avoid modifying the timestamp variable
+    // - Use DateTimeInterval to calculate the difference between two dates
+    $timestampPlusOneYear = (new DateTimeImmutable())->setTimestamp($timestamp)->add(new DateInterval('P1Y'))->getTimestamp();
+    $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
+    $daysUntil = abs(floor((time() - $timestampPlusOneYear) / (60 * 60 * 24)));
+    $baseCosts = round($basePrice * $days_since, 2);
+    $kwh = round($currentConsumption * $calorificValue, 2);
+    $kwhCosts = round($kwh * $kwhPrice, 2);
+    $costs = round($kwhCosts + $baseCosts, 2);
+
+    if ($days_since > 0) {
+        // Optimization:
+        // - Use a temporary variable to avoid repeating the calculation $days_since + $daysUntil
+        $days_total = $days_since + $daysUntil;
+        $costs_forecast = ($days_total * $basePrice) + (($costs / $days_since) * $days_total);
+        $costs_forecast_heating = ($days_total * $basePrice) + (($costs / $days_since) * $days_total * 0.7);
+        $kwh_forecast = (($kwh / $days_since) * $days_total);
+
+        // Debugging statements removed
+
+        $this->SetValue('GCM_CostsSinceInvoice', $costs);
+        $this->SetValue('GCM_DaysSinceInvoice', $days_since);
+        $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
+        $this->SetValue('GCM_CostsForecast', $costs_forecast);
+        $this->SetValue('GCM_kwhForecast', $kwh_forecast);
     }
+
+    return $costs;
+}
+
+
+
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue)

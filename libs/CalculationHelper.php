@@ -2,21 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * @addtogroup generic
- * @{
- *
- * @package       generic
- * @file          CalculationHelper.php
- * @author        Burkhard Kneiseler <burkhard.kneiseler.de>
- * @copyright     2023 Burkhard Kneiseler
- * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.0
- */
-
-/**
- * Trait mit Hilfsfunktionen zur Berechnung verschiedener Werte
- */
 trait CalculationHelper
 {
     // Umrechnung m3 in kwh

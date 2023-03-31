@@ -5,15 +5,15 @@ declare(strict_types=1);
 trait CalculationHelper
 {
     // Umrechnung m3 in kwh
-    private function calculateKWH($calorificValue, $cubicMeter)
+    private function calculateKWH($calorific_value, $cubic_meter)
     {
-        $kwh = $calorificValue * $cubicMeter;
+        $kwh = $calorific_value * $cubic_meter;
         $this->SetValue('GCM_UsedKWH', $kwh);
         return $kwh;
     }
 
     // Grundpreisperiode berechnen
-    private function calculatePeriod($value, $period, $months, $invoiceDate)
+    private function calculatePeriod($value, $period, $months, $invoice_date)
     {
         $daysInYear = (int) date('L') ? 366 : 365;
         if ($months != 12) {
@@ -42,21 +42,21 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-    private function calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
+    private function calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price)
     {
-        $date = json_decode($invoiceDate, true);
-        $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $timestampPlusOneYear = (new DateTimeImmutable())->setTimestamp($timestamp)->add(new DateInterval('P1Y'))->getTimestamp();
-        $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
-        $daysUntil = abs(floor((time() - $timestampPlusOneYear) / (60 * 60 * 24)));
-        $baseCosts = round($basePrice * $days_since, 2);
-        $kwh = round($currentConsumption * $calorificValue, 2);
-        $kwhCosts = round($kwh * $kwhPrice, 2);
+        $date = json_decode($invoice_date, true);
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $time_stampPlusOneYear = (new DateTimeImmutable())->setTimestamp($time_stamp)->add(new DateInterval('P1Y'))->getTimestamp();
+        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
+        $daysUntil = abs(floor((time() - $time_stampPlusOneYear) / (60 * 60 * 24)));
+        $baseCosts = round($base_price * $days_since, 2);
+        $kwh = round($current_consumption * $calorific_value, 2);
+        $kwhCosts = round($kwh * $kwh_price, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
         if ($days_since > 0) {
             $days_total = $days_since + $daysUntil;
-            $costs_forecast = ($days_total * $basePrice) + (($costs / $days_since) * $days_total);
-            $costs_forecast_heating = ($days_total * $basePrice) + (($costs / $days_since) * $days_total * 0.7);
+            $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
+            $costs_forecast_heating = ($days_total * $base_price) + (($costs / $days_since) * $days_total * 0.7);
             $kwh_forecast = (($kwh / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
             $this->SetValue('GCM_DaysSinceInvoice', $days_since);
@@ -68,19 +68,19 @@ trait CalculationHelper
     }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
-    private function DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue)
+    private function DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value)
     {
-        $result = ($actualCounterValue - $invoiceCount);
-        $kwh = ($result * $calorificValue);
+        $result = ($actual_counter_value - $invoice_count);
+        $kwh = ($result * $calorific_value);
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->Setvalue('GCM_KWHSinceInvoice', $kwh);
     }
 
     // Kosten aktueller Tag
-    private function CalculateCostActualDay($basePrice, $calorificValue, $kwh, $kwhPrice)
+    private function CalculateCostActualDay($base_price, $calorific_value, $kwh, $kwh_price)
     {
-        $kwhCosts = $kwh * $kwhPrice;
-        $costs = $kwhCosts + $basePrice;
+        $kwhCosts = $kwh * $kwh_price;
+        $costs = $kwhCosts + $base_price;
         $this->SetValue('GCM_DayCosts', $costs);
     }
 

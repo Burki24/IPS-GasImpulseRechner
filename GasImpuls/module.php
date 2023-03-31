@@ -96,7 +96,6 @@
                 $invoiceDate = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->calculatePeriod($value, $period, $months, $invoiceDate);
                 $this->SetValue('GCM_BasePrice', $result);
-
             }
 
             // Eintragung Zählerstand bei Rechnungsstellung

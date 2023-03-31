@@ -58,48 +58,43 @@ trait CalculationHelper
 
     // Kosten seit Abrechnung
 
-
-
     // Kosten seit Abrechnung
-private function calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
-{
-    $date = json_decode($invoiceDate, true);
-    $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+    private function calculations($basePrice, $invoiceDate, $calorificValue, $currentConsumption, $kwhPrice)
+    {
+        $date = json_decode($invoiceDate, true);
+        $timestamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
 
-    // Optimizations:
-    // - Calculate timestampPlusOneYear using DateTime instead of strtotime()
-    // - Use DateTimeImmutable to avoid modifying the timestamp variable
-    // - Use DateTimeInterval to calculate the difference between two dates
-    $timestampPlusOneYear = (new DateTimeImmutable())->setTimestamp($timestamp)->add(new DateInterval('P1Y'))->getTimestamp();
-    $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
-    $daysUntil = abs(floor((time() - $timestampPlusOneYear) / (60 * 60 * 24)));
-    $baseCosts = round($basePrice * $days_since, 2);
-    $kwh = round($currentConsumption * $calorificValue, 2);
-    $kwhCosts = round($kwh * $kwhPrice, 2);
-    $costs = round($kwhCosts + $baseCosts, 2);
+        // Optimizations:
+        // - Calculate timestampPlusOneYear using DateTime instead of strtotime()
+        // - Use DateTimeImmutable to avoid modifying the timestamp variable
+        // - Use DateTimeInterval to calculate the difference between two dates
+        $timestampPlusOneYear = (new DateTimeImmutable())->setTimestamp($timestamp)->add(new DateInterval('P1Y'))->getTimestamp();
+        $days_since = floor((time() - $timestamp) / (60 * 60 * 24));
+        $daysUntil = abs(floor((time() - $timestampPlusOneYear) / (60 * 60 * 24)));
+        $baseCosts = round($basePrice * $days_since, 2);
+        $kwh = round($currentConsumption * $calorificValue, 2);
+        $kwhCosts = round($kwh * $kwhPrice, 2);
+        $costs = round($kwhCosts + $baseCosts, 2);
 
-    if ($days_since > 0) {
-        // Optimization:
-        // - Use a temporary variable to avoid repeating the calculation $days_since + $daysUntil
-        $days_total = $days_since + $daysUntil;
-        $costs_forecast = ($days_total * $basePrice) + (($costs / $days_since) * $days_total);
-        $costs_forecast_heating = ($days_total * $basePrice) + (($costs / $days_since) * $days_total * 0.7);
-        $kwh_forecast = (($kwh / $days_since) * $days_total);
+        if ($days_since > 0) {
+            // Optimization:
+            // - Use a temporary variable to avoid repeating the calculation $days_since + $daysUntil
+            $days_total = $days_since + $daysUntil;
+            $costs_forecast = ($days_total * $basePrice) + (($costs / $days_since) * $days_total);
+            $costs_forecast_heating = ($days_total * $basePrice) + (($costs / $days_since) * $days_total * 0.7);
+            $kwh_forecast = (($kwh / $days_since) * $days_total);
 
-        // Debugging statements removed
+            // Debugging statements removed
 
-        $this->SetValue('GCM_CostsSinceInvoice', $costs);
-        $this->SetValue('GCM_DaysSinceInvoice', $days_since);
-        $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
-        $this->SetValue('GCM_CostsForecast', $costs_forecast);
-        $this->SetValue('GCM_kwhForecast', $kwh_forecast);
+            $this->SetValue('GCM_CostsSinceInvoice', $costs);
+            $this->SetValue('GCM_DaysSinceInvoice', $days_since);
+            $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
+            $this->SetValue('GCM_CostsForecast', $costs_forecast);
+            $this->SetValue('GCM_kwhForecast', $kwh_forecast);
+        }
+
+        return $costs;
     }
-
-    return $costs;
-}
-
-
-
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice($actualCounterValue, $invoiceCount, $calorificValue)

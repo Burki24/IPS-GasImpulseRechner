@@ -32,10 +32,7 @@ trait CalculationHelper
     {
         // Berechnung Schaltjahr
         if ($months == 12) {
-            $daysInYear = 365;
-            if (checkdate(2, 29, (int) date('Y'))) {
-                $daysInYear = 366;
-            }
+            $daysInYear = checkdate(2, 29, (int) date('Y')) ? 366 : 365;
 
             switch ($period) {
                 // Jahreszahlung
@@ -67,10 +64,7 @@ trait CalculationHelper
             }
             return $result;
         } else {
-            $daysInYear = 395;
-            if (checkdate(2, 29, (int) date('Y'))) {
-                $daysInYear = 396;
-            }
+            $daysInYear = checkdate(2, 29, (int) date('Y')) ? 396 : 395;
 
             switch ($period) {
                 // Jahreszahlung

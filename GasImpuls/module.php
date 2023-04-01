@@ -105,7 +105,7 @@
                 $actual_value = $this->GetValue('GCM_CounterValue');
 
                 if ($actual_value < $install_value) {
-                    $this->SetValue('GCM_CounterValue', $Value);
+                    $this->SetValue('GCM_CounterValue', $install_value);
                 }
             }
 

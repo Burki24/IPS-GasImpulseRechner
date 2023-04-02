@@ -209,7 +209,7 @@
             $impulse_value = $this->ReadPropertyFloat('ImpulseValue');
             $months = $this->ReadPropertyInteger('BillingMonths');
             $lump_sum = $this->ReadPropertyFloat('LumpSum');
-            $kwh_forecast = $this->GetValueFloat('GCM_kwhForecast');
+            $kwh_forecast = $this->GetValue('GCM_kwhForecast');
             $costs_forecast = $this->GetValue('GCM_CostsForecast');
             $base_price = $this->GetValue('GCM_BasePrice');
             $invoice_date = $this->ReadpropertyString('InvoiceDate');

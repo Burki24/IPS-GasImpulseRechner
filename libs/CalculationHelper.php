@@ -55,9 +55,9 @@ trait CalculationHelper
         $costs = round($kwhCosts + $baseCosts, 2);
         if ($days_since > 0) {
             $days_total = $days_since + $daysUntil;
-            $costs_forecast = (($days_total * $base_price) + (($costs / $days_since) * $days_total) * 0.66);
+            $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
             $costs_forecast_heating = ($days_total * $base_price) + (($costs / $days_since) * $days_total * 0.7);
-            $kwh_forecast = (($kwh / $days_since) * $days_total);
+            $kwh_forecast = ((($kwh / $days_since) * $days_total) * 0.66);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
             $this->SetValue('GCM_DaysSinceInvoice', $days_since);
             $this->SetValue('GCM_DaysTillInvoice', $daysUntil);

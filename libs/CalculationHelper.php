@@ -98,21 +98,27 @@ trait CalculationHelper
     }
     // Abschlagsberechnungen
     // Höhe der Abschlagszahlung im laufenden Jahr
-    private function LumpSumYear($months, $lump_sum, $old_lump_sum,$invoice_date)
+    private function LumpSumYear($months, $lump_sum, $old_lump_sum, $invoice_date)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $date_string = date('Y-m-d', $time_stamp);
-
         $current_date = date('Y-m-d'); // Aktuelles Datum
-        $months_since_invoice = date_diff(date_create($date_string), date_create($current_date))->m; // Anzahl der Monate seit $invoice_date
-        $remaining_months = $months - $months_since_invoice; // Anzahl der verbleibenden Monate
-        $result = $remaining_months * $lump_sum; // Berechne das Ergebnis für die verbleibenden Monate
-        if ($remaining_months < $months) {
-            $result += $months_since_invoice * $old_lump_sum; // Addiere das Ergebnis für die Monate seit $invoice_date
-        }
+    $months_since_invoice = date_diff(date_create($date_string), date_create($current_date))->m; // Anzahl der Monate seit $invoice_date
+
+    // Berechne das Ergebnis für die Monate seit dem Rechnungsdatum mit dem alten Pauschalbetrag
+        $old_lump_sum_result = $months_since_invoice * $old_lump_sum;
+
+        // Berechne das Ergebnis für die verbleibenden Monate mit dem neuen Pauschalbetrag
+    $remaining_months = $months - $months_since_invoice; // Anzahl der verbleibenden Monate
+    $new_lump_sum_result = $remaining_months * $lump_sum;
+
+        // Addiere die beiden Ergebnisse
+        $result = $old_lump_sum_result + $new_lump_sum_result;
+
         return $result;
     }
+
     // Differenz zu erwartenden Kosten
     private function LumpSumDifference($lump_sum_year, $costs_forecast)
     {

@@ -104,7 +104,8 @@ trait CalculationHelper
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $date_string = date('Y-m-d', $time_stamp);
         $current_date = date('Y-m-d');
-        $months_since_invoice = date_diff(date_create($date_string), date_create($current_date))->m;
+        $diff = date_diff(date_create($date_string), date_create($current_date));
+        $months_since_invoice = $diff->m + ($diff->d >= 1 ? 1 : 0);
         $old_lump_sum_result = $months_since_invoice * $old_lump_sum;
         $remaining_months = $months - $months_since_invoice;
         $new_lump_sum_result = $remaining_months * $lump_sum;

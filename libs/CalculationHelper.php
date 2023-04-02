@@ -99,7 +99,7 @@ trait CalculationHelper
 
     private function LumpSumYear($months, $lump_sum)
     {
-        $result = $month * $lump_sum;
+        $result = $months * $lump_sum;
         return $result;
     }
 

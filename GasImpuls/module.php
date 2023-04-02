@@ -217,6 +217,7 @@
             $impulse_value = $this->ReadPropertyFloat('ImpulseValue');
             $months = $this->ReadPropertyInteger('BillingMonths');
             $lump_sum = $this->ReadPropertyFloat('LumpSum');
+            $lump_sum_year = $this->GetValue('GCM_LumpSumYear');
             $kwh_forecast = $this->GetValue('GCM_kwhForecast');
             $costs_forecast = $this->GetValue('GCM_CostsForecast');
             $base_price = $this->GetValue('GCM_BasePrice');
@@ -243,8 +244,7 @@
                     $this->calculateKWH($calorific_value, $cubic_meter);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
-
-                    $this->LumpSum($months, $lump_sum, $kwh_forecast, $base_price, $costs_forecast);
+                    $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
@@ -256,6 +256,8 @@
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
+                $result = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
+                $this->SetValue('GCM_LumpSumDiff');
             }
         }
     }

@@ -97,8 +97,13 @@ trait CalculationHelper
         return json_encode($dateArray);
     }
 
+    private function LumpSumYear($months, $lump_sum)
+    {
+        $result = $month * $lump_sum;
+        return $result;
+    }
+
     private function LumpSum($months, $lump_sum, $kwh_forecast, $base_price, $costs_forecast)
     {
-
     }
 }

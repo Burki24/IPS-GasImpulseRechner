@@ -72,7 +72,7 @@
             $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
 
             // Kalkulation Abschlagszahlungen vs. Real-Verbrauch
-            $this->RegisterVariableFloat('GCM_LumpSum', $this->Translate('Lump Sum'), '~Euro');
+            $this->RegisterVariableFloat('GCM_LumpSumYear', $this->Translate('Lump Sum Year'), '~Euro');
             $this->RegisterVariableFloat('GCM_LumpSumDiff', $this->Translate('Lump Sum Difference'), '~Euro');
 
             // Messages
@@ -96,6 +96,14 @@
                 $invoice_date = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->calculatePeriod($value, $period, $months, $invoice_date);
                 $this->SetValue('GCM_BasePrice', $result);
+            }
+
+            // Eintragung der Jahresabschlagshöhe
+            if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
+                $lump_sum = $this->ReadPropertyFloat('LumpSum');
+                $months = $this->ReadPropertyInteger('BillingMonths');
+                $result = $this->LumpSumYaer($months, $lump_sum);
+                $this->SetValue('GCM_LumpSumYear', $result);
             }
 
             // Eintragung Zählerstand bei Rechnungsstellung

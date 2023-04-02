@@ -134,7 +134,7 @@
             // Errechnung bisher gezahlter Abschläge
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
                 $lump_sum = $this->ReadPropertyFloat('LumpSum');
-                $months = $this->ReadPropertyFloat('BillingMonths');
+                $months = $this->ReadPropertyInteger('BillingMonths');
                 $invoice_date = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->LumpSumPast($lump_sum, $invoice_date, $months);
                 $this->WriteAttributeFloat('Attrib_LumpSumPast', $result);

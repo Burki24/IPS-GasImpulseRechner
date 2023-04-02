@@ -24,6 +24,7 @@
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyInteger('BillingMonths', 11);
+            $this->RegisterPropertyFloat('LumpSum', 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -69,6 +70,10 @@
             $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
             $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
             $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
+
+            // Kalkulation Abschlagszahlungen vs. Real-Verbrauch
+            $this->RegisterVariableFloat('GCM_LumpSum', $this->Translate('Lump Sum'), '~Euro');
+            $this->RegisterVariableFloat('GCM_LumpSumDiff', $this->Translate('Lump Sum Difference'), '~Euro');
 
             // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -202,6 +207,10 @@
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
             $impulse_id = $this->ReadPropertyInteger('ImpulseID');
             $impulse_value = $this->ReadPropertyFloat('ImpulseValue');
+            $months = $this->ReadPropertyInteger('BillingMonths');
+            $lump_sum = $this->ReadPropertyFloat('LumpSum');
+            $kwh_forecast = $this->GetValueFloat('GCM_kwhForecast');
+            $costs_forecast = $this->GetValue('GCM_CostsForecast');
             $base_price = $this->GetValue('GCM_BasePrice');
             $invoice_date = $this->ReadpropertyString('InvoiceDate');
             $calorific_value = $this->ReadpropertyFloat('CalorificValue');
@@ -215,7 +224,7 @@
             $current_counter_value = $this->GetValue('GCM_CounterValue');
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
-            // $final = $install_counter_value;
+
             if ($impulse_id > 0) {
                 $impulse_id = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulse_id);
@@ -226,6 +235,8 @@
                     $this->calculateKWH($calorific_value, $cubic_meter);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
+
+                    $this->LumpSum($months, $lump_sum, $kwh_forecast, $base_price, $costs_forecast);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;

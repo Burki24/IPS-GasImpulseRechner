@@ -104,14 +104,21 @@ trait CalculationHelper
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $date_string = date('Y-m-d', $time_stamp);
         $current_date = date('Y-m-d'); // Aktuelles Datum
-    $months_since_invoice = date_diff(date_create($date_string), date_create($current_date))->m; // Anzahl der Monate seit $invoice_date
+        $months_since_invoice = date_diff(date_create($date_string), date_create($current_date))->m; // Anzahl der Monate seit $invoice_date
 
-    // Berechne das Ergebnis für die Monate seit dem Rechnungsdatum mit dem alten Pauschalbetrag
+        $this->SendDebug('Monate seit Abrechnung', $months_since_invoice, 0);
+
+        // Berechne das Ergebnis für die Monate seit dem Rechnungsdatum mit dem alten Pauschalbetrag
         $old_lump_sum_result = $months_since_invoice * $old_lump_sum;
 
+        $this->SendDebug('Ergebnis mit altem Abschlag', $old_lump_sum_result, 0);
+
         // Berechne das Ergebnis für die verbleibenden Monate mit dem neuen Pauschalbetrag
-    $remaining_months = $months - $months_since_invoice; // Anzahl der verbleibenden Monate
-    $new_lump_sum_result = $remaining_months * $lump_sum;
+        $remaining_months = $months - $months_since_invoice; // Anzahl der verbleibenden Monate
+        $new_lump_sum_result = $remaining_months * $lump_sum;
+
+        $this->SendDebug('Ergebnis mit neuem Abschlag', $new_lump_sum_result, 0);
+
 
         // Addiere die beiden Ergebnisse
         $result = $old_lump_sum_result + $new_lump_sum_result;

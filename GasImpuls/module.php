@@ -101,6 +101,7 @@
 
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
+                $old_lump_sum = $this->ReadPropertyFloat('LumpSum');
                 $lump_sum = $this->ReadPropertyFloat('LumpSum');
                 $months = $this->ReadPropertyInteger('BillingMonths');
                 $invoice_date = $this->ReadPropertyString('InvoiceDate');

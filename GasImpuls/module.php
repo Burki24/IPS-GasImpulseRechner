@@ -102,7 +102,7 @@
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
                 $lump_sum = $this->ReadPropertyFloat('LumpSum');
                 $months = $this->ReadPropertyInteger('BillingMonths');
-                $result = $this->LumpSumYaer($months, $lump_sum);
+                $result = $this->LumpSumYear($months, $lump_sum);
                 $this->SetValue('GCM_LumpSumYear', $result);
             }
 

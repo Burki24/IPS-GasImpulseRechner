@@ -51,9 +51,19 @@ trait CalculationHelper
         $daysUntil = abs(floor((time() - $time_stampPlusOneYear) / (60 * 60 * 24)));
         $baseCosts = round($base_price * $days_since, 2);
         $kwh = round($current_consumption * $calorific_value, 2);
-        $kwhCosts = round($kwh * $kwh_price, 2);
-        $costs = round($kwhCosts + $baseCosts, 2);
+        $kwh_price_with_factor = $kwh_price + 0.6; // Startwert für den Faktor
         if ($days_since > 0) {
+            if ($days_since <= 100) {
+                $kwh_price_with_factor = $kwh_price_with_factor - 0.69;
+            } elseif ($days_since <= 200) {
+                $kwh_price_with_factor = $kwh_price_with_factor - 0.46;
+            } elseif ($days_since <= 300) {
+                $kwh_price_with_factor = $kwh_price_with_factor - 0.23;
+            } else {
+                $kwh_price_with_factor = $kwh_price_with_factor - 0;
+            }
+            $kwhCosts = round($kwh * $kwh_price_with_factor, 2);
+            $costs = round($kwhCosts + $baseCosts, 2);
             $days_total = $days_since + $daysUntil;
             $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
             $costs_forecast_heating = ($days_total * $base_price) + (($costs / $days_since) * $days_total * 0.7);

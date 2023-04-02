@@ -24,6 +24,7 @@
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyInteger('BillingMonths', 11);
+            $this->RegisterPropertyFloat('LumpSum', 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -70,6 +71,10 @@
             $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
             $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
 
+            // Kalkulation Abschlagszahlungen vs. Real-Verbrauch
+            $this->RegisterVariableFloat('GCM_LumpSumYear', $this->Translate('Lump Sum Year'), '~Euro');
+            $this->RegisterVariableFloat('GCM_LumpSumDiff', $this->Translate('Lump Sum Difference'), '~Euro');
+
             // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
         }
@@ -91,6 +96,14 @@
                 $invoice_date = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->calculatePeriod($value, $period, $months, $invoice_date);
                 $this->SetValue('GCM_BasePrice', $result);
+            }
+
+            // Eintragung der Jahresabschlagshöhe
+            if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
+                $lump_sum = $this->ReadPropertyFloat('LumpSum');
+                $months = $this->ReadPropertyInteger('BillingMonths');
+                $result = $this->LumpSumYear($months, $lump_sum);
+                $this->SetValue('GCM_LumpSumYear', $result);
             }
 
             // Eintragung Zählerstand bei Rechnungsstellung
@@ -202,6 +215,11 @@
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
             $impulse_id = $this->ReadPropertyInteger('ImpulseID');
             $impulse_value = $this->ReadPropertyFloat('ImpulseValue');
+            $months = $this->ReadPropertyInteger('BillingMonths');
+            $lump_sum = $this->ReadPropertyFloat('LumpSum');
+            $lump_sum_year = $this->GetValue('GCM_LumpSumYear');
+            $kwh_forecast = $this->GetValue('GCM_kwhForecast');
+            $costs_forecast = $this->GetValue('GCM_CostsForecast');
             $base_price = $this->GetValue('GCM_BasePrice');
             $invoice_date = $this->ReadpropertyString('InvoiceDate');
             $calorific_value = $this->ReadpropertyFloat('CalorificValue');
@@ -215,7 +233,7 @@
             $current_counter_value = $this->GetValue('GCM_CounterValue');
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
-            // $final = $install_counter_value;
+
             if ($impulse_id > 0) {
                 $impulse_id = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulse_id);
@@ -226,6 +244,7 @@
                     $this->calculateKWH($calorific_value, $cubic_meter);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
+                    $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
@@ -237,6 +256,8 @@
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
+                $result = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
+                $this->SetValue('GCM_LumpSumDiff', $result);
             }
         }
     }

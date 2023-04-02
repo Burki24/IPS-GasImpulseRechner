@@ -102,7 +102,7 @@
                     "type": "Select",
                     "caption": "Billing months",
                     "name": "BillingMonths",
-                    "width": "100px",
+                    "width": "120px",
                     "options": [
                         {
                             "caption": "11 Monate",
@@ -113,6 +113,24 @@
                             "value": 12
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The current lump sum to be paid:       "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "caption": "lump sum",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "name": "LumpSum",
+                    "suffix": "€",
+                    "width": "100px"
                 }
             ]
         },

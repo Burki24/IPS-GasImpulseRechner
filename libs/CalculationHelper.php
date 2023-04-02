@@ -96,4 +96,18 @@ trait CalculationHelper
         ];
         return json_encode($dateArray);
     }
+    // Abschlagsberechnungen
+    // Höhe der Abschlagszahlung im laufenden Jahr
+    private function LumpSumYear($months, $lump_sum)
+    {
+        $result = $months * $lump_sum;
+        return $result;
+    }
+
+    // Differenz zu erwartenden Kosten
+    private function LumpSumDifference($lump_sum_year, $costs_forecast)
+    {
+        $result = $lump_sum_year - $costs_forecast;
+        return $result;
+    }
 }

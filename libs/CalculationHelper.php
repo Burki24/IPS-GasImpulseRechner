@@ -102,9 +102,10 @@ trait CalculationHelper
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $date_string = date('Y-m-d', $time_stamp);
 
         $current_date = date('Y-m-d'); // Aktuelles Datum
-        $months_since_invoice = date_diff(date_create($date), date_create($current_date))->m; // Anzahl der Monate seit $invoice_date
+        $months_since_invoice = date_diff(date_create($date_string), date_create($current_date))->m; // Anzahl der Monate seit $invoice_date
         $remaining_months = $months - $months_since_invoice; // Anzahl der verbleibenden Monate
         $result = $remaining_months * $lump_sum; // Berechne das Ergebnis für die verbleibenden Monate
         if ($remaining_months < $months) {

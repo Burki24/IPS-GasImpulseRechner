@@ -136,7 +136,7 @@
                 $lump_sum = $this->ReadPropertyFloat('LumpSum');
                 $months = $this->ReadPropertyInteger('BillingMonths');
                 $invoice_date = $this->ReadPropertyString('InvoiceDate');
-                $result = $this->LumpSumPast($lump_sum, $invoice_date, $months);
+                $result = $this->LumpSumYear($months, $lump_sum, $invoice_date);
                 $this->WriteAttributeFloat('Attrib_LumpSumPast', $result);
                 $this->SendDebug('Bisher gezahlte Abschläge', $result, 0);
             }

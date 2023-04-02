@@ -102,7 +102,7 @@
                     "type": "Select",
                     "caption": "Billing months",
                     "name": "BillingMonths",
-                    "width": "100px",
+                    "width": "120px",
                     "options": [
                         {
                             "caption": "11 Monate",

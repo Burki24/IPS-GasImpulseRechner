@@ -257,7 +257,7 @@
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
                 $result = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                $this->SetValue('GCM_LumpSumDiff');
+                $this->SetValue('GCM_LumpSumDiff', $result);
             }
         }
     }

@@ -81,8 +81,8 @@ GCM_InvoiceCounterValue       | Zählerstand bei letzter Abrechnung | Float     
 GCM_CostsSinceInvoice       | Kosten seit letzter Abrechnung | Float       | Kosten seit letzter Abschlussrechnung inklusive dem täglichen Grund-/Arbeitspreis
 GCM_CostsForecast | Zu erwartende Kosten | Float | Errechnet aus den bisherigen Verbrauchsdaten (seit letzter Rechnungsstellung) die zu erwartenden Gesamtkosten bei nächster Abrechnung. Dieser Wert ändert sich anhand der zur Verfügung stehenden aktuellen Verbrauchswerte dynamisch. Inkludiert ist hier auch der Arbeitspreis (Grundpreis)
 GCM_kwhForecast | Zu erwartender Verbrauch | Float | Errechnet den für den aktuellen Abrechnungszeitraum zu erwartenden Gesamtverbrauch. Dieser Wert ändert sich gemäß den aktuellen Werten dynamisch.
-GCM_LumpSumYear | Errechnete Jahresabschlagshöhe. Errechnet aus Abschlagshöhe und Anzahl der Abschlagsmonate die Jahreskosten
-GCM_LumpSumDiff | Zu erwartende Differenz vom Abschlag. Gibt eine Schätzung, ob die Abschlagszahlungen für die zu erwartenden Kosten deckend sind
+GCM_LumpSumYear | Errechnete Jahresabschlagshöhe | Float | Errechnet aus Abschlagshöhe und Anzahl der Abschlagsmonate die Jahreskosten
+GCM_LumpSumDiff | Zu erwartende Differenz vom Abschlag | Float | Gibt eine Schätzung, ob die Abschlagszahlungen für die zu erwartenden Kosten deckend sind
 
 
 
@@ -92,6 +92,7 @@ GCM_LumpSumDiff | Zu erwartende Differenz vom Abschlag. Gibt eine Schätzung, ob
 Name   | Typ
 ------ | -------
  GCM.Gas.kWh      | Float-Profil
+ GCM.Days | Float-Profil
 
 #### Events
 

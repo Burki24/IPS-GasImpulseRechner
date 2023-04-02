@@ -92,6 +92,7 @@ GCM_LumpSumDiff | Zu erwartende Differenz vom Abschlag | Float | Gibt eine Schä
 Name   | Typ
 ------ | -------
  GCM.Gas.kWh      | Float-Profil
+ GCM.Days | Float-Profil
 
 #### Events
 

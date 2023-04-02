@@ -132,16 +132,6 @@
                 $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
             }
 
-            // Errechnung bisher gezahlter Abschläge
-            if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
-                $lump_sum = $this->ReadPropertyFloat('LumpSum');
-                $months = $this->ReadPropertyInteger('BillingMonths');
-                $invoice_date = $this->ReadPropertyString('InvoiceDate');
-                $result = $this->LumpSumYear($months, $lump_sum, $invoice_date);
-                $this->WriteAttributeFloat('Attrib_LumpSumPast', $result);
-                $this->SendDebug('Bisher gezahlte Abschläge', $result, 0);
-            }
-
             // ImpulseCounter zurücksetzen
             $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');

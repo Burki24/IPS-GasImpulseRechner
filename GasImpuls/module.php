@@ -30,6 +30,7 @@
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
+            $this->RegisterAttributeFloat('Attrib_LumpSumPast', 0);
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
@@ -100,9 +101,13 @@
 
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
+                $old_lump_sum = $this->ReadAttributeFloat('Attrib_LumpSumPast');
                 $lump_sum = $this->ReadPropertyFloat('LumpSum');
+                $this->WriteAttributeFloat('Attrib_LumpSumPast', $lump_sum);
                 $months = $this->ReadPropertyInteger('BillingMonths');
-                $result = $this->LumpSumYear($months, $lump_sum);
+                $invoice_date = $this->ReadPropertyString('InvoiceDate');
+                $result = $this->LumpSumYear($months, $lump_sum, $old_lump_sum, $invoice_date);
+                $this->SendDebug('Jahresabschlag', $result, 0);
                 $this->SetValue('GCM_LumpSumYear', $result);
             }
 

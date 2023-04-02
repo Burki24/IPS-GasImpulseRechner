@@ -98,12 +98,17 @@ trait CalculationHelper
     }
     // Abschlagsberechnungen
     // Höhe der Abschlagszahlung im laufenden Jahr
-    private function LumpSumYear($months, $lump_sum)
+    private function LumpSumYear($months, $lump_sum, $invoice_date)
     {
-        $result = $months * $lump_sum;
+        $current_date = date('Y-m-d'); // Aktuelles Datum
+        $months_since_invoice = date_diff(date_create($invoice_date), date_create($current_date))->m; // Anzahl der Monate seit $invoice_date
+        $remaining_months = $months - $months_since_invoice; // Anzahl der verbleibenden Monate
+        $result = $remaining_months * $lump_sum; // Berechne das Ergebnis für die verbleibenden Monate
+        if ($remaining_months < $months) {
+            $result += $months_since_invoice * $lump_sum; // Addiere das Ergebnis für die Monate seit $invoice_date
+        }
         return $result;
     }
-
     // Differenz zu erwartenden Kosten
     private function LumpSumDifference($lump_sum_year, $costs_forecast)
     {

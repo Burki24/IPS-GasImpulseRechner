@@ -30,6 +30,7 @@
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
+            $this->RegisterAttributeFloat('Attrib_LumpSumPast', 0);
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
@@ -128,6 +129,16 @@
                 $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
                 $calorific_value = $this->ReadPropertyFloat('CalorificValue');
                 $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
+            }
+
+            // Errechnung bisher gezahlter Abschläge
+            if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
+                $lump_sum = $this->ReadPropertyFloat('LumpSum');
+                $months = $this->ReadPropertyFloat('BillingMonths');
+                $invoice_date = $this->ReadPropertyString('InvoiceDate');
+                $result = $this->LumpSumPast($lump_sum, $invoice_date, $months);
+                $this->WriteAttributeFloat('Attrib_LumpSumPast', $result);
+                $this->SendDebug('Bisher gezahlte Abschläge', $result, 0);
             }
 
             // ImpulseCounter zurücksetzen

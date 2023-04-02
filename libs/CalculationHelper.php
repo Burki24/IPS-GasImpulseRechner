@@ -15,22 +15,22 @@ trait CalculationHelper
     // Grundpreisperiode berechnen
     private function calculatePeriod($value, $period, $months, $invoice_date)
     {
-        $daysInYear = (int) date('L') ? 366 : 365;
+        $days_in_year = (int) date('L') ? 366 : 365;
         if ($months != 12) {
-            $daysInYear = (int) date('L', strtotime('+2 months')) ? 396 : 395;
+            $days_in_year = (int) date('L', strtotime('+2 months')) ? 396 : 395;
         }
         switch ($period) {
             case 'year':
-                $daysInPeriod = $daysInYear;
+                $daysInPeriod = $days_in_year;
                 break;
             case 'half_year':
-                $daysInPeriod = $daysInYear / 2;
+                $daysInPeriod = $days_in_year / 2;
                 break;
             case 'quarter_year':
-                $daysInPeriod = $daysInYear / 4;
+                $daysInPeriod = $days_in_year / 4;
                 break;
             case 'month':
-                $daysInPeriod = $daysInYear / 12;
+                $daysInPeriod = $days_in_year / 12;
                 break;
             case 'day':
                 $daysInPeriod = 1;
@@ -108,6 +108,20 @@ trait CalculationHelper
     private function LumpSumDifference($lump_sum_year, $costs_forecast)
     {
         $result = $lump_sum_year - $costs_forecast;
+        return $result;
+    }
+
+    // Bisher gezahlte Abschläge
+    private function LumpSumPast($lump_sum, $invoice_date, $months)
+    {
+        $days_in_year = (int) date('L') ? 366 : 365;
+        if ($months != 12) {
+            $days_in_year = (int) date('L', strtotime('+2 months')) ? 396 : 395;
+        }
+        $date = json_decode($invoice_date, true);
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
+        $result = $lump_sum * $months_since;
         return $result;
     }
 }

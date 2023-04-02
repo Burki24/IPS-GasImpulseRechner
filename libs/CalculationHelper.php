@@ -98,4 +98,7 @@ trait CalculationHelper
     }
 
     private function LumpSum($months, $lump_sum, $kwh_forecast, $base_price, $costs_forecast);
+    {
+
+    }
 }

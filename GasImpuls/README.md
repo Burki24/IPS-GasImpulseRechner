@@ -53,7 +53,7 @@ Impulswert| Der Impulswert in m3, der laut Aufschrift auf dem Zähler anzusetzen
 Grundpreis| Der Grundpreis (auch Arbeitspreis), der vom Anbieter verlangt wird
 Zahlungszeitraum | Der Zeitraum, für den der eingetragene Grundpreis gilt (tgl., monatlich, Vierteljährlich, halbjährlich, jährlich) Der Zeitraum ist zwingend nötig, damit der Kostenaufwand auf den Tag heruntergebrochen werden kann. Dabei wird automatisch mit einbezogen, ob es sich aktuell um ein Schaltjahr handelt, oder nicht.
 Anzahl der Abschlagsmonate | Es können 11 oder 12 Monate angegeben werden. Dies hat Einfluß auf den zu berchnenden Tagesgrundpreis <br> (Bsp.: bei einer monatlichen Zahlweise und einer Zahlungshöhe von 17,89€ ist der Tagesgrundpreis bei 12 Monatszahlungen 0,59€ bei 11 Monatszahlungen 0,54€) <br> Beachtet wird hierbei ebenso, ob es sich um ein Schaltjahr handelt, oder nicht <br> Für die Forecast-Berechnung benötigt diese Modul KEINE archivierten Daten.
-Abschlagshöge | Zu zahlender Abschlag gemäß des laufenden Vertrags mit dem Anbieter
+Abschlagshöge | Zu zahlender Abschlag gemäß des laufenden Vertrags mit dem Anbieter (monatlicher Preis)
 Brennwert | Der Brennwert findet sich i.d.R. auf der letzten Abschlussrechnung. Er stellt den Faktor von m³ zu kW/h dar. Sollte er in der Abschlussrechnung variieren, so ist der Mittelwert zu nehmen.
 Zählerstand in m³ | Der Zählerstand bei der letzten Abrechnung
 Ablesedatum | Datum der Abschlussablesung zur letzten Rechnung wird zur Berechnung des Gesamtverbrauchs seit Abrechnung benötigt.
@@ -81,6 +81,8 @@ GCM_InvoiceCounterValue       | Zählerstand bei letzter Abrechnung | Float     
 GCM_CostsSinceInvoice       | Kosten seit letzter Abrechnung | Float       | Kosten seit letzter Abschlussrechnung inklusive dem täglichen Grund-/Arbeitspreis
 GCM_CostsForecast | Zu erwartende Kosten | Float | Errechnet aus den bisherigen Verbrauchsdaten (seit letzter Rechnungsstellung) die zu erwartenden Gesamtkosten bei nächster Abrechnung. Dieser Wert ändert sich anhand der zur Verfügung stehenden aktuellen Verbrauchswerte dynamisch. Inkludiert ist hier auch der Arbeitspreis (Grundpreis)
 GCM_kwhForecast | Zu erwartender Verbrauch | Float | Errechnet den für den aktuellen Abrechnungszeitraum zu erwartenden Gesamtverbrauch. Dieser Wert ändert sich gemäß den aktuellen Werten dynamisch.
+GCM_LumpSumYear | Errechnete Jahresabschlagshöhe. Errechnet aus Abschlagshöhe und Anzahl der Abschlagsmonate die Jahreskosten
+GCM_LumpSumDiff | Zu erwartende Differenz vom Abschlag. Gibt eine Schätzung, ob die Abschlagszahlungen für die zu erwartenden Kosten deckend sind
 
 
 

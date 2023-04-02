@@ -97,7 +97,7 @@ trait CalculationHelper
         return json_encode($dateArray);
     }
 
-    private function LumpSum($months, $lump_sum, $kwh_forecast, $base_price, $costs_forecast);
+    private function LumpSum($months, $lump_sum, $kwh_forecast, $base_price, $costs_forecast)
     {
 
     }

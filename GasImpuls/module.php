@@ -105,6 +105,7 @@
                 $months = $this->ReadPropertyInteger('BillingMonths');
                 $invoice_date = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->LumpSumYear($months, $lump_sum, $invoice_date);
+                $this->SendDebug('Jahresabschlag', $result, 0);
                 $this->SetValue('GCM_LumpSumYear', $result);
             }
 

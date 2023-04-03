@@ -139,15 +139,15 @@ trait CalculationHelper
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
-        $invoice_month_kwh = $invoice_kwh / 12;
-        $actual_month_kwh = $kwh / $months_since;
-        $kwh_month_difference = $invoice_month_kwh - $actual_month_kwh;
-        $this->SendDebug('Aktuelle Differenz monatlich', $kwh_month_difference, 0);
-        $this->SendDebug('aktuelle monatliche kwh', $actual_month_kwh, 0);
-        $this->SendDebug('montliche KWH letztes Jahr', $invoice_month_kwh, 0);
+        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
+        $invoice_day_kwh = $invoice_kwh / 365;
+        $actual_day_kwh = $kwh / $days_since;
+        $kwh_day_difference = $invoice_day_kwh - $actual_day_kwh;
+        $this->SendDebug('Aktuelle Differenz monatlich', $kwh_day_difference, 0);
+        $this->SendDebug('aktuelle monatliche kwh', $actual_day_kwh, 0);
+        $this->SendDebug('montliche KWH letztes Jahr', $invoice_day_kwh, 0);
         $this->SendDebug('monate seit KWH Forecast', $months_since, 0);
-        $result = $kwh_month_difference * $months_since;
+        $result = $kwh_day_difference * $days_since;
         $this->SetValue('GCM_KWHDifference', $result);
         return $result;
     }

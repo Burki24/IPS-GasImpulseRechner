@@ -137,18 +137,19 @@ trait CalculationHelper
     // KWH Forecast
     private function InvoiceKWH($invoice_kwh, $invoice_date, $kwh)
     {
+        $days_in_year = (int) date('L') ? 366 : 365;
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
         $invoice_day_kwh = $invoice_kwh / 365;
         $actual_day_kwh = $kwh / $days_since;
-        $kwh_day_difference = $actual_day_kwh - $invoice_day_kwh;
+        $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
         $this->SendDebug('Aktuelle Differenz monatlich', $kwh_day_difference, 0);
         $this->SendDebug('aktuelle monatliche kwh', $actual_day_kwh, 0);
         $this->SendDebug('montliche KWH letztes Jahr', $invoice_day_kwh, 0);
         $this->SendDebug('monate seit KWH Forecast', $days_since, 0);
         $result = $kwh_day_difference * $days_since;
-        $this->SetValue('GCM_KWHDifference', $result);
+        $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
         return $result;
     }
 }

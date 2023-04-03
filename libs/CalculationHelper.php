@@ -142,7 +142,7 @@ trait CalculationHelper
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
         $invoice_day_kwh = $invoice_kwh / 365;
         $actual_day_kwh = $kwh / $days_since;
-        $kwh_day_difference = $invoice_day_kwh - $actual_day_kwh;
+        $kwh_day_difference = $actual_day_kwh - $invoice_day_kwh;
         $this->SendDebug('Aktuelle Differenz monatlich', $kwh_day_difference, 0);
         $this->SendDebug('aktuelle monatliche kwh', $actual_day_kwh, 0);
         $this->SendDebug('montliche KWH letztes Jahr', $invoice_day_kwh, 0);

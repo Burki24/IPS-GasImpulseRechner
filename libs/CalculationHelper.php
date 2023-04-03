@@ -146,7 +146,7 @@ trait CalculationHelper
         $this->SendDebug('Aktuelle Differenz monatlich', $kwh_day_difference, 0);
         $this->SendDebug('aktuelle monatliche kwh', $actual_day_kwh, 0);
         $this->SendDebug('montliche KWH letztes Jahr', $invoice_day_kwh, 0);
-        $this->SendDebug('monate seit KWH Forecast', $months_since, 0);
+        $this->SendDebug('monate seit KWH Forecast', $days_since, 0);
         $result = $kwh_day_difference * $days_since;
         $this->SetValue('GCM_KWHDifference', $result);
         return $result;

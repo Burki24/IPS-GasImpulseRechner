@@ -233,7 +233,7 @@
             $current_consumption = $this->GetValue('GCM_CurrentConsumption');
             $kwh_price = $this->ReadpropertyFloat('KWHPrice');
             $kwh = $this->GetValue('GCM_UsedKWH');
-            $actual_counter_value = $this->GetValue('GCM_CounterValue');
+            $actual_counter_value = $this->GetValue('GCM_CurrentConsumption');
             $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
             $cubic_meter = $this->GetValue('GCM_UsedM3');
             $install_counter_value = $this->ReadPropertyFloat('InstallCounterValue');

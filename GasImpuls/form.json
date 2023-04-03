@@ -188,11 +188,11 @@
             "items": [
                 {
                     "type": "Label",
-                    "caption": "The last meter reading mentioned in the billing:      "
+                    "caption": "Invoice kW/h:      "
                 },
                 {
                     "type": "NumberSpinner",
-                    "name": "UsedKWHOnInvoice",
+                    "name": "InvoiceKWH",
                     "caption": "kW/h on invoice",
                     "suffix": "kW/h",
                     "width": "120px"

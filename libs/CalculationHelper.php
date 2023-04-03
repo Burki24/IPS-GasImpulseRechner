@@ -143,7 +143,8 @@ trait CalculationHelper
         $invoice_month_kwh = $invoice_kwh / 12;
         $actual_month_kwh = $kwh / $months_since;
         $kwh_month_difference = $invoice_month_kwh - $actual_month_kwh;
-        $this->SendDebug('aktuelle monatliche kwh', $kwh_month_difference, 0);
+        $this->SendDebug('Aktuelle Differenz monatlich', $kwh_month_difference, 0);
+        $this->SendDebug('aktuelle monatliche kwh', $actual_month_kwh, 0);
         $this->SendDebug('montliche KWH letztes Jahr', $invoice_month_kwh, 0);
         $this->SendDebug('monate seit KWH Forecast', $months_since, 0);
         $result = $kwh_month_difference * $months_since;

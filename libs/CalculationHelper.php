@@ -135,13 +135,13 @@ trait CalculationHelper
     }
 
     // KWH Forecast
-    private function InvoiceKWH($invoice_kwh, $invoice_date, $current_consumption)
+    private function InvoiceKWH($invoice_kwh, $invoice_date, $kwh)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
         $invoice_month_kwh = $invoice_kwh / 12;
-        $actual_month_kwh = $current_consumption / $months_since;
+        $actual_month_kwh = $kwh / $months_since;
         $kwh_month_difference = $invoice_month_kwh - $actual_month_kwh;
         $this->SendDebug('Aktuelle Differenz monatlich', $kwh_month_difference, 0);
         $this->SendDebug('aktuelle monatliche kwh', $actual_month_kwh, 0);

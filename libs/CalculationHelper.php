@@ -144,10 +144,10 @@ trait CalculationHelper
         $invoice_day_kwh = $invoice_kwh / 365;
         $actual_day_kwh = $kwh / $days_since;
         $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
-        $this->SendDebug('Aktuelle Differenz monatlich', $kwh_day_difference, 0);
-        $this->SendDebug('aktuelle monatliche kwh', $actual_day_kwh, 0);
-        $this->SendDebug('montliche KWH letztes Jahr', $invoice_day_kwh, 0);
-        $this->SendDebug('monate seit KWH Forecast', $days_since, 0);
+        $this->SendDebug('Aktuelle Differenz zum Vorjahr', $kwh_day_difference, 0);
+        $this->SendDebug('aktuelle tägliche kwh', $actual_day_kwh, 0);
+        $this->SendDebug('Tägliche KWH letztes Jahr', $invoice_day_kwh, 0);
+        $this->SendDebug('Tage seit letzter Abrechnung KWH Forecast', $days_since, 0);
         $result = $kwh_day_difference * $days_since;
         $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
         return $result;

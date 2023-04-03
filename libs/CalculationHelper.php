@@ -65,8 +65,8 @@ trait CalculationHelper
             $this->SetValue('GCM_CostsForecast', $costs_forecast);
             $this->SetValue('GCM_kwhForecast', $kwh_forecast);
         }
-return $costs;
-}
+        return $costs;
+    }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value)

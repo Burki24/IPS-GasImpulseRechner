@@ -144,6 +144,7 @@ trait CalculationHelper
         $actual_month_kwh = $kwh / $months_since;
         $kwh_month_difference = $invoice_month_kwh - $actual_month_kwh;
         $result = $kwh_month_difference * $months_since;
+        $this->SetValue('GCM_KWHDifference', $result);
         return $result;
     }
 }

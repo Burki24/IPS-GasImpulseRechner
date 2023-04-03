@@ -188,6 +188,22 @@
             "items": [
                 {
                     "type": "Label",
+                    "caption": "The last meter reading mentioned in the billing:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "UsedKWHOnInvoice",
+                    "caption": "kW/h on invoice",
+                    "suffix": "kW/h",
+                    "width": "120px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
                     "caption": "Meter counter value at the moment of module installation. To be entered including the two digits after the comma:      "
                 },
                 {

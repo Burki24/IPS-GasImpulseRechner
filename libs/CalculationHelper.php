@@ -57,7 +57,6 @@ trait CalculationHelper
         if ($days_since > 0) {
             $days_total = $days_since + $daysUntil;
             $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
-            // $costs_forecast_heating = ($days_total * $base_price) + (($costs / $days_since) * $days_total * 0.71);
             $kwh_forecast = ((($kwh / $days_since) * $days_total) * 0.685);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
             $this->SetValue('GCM_DaysSinceInvoice', $days_since);
@@ -132,6 +131,19 @@ trait CalculationHelper
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
         $result = $lump_sum * $months_since;
+        return $result;
+    }
+
+    // KWH Forecast
+    private function InvoiceKWH($invoice_kwh, $invoice_date, $kwh)
+    {
+        $date = json_decode($invoice_date, true);
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
+        $invoice_month_kwh = $invoice_kwh / 12;
+        $actual_month_kwh = $kwh / $months_since;
+        $kwh_month_difference = $invoice_month_kwh - $actual_month_kwh;
+        $result = $kwh_month_difference * $months_since;
         return $result;
     }
 }

@@ -25,6 +25,7 @@
             $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyInteger('BillingMonths', 11);
             $this->RegisterPropertyFloat('LumpSum', 0);
+            $this->RegisterPropertyInteger('InvoiceKWH', 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -71,6 +72,7 @@
             $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
             $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
             $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
+            $this->RegisterVariableFloat('GCM_KWHDifference', $this->Trabslate('kwh difference'), 'GCM.Gas.kWh');
 
             // Kalkulation Abschlagszahlungen vs. Real-Verbrauch
             $this->RegisterVariableFloat('GCM_LumpSumYear', $this->Translate('Lump Sum Year'), '~Euro');
@@ -236,6 +238,7 @@
             $cubic_meter = $this->GetValue('GCM_UsedM3');
             $install_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
             $current_counter_value = $this->GetValue('GCM_CounterValue');
+            $invoice_kwh = $this->ReadPropertyInteger('InvoiceKWH');
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
 
@@ -250,6 +253,7 @@
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
+                    $this->InvoiceKWH($invoice_kwh, $invoice_date, $kwh);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;

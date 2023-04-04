@@ -165,7 +165,7 @@ trait CalculationHelper
         $month = date('n');
         $this->SendDebug('Monat', $month, 0);
         $current_year = date('Y'); // Aktuelles Jahr ermitteln
-
+        $this->SendDebug('Jahr', $current_year, 0);
         foreach ($weights as $month => $weight) {
             $days_in_month = cal_days_in_month(CAL_GREGORIAN, date("n", strtotime("1 $current_year-$month")), $current_year);
             $this->SendDebug('Tage im Monat', $days_in_month, 0);

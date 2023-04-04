@@ -166,6 +166,9 @@ trait CalculationHelper
         foreach ($weights as $month => $weight) {
             $monthly_sum = round($invoice_kwh * $weight / $total_weight, 2); // Monatliche Summe berechnen
             echo 'Month ' . ucfirst($month) . ': ' . $monthly_sum;
+            $this->SendDebug('monat', ucfirst($month), 0);
+            $this->SendDebug('kwh', $monthly_sum, 0);
+
             if ($current_month == $month) {
                 echo ' (current month)';
             }

@@ -184,7 +184,7 @@ trait CalculationHelper
             }
             echo "\n\n"; // Ausgabe formatieren
         }
-        $this->SendDebug('Monatliche Summe Vorjahr', $$monthly_sum, 0);
+        $this->SendDebug('Monatliche Summe Vorjahr', $monthly_sum, 0);
         $this->SendDebug('Tägliche Summe Vorjahr', $daily_sum, 0);
         $this->SendDebug('Aktuelle Differenz zum Vorjahr', $kwh_day_difference, 0);
         $this->SendDebug('aktuelle tägliche kwh', $actual_day_kwh, 0);

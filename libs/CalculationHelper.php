@@ -144,6 +144,7 @@ trait CalculationHelper
         $invoice_day_kwh = $invoice_kwh / 365;
         $actual_day_kwh = $kwh / $days_since;
         $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
+        $sum = 1000; // Beispielsumme
         $weights = [
             'jan' => 1.0,
             'feb' => 1.0,
@@ -162,19 +163,27 @@ trait CalculationHelper
         $total_weight = array_sum($weights); // Summe der Gewichte berechnen
 
         $current_month = strtolower(date('M')); // Aktuellen Monat ermitteln (z.B. "mar")
+        $current_year = date('Y'); // Aktuelles Jahr ermitteln
 
         foreach ($weights as $month => $weight) {
-            $monthly_sum = round($invoice_kwh * $weight / $total_weight, 2); // Monatliche Summe berechnen
-            echo 'Month ' . ucfirst($month) . ': ' . $monthly_sum;
-            $this->SendDebug('monat', ucfirst($month), 0);
-            $this->SendDebug('kwh', $monthly_sum, 0);
-
+            $days_in_month = cal_days_in_month(CAL_GREGORIAN, date('n', strtotime("$month 1 $current_year")), $current_year); // Anzahl der Tage im Monat berechnen
+            $daily_weight = $weight / $days_in_month; // Tägliches Gewicht berechnen
+            $monthly_sum = 0;
+            for ($day = 1; $day <= $days_in_month; $day++) {
+                $daily_sum = $sum * $daily_weight / $total_weight; // Tägliche Summe berechnen
+                if ($current_month == $month && $day == date('j')) {
+                    $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
+                }
+                echo 'Day ' . str_pad($day, 2, '0', STR_PAD_LEFT) . ' of ' . ucfirst($month) . ': ' . round($daily_sum, 2) . "\n"; // Ausgabe formatieren
+            }
+            echo 'Monthly sum for ' . ucfirst($month) . ': ' . round($monthly_sum, 2);
             if ($current_month == $month) {
                 echo ' (current month)';
             }
-            echo "\n"; // Ausgabe formatieren
+            echo "\n\n"; // Ausgabe formatieren
         }
-
+        $this->SendDebug('Monatliche Summe Vorjahr', $$monthly_sum, 0);
+        $this->SendDebug('Tägliche Summe Vorjahr', $daily_sum, 0);
         $this->SendDebug('Aktuelle Differenz zum Vorjahr', $kwh_day_difference, 0);
         $this->SendDebug('aktuelle tägliche kwh', $actual_day_kwh, 0);
         $this->SendDebug('Tägliche KWH letztes Jahr', $invoice_day_kwh, 0);

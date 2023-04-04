@@ -162,7 +162,7 @@ trait CalculationHelper
 
         $total_weight = array_sum($weights); // Summe der Gewichte berechnen
 
-        $current_month_number = date('n');
+        $current_month = date('n');
         $current_year = date('Y'); // Aktuelles Jahr ermitteln
 
         foreach ($weights as $month => $weight) {

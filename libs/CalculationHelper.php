@@ -161,7 +161,7 @@ trait CalculationHelper
         $total_weight = array_sum($weights); // Summe der Gewichte berechnen
         $this->SendDebug('Summe der Gewichte', $total_weight, 0);
         $this->SendDebug('Invoice_date', $invoice_date, 0);
-        $month = date('n');
+        $month = date('m');
         $this->SendDebug('Monat', $month, 0);
         $current_year = date('Y'); // Aktuelles Jahr ermitteln
         $this->SendDebug('Jahr', $current_year, 0);

@@ -144,6 +144,34 @@ trait CalculationHelper
         $invoice_day_kwh = $invoice_kwh / 365;
         $actual_day_kwh = $kwh / $days_since;
         $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
+        $weights = [
+            'jan' => 1.0,
+            'feb' => 1.0,
+            'mar' => 0.9,
+            'apr' => 0.9,
+            'may' => 0.8,
+            'jun' => 0.8,
+            'jul' => 0.7,
+            'aug' => 0.7,
+            'sep' => 0.8,
+            'oct' => 0.9,
+            'nov' => 1.0,
+            'dec' => 1.0
+        ];
+
+        $total_weight = array_sum($weights); // Summe der Gewichte berechnen
+
+        $current_month = strtolower(date('M')); // Aktuellen Monat ermitteln (z.B. "mar")
+
+        foreach ($weights as $month => $weight) {
+            $monthly_sum = round($invoice_kwh * $weight / $total_weight, 2); // Monatliche Summe berechnen
+            echo 'Month ' . ucfirst($month) . ': ' . $monthly_sum;
+            if ($current_month == $month) {
+                echo ' (current month)';
+            }
+            echo "\n"; // Ausgabe formatieren
+        }
+
         $this->SendDebug('Aktuelle Differenz zum Vorjahr', $kwh_day_difference, 0);
         $this->SendDebug('aktuelle tägliche kwh', $actual_day_kwh, 0);
         $this->SendDebug('Tägliche KWH letztes Jahr', $invoice_day_kwh, 0);

@@ -168,6 +168,7 @@ trait CalculationHelper
 
         foreach ($weights as $month => $weight) {
             $days_in_month = cal_days_in_month(CAL_GREGORIAN, date("n", strtotime("1 $current_year-$month")), $current_year);
+            $this->SendDebug('Tage im Monat', $days_in_month, 0);
             $daily_weight = $weight / $days_in_month; // Tägliches Gewicht berechnen
             $monthly_sum = 0;
             for ($day = 1; $day <= $days_in_month; $day++) {

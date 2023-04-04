@@ -145,7 +145,6 @@ trait CalculationHelper
         $invoice_day_kwh = $invoice_kwh / 365;
         $actual_day_kwh = $kwh / $days_since;
         $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
-        $sum = 1000; // Beispielsumme
         $weights = [
             'jan' => 1.0,
             'feb' => 1.0,
@@ -160,8 +159,8 @@ trait CalculationHelper
             'nov' => 1.0,
             'dec' => 1.0
         ];
-
         $total_weight = array_sum($weights); // Summe der Gewichte berechnen
+        $this->SendDebug('Summe der Gewichte', $total_weight, 0);
 
         $month = date('n');
         $this->SendDebug('Monat', $month, 0);

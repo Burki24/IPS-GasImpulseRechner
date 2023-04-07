@@ -229,6 +229,7 @@
             $costs_forecast = $this->GetValue('GCM_CostsForecast');
             $base_price = $this->GetValue('GCM_BasePrice');
             $invoice_date = $this->ReadpropertyString('InvoiceDate');
+            $this->SendDebug('invoice_date', $invoice_date, 0);
             $calorific_value = $this->ReadpropertyFloat('CalorificValue');
             $current_consumption = $this->GetValue('GCM_CurrentConsumption');
             $kwh_price = $this->ReadpropertyFloat('KWHPrice');

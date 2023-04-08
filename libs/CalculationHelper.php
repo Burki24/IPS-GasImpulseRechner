@@ -161,9 +161,9 @@ trait CalculationHelper
         $total_weight = array_sum($weights); // Summe der Gewichte berechnen
         $this->SendDebug('Summe der Gewichte', $total_weight, 0);
         $this->SendDebug('Invoice_date', $invoice_date, 0);
-        $month = date('m');
+        $month = intval(date('m'));
         $this->SendDebug('Monat', $month, 0);
-        $current_year = date('Y'); // Aktuelles Jahr ermitteln
+        $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
         $this->SendDebug('Jahr', $current_year, 0);
         foreach ($weights as $month => $weight) {
             $days_in_month = cal_days_in_month(CAL_GREGORIAN, intval(date('m', strtotime('1 $current_year-$month'))), $current_year);

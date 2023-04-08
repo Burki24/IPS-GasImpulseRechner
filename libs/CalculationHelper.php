@@ -165,9 +165,19 @@ trait CalculationHelper
         $this->SendDebug('Monat', $current_month, 0);
         $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
         $this->SendDebug('Jahr', $current_year, 0);
+        $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln
+        $this->SendDebug('Tag', $current_day, 0);
+        $days_passed = $current_day - 1;
+        $this->SendDebug('Tage vergangen', $days_passed, 0);
+
+        $days_remaining = $days_in_month - $current_day;
+        $this->SendDebug('Tage verbleibend', $days_remaining, 0);
+
+
         if (is_int($current_year) && is_numeric($current_month)) {
             foreach ($weights as $month => $weight) {
-                $days_in_month = cal_days_in_month(CAL_GREGORIAN, intval(date('m', strtotime("1 {$current_year}-{$month}"))), $current_year);
+                $days_in_month = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
+                $this->SendDebug('Tage im Monat', $days_in_month, 0);
                 $monthly_sum = 0;
                 $output = '';
                 if ($days_in_month === false) {

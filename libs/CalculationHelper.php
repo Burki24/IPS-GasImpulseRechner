@@ -140,6 +140,7 @@ trait CalculationHelper
         $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
         $date = json_decode($invoice_date, true); // Rechnungsdatum
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
+        $month = intval(date('m', $time_stamp));
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
         $invoice_day_kwh = $invoice_kwh / 365; // Verbrauch letzte Abrechnung auf Tag gebrochen
         $actual_day_kwh = $kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
@@ -172,10 +173,8 @@ trait CalculationHelper
                 $this->SendDebug('Tage im Monat', $days_in_month, 0);
                 $days_passed = $current_day - 1;
                 $this->SendDebug('Tage vergangen', $days_passed, 0);
-
                 $days_remaining = $days_in_month - $current_day;
                 $this->SendDebug('Tage verbleibend', $days_remaining, 0);
-
                 $monthly_sum = 0;
                 $output = '';
                 if ($days_in_month === false) {
@@ -191,7 +190,7 @@ trait CalculationHelper
                         }
                         $output .= 'Day ' . str_pad($day, 2, '0', STR_PAD_LEFT) . ' of ' . ucfirst($month) . ': ' . round($daily_sum, 2) . "\n"; // Ausgabe formatieren
                     }
-                    $output .= 'Monthly sum for ' . ucfirst($month) . ': ' . round($monthly_sum, 2);
+                    $output .= 'Monthly sum for ' . ucfirst($current_month) . ': ' . round($monthly_sum, 2);
                     if ($current_month == $month) {
                         $output .= ' (current month)';
                     }

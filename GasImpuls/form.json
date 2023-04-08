@@ -211,84 +211,84 @@
                     "name": "JanuaryWeight",
                     "caption": "january",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "FebruaryWeight",
                     "caption": "february",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "MarchWeight",
                     "caption": "march",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "AprilWeight",
                     "caption": "april",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "MayyWeight",
                     "caption": "may",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "JuneWeight",
                     "caption": "june",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "JulyWeight",
                     "caption": "july",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "AugustWeight",
                     "caption": "august",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "SeptemberWeight",
                     "caption": "september",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "OctoberWeight",
                     "caption": "october",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "NovemberWeight",
                     "caption": "november",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "DecemberWeight",
                     "caption": "december",
                     "suffix": "%",
-                    "width": "50px"
+                    "width": "55px"
                 }
             ]
         },

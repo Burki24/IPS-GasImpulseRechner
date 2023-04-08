@@ -165,29 +165,34 @@ trait CalculationHelper
         $this->SendDebug('Monat', $month, 0);
         $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
         $this->SendDebug('Jahr', $current_year, 0);
-        foreach ($weights as $month => $weight) {
-            $days_in_month = cal_days_in_month(CAL_GREGORIAN, intval(date('m', strtotime('1 $current_year-$month'))), $current_year);
-            $this->SendDebug('Tage im Monat', $days_in_month, 0);
-            if ($days_in_month === false) {
-                echo "Ungültiges Datum: $days_in_month";
-            } else {
-                // gültiges Datum
-                $this->SendDebug('Tage im Monat', $days_in_month, 0);
-                $daily_weight = $weight / $days_in_month; // Tägliches Gewicht berechnen
+        if (is_int($current_year) && is_numeric($current_month)) {
+            foreach ($weights as $month => $weight) {
+                $days_in_month = cal_days_in_month(CAL_GREGORIAN, intval(date('m', strtotime("1 $current_year-$month"))), $current_year);
                 $monthly_sum = 0;
-                for ($day = 1; $day <= $days_in_month; $day++) {
-                    $daily_sum = $sum * $daily_weight / $total_weight; // Tägliche Summe berechnen
-                    if ($current_month == $month && $day == date('j')) {
-                        $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
+                $output = '';
+                if ($days_in_month === false) {
+                    $output .= "Ungültiges Datum: $days_in_month";
+                } else {
+                    // gültiges Datum
+                    $output .= 'Tage im Monat: ' . $days_in_month . "\n";
+                    $daily_weight = $weight / $days_in_month; // Tägliches Gewicht berechnen
+                    for ($day = 1; $day <= $days_in_month; $day++) {
+                        $daily_sum = $sum * $daily_weight / $total_weight; // Tägliche Summe berechnen
+                        if ($current_month == $month && $day == date('j')) {
+                            $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
+                        }
+                        $output .= 'Day ' . str_pad($day, 2, '0', STR_PAD_LEFT) . ' of ' . ucfirst($month) . ': ' . round($daily_sum, 2) . "\n"; // Ausgabe formatieren
                     }
-                    echo 'Day ' . str_pad($day, 2, '0', STR_PAD_LEFT) . ' of ' . ucfirst($month) . ': ' . round($daily_sum, 2) . "\n"; // Ausgabe formatieren
+                    $output .= 'Monthly sum for ' . ucfirst($month) . ': ' . round($monthly_sum, 2);
+                    if ($current_month == $month) {
+                        $output .= ' (current month)';
+                    }
+                    $output .= "\n\n"; // Ausgabe formatieren
                 }
-                echo 'Monthly sum for ' . ucfirst($month) . ': ' . round($monthly_sum, 2);
-                if ($current_month == $month) {
-                    echo ' (current month)';
-                }
-                echo "\n\n"; // Ausgabe formatieren
+                echo $output;
             }
+        } else {
+            echo 'Ungültiges Datum: current_year oder current_month';
         }
         $this->SendDebug('Monatliche Summe Vorjahr', $monthly_sum, 0);
         $this->SendDebug('Tägliche Summe Vorjahr', $daily_sum, 0);

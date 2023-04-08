@@ -64,7 +64,8 @@
             "october": "Oktober",
             "november": "November",
             "december": "Dezember",
-            "Weighting of the average usage in the last billing period.": "Gewichtung des durchschnittlichen Verbrauchs im letzten Abrechnungszeitraum."
+            "Weighting of the average usage in the last billing period.": "Gewichtung des durchschnittlichen Verbrauchs im letzten Abrechnungszeitraum.",
+            "kW/h on invoice": "Gesamtverbrauch laut letzter Abrechnung"
         }
     }
 }

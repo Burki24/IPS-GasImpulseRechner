@@ -167,7 +167,7 @@ trait CalculationHelper
         $this->SendDebug('Jahr', $current_year, 0);
         if (is_int($current_year) && is_numeric($current_month)) {
             foreach ($weights as $month => $weight) {
-                $days_in_month = cal_days_in_month(CAL_GREGORIAN, intval(date('m', strtotime("1 $current_year-$month"))), $current_year);
+                $days_in_month = cal_days_in_month(CAL_GREGORIAN, intval(date('m', strtotime("1 {$current_year}-{$month}"))), $current_year);
                 $monthly_sum = 0;
                 $output = '';
                 if ($days_in_month === false) {

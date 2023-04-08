@@ -204,6 +204,10 @@
             "items": [
                 {
                     "type": "Label",
+                    "caption": "Weighting of the average usage in the last billing period."
+                },
+                {
+                    "type": "Label",
                     "caption": "monthly weights:      "
                 },
                 {

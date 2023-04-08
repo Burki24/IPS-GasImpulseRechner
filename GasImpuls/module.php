@@ -233,7 +233,7 @@
             $calorific_value = $this->ReadpropertyFloat('CalorificValue');
             $current_consumption = $this->GetValue('GCM_CurrentConsumption');
             $kwh_price = $this->ReadpropertyFloat('KWHPrice');
-            $kwh = $this->GetValue('GCM_UsedKWH');
+            $actual_kwh = $this->GetValue('GCM_UsedKWH');
             $kwh_day = $this->GetValue('GCM_UsedKWH');
             $actual_counter_value = $this->GetValue('GCM_CounterValue');
             $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
@@ -255,7 +255,7 @@
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                    $this->InvoiceKWH($invoice_kwh, $invoice_date, $kwh);
+                    // $this->ForecastKWH($invoice_kwh, $invoice_date, $kwh);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;

@@ -135,7 +135,7 @@ trait CalculationHelper
     }
 
     // KWH Forecast
-    private function InvoiceKWH($invoice_kwh, $invoice_date, $kwh)
+    private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh)
     {
         $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
         $date = json_decode($invoice_date, true); // Rechnungsdatum

@@ -137,12 +137,12 @@ trait CalculationHelper
     // KWH Forecast
     private function InvoiceKWH($invoice_kwh, $invoice_date, $kwh)
     {
-        $days_in_year = (int) date('L') ? 366 : 365;
-        $date = json_decode($invoice_date, true);
-        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
-        $invoice_day_kwh = $invoice_kwh / 365;
-        $actual_day_kwh = $kwh / $days_since;
+        $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
+        $date = json_decode($invoice_date, true); // Rechnungsdatum
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
+        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
+        $invoice_day_kwh = $invoice_kwh / 365; // Verbrauch letzte Abrechnung auf Tag gebrochen
+        $actual_day_kwh = $kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
         $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
         $weights = [
             'jan' => 1.0,

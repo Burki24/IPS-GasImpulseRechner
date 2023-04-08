@@ -210,85 +210,85 @@
                     "type": "NumberSpinner",
                     "name": "JanuaryWeight",
                     "caption": "january",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "FebruaryWeight",
                     "caption": "february",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "MarchWeight",
                     "caption": "march",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "AprilWeight",
                     "caption": "april",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "MayyWeight",
                     "caption": "may",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "JuneWeight",
                     "caption": "june",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "JulyWeight",
                     "caption": "july",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "AugustWeight",
                     "caption": "august",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "SeptemberWeight",
                     "caption": "september",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "OctoberWeight",
                     "caption": "october",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "NovemberWeight",
                     "caption": "november",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 },
                 {
                     "type": "NumberSpinner",
                     "name": "DecemberWeight",
                     "caption": "december",
-                    "suffix": "kW/h",
-                    "width": "120px"
+                    "suffix": "%",
+                    "width": "100px"
                 }
             ]
         },

@@ -184,6 +184,22 @@
             ]
         },
         {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "Invoice kW/h:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "InvoiceKWH",
+                    "caption": "kW/h on invoice",
+                    "suffix": "kW/h",
+                    "width": "120px"
+                }
+            ]
+        },
+        {
             "type": "List",
             "name": "Months",
             "caption": "Months",
@@ -270,119 +286,6 @@
                 "Factor": "1.0"
             }
         ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "Label",
-                    "caption": "Invoice kW/h:      "
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "InvoiceKWH",
-                    "caption": "kW/h on invoice",
-                    "suffix": "kW/h",
-                    "width": "120px"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "Label",
-                    "caption": "Weighting of the average usage in the last billing period."
-                },
-                {
-                    "type": "Label",
-                    "caption": "monthly weights:      "
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "JanuaryWeight",
-                    "caption": "january",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "FebruaryWeight",
-                    "caption": "february",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "MarchWeight",
-                    "caption": "march",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "AprilWeight",
-                    "caption": "april",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "MayyWeight",
-                    "caption": "may",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "JuneWeight",
-                    "caption": "june",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "JulyWeight",
-                    "caption": "july",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "AugustWeight",
-                    "caption": "august",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "SeptemberWeight",
-                    "caption": "september",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "OctoberWeight",
-                    "caption": "october",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "NovemberWeight",
-                    "caption": "november",
-                    "suffix": "%",
-                    "width": "55px"
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "DecemberWeight",
-                    "caption": "december",
-                    "suffix": "%",
-                    "width": "55px"
-                }
-            ]
         },
         {
             "type": "RowLayout",

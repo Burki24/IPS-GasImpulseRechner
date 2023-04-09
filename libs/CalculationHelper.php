@@ -165,6 +165,7 @@ trait CalculationHelper
                     $daily_sum = $kwh_day_difference * $daily_weight / $total_weight; // Tägliche Summe berechnen
                     if ($month_num == $current_month && $day == $current_day) {
                         $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
+                        $this->SendDebug('monatlicher Forecast', $monthly_sum, 0);
                     }
                 }
             }

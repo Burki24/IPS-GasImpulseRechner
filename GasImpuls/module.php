@@ -92,6 +92,7 @@
             //Never delete this line!
             parent::ApplyChanges();
 
+            $month_factor = $this->ReadPropertyString('MonthFactor');
             $this->SendDebug('Modul.php -> Monatlicher Faktor:', $month_factor, 0);
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {

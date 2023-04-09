@@ -213,7 +213,63 @@
                 "Month": 1,
                 "Name": "January",
                 "Factor": "1.0"
-            }]
+            },
+            {
+                "Month": 2,
+                "Name": "February",
+                "Factor": "1.0"
+            },
+            {
+                "Month": 3,
+                "Name": "March",
+                "Factor": "0.9"
+            },
+            {
+                "Month": 4,
+                "Name": "April",
+                "Factor": "0.9"
+            },
+            {
+                "Month": 5,
+                "Name": "MAy",
+                "Factor": "0.8"
+            },
+            {
+                "Month": 6,
+                "Name": "June",
+                "Factor": "0.8"
+            },
+            {
+                "Month": 7,
+                "Name": "July",
+                "Factor": "0.7"
+            },
+            {
+                "Month": 8,
+                "Name": "August",
+                "Factor": "0.7"
+            },
+            {
+                "Month": 9,
+                "Name": "September",
+                "Factor": "0.8"
+            },
+            {
+                "Month": 10,
+                "Name": "October",
+                "Factor": "0.9"
+            },
+            {
+                "Month": 11,
+                "Name": "November",
+                "Factor": "1.0"
+            },
+            {
+                "Month": 12,
+                "Name": "December",
+                "Factor": "1.0"
+            }
+        ]
         },
         {
             "type": "RowLayout",

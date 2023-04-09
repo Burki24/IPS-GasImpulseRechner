@@ -135,8 +135,9 @@ trait CalculationHelper
     }
 
     // KWH Forecast
-    private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh)
+    private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor)
 {
+    $this->SendDebug('Monatlicher Faktor:', $month_factor, 0);
     $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
     $date = json_decode($invoice_date, true); // Rechnungsdatum
     $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren

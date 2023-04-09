@@ -269,7 +269,6 @@
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                     $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
                     $this->SendDebug('Modul.php -> ELSE actual KWH', $actual_kwh, 0);
-
                 }
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);

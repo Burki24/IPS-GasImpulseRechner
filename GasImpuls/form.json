@@ -229,7 +229,8 @@
                         "name": "Factor",
                         "width": "75px",
                         "edit": {
-                            "type": "NumberSpinner"
+                            "type": "NumberSpinner",
+                            "digits": 2
                         }
                     }
                     ],

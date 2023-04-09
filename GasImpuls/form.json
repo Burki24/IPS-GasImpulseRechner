@@ -222,7 +222,7 @@
                         "caption": "Name",
                         "name": "Name",
                         "width": "120",
-                        "add": ""
+                        "add": "0"
                     }, {
                         "caption": "Factor",
                         "name": "Factor",

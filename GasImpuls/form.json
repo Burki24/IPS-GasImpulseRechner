@@ -214,11 +214,6 @@
                     "add": false,
                     "delete": false,
                     "columns": [{
-                        "caption": "Month",
-                        "name": "Month",
-                        "width": "75px",
-                        "add": 0
-                    }, {
                         "caption": "Name",
                         "name": "Name",
                         "width": "120",

@@ -136,8 +136,8 @@ trait CalculationHelper
 
     // KWH Forecast
     private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor)
-{
-    $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
+    {
+        $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
     $date = json_decode($invoice_date, true); // Rechnungsdatum
     $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
     $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
@@ -145,37 +145,35 @@ trait CalculationHelper
     $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
     $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
 
-    // Ihr JSON-String
-    // $weights_json = '[{"Name":"January","Factor":1},{"Name":"February","Factor":1},{"Name":"March","Factor":-1},{"Name":"April","Factor":-1},{"Name":"May","Factor":"0.8"},{"Name":"June","Factor":"0.8"},{"Name":"July","Factor":"0.7"},{"Name":"August","Factor":"0.7"},{"Name":"September","Factor":"0.8"},{"Name":"October","Factor":"0.9"},{"Name":"November","Factor":"1.0"},{"Name":"December","Factor":"1.0"}]';
+        // Ihr JSON-String
+        // $weights_json = '[{"Name":"January","Factor":1},{"Name":"February","Factor":1},{"Name":"March","Factor":-1},{"Name":"April","Factor":-1},{"Name":"May","Factor":"0.8"},{"Name":"June","Factor":"0.8"},{"Name":"July","Factor":"0.7"},{"Name":"August","Factor":"0.7"},{"Name":"September","Factor":"0.8"},{"Name":"October","Factor":"0.9"},{"Name":"November","Factor":"1.0"},{"Name":"December","Factor":"1.0"}]';
 
-    // JSON-String in PHP-Array konvertieren
-    $weights = json_decode($month_factor, true);
+        // JSON-String in PHP-Array konvertieren
+        $weights = json_decode($month_factor, true);
 
-    $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
-    $current_month = intval(date('m'));
-    $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
+        $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
+        $current_month = intval(date('m'));
+        $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
     $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln
 
     $monthly_sum = 0;
 
-    if (is_int($current_year) && is_numeric($current_month)) {
-        foreach ($weights as $key => $value) {
-            $month_num = $key + 1;
-            $days_in_month = cal_days_in_month(CAL_GREGORIAN, $month_num, $current_year);
-            $daily_weight = $value['Factor'] / $days_in_month; // Tägliches Gewicht berechnen
+        if (is_int($current_year) && is_numeric($current_month)) {
+            foreach ($weights as $key => $value) {
+                $month_num = $key + 1;
+                $days_in_month = cal_days_in_month(CAL_GREGORIAN, $month_num, $current_year);
+                $daily_weight = $value['Factor'] / $days_in_month; // Tägliches Gewicht berechnen
 
-            for ($day = 1; $day <= $days_in_month; $day++) {
-                $daily_sum = $kwh_day_difference * $daily_weight / $total_weight; // Tägliche Summe berechnen
-                if ($month_num == $current_month && $day == $current_day) {
-                    $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
+                for ($day = 1; $day <= $days_in_month; $day++) {
+                    $daily_sum = $kwh_day_difference * $daily_weight / $total_weight; // Tägliche Summe berechnen
+                    if ($month_num == $current_month && $day == $current_day) {
+                        $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
+                    }
                 }
             }
         }
+
+        $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
+        return $monthly_sum;
     }
-
-    $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
-    return $monthly_sum;
-}
-
-
 }

@@ -258,6 +258,7 @@
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                     $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
+                    $this->SendDebug('Modul.php -> IF actual KWH', $actual_kwh, 0);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
@@ -267,6 +268,8 @@
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                     $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
+                    $this->SendDebug('Modul.php -> ELSE actual KWH', $actual_kwh, 0);
+
                 }
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);

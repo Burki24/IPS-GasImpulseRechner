@@ -148,7 +148,7 @@ trait CalculationHelper
         $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
         $this->SendDebug('Faktor gesamt', $total_weight, 0);
         $this->SendDebug('Durschnitt Tag letztes Jahr', $invoice_day_kwh, 0);
-        $this->SendDebug('Durchschnitt Tag aktuelles Jahr', $actual_day_kwh);
+        $this->SendDebug('Durchschnitt Tag aktuelles Jahr', $actual_day_kwh, 0);
         $current_month = intval(date('m'));
         $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
         $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln

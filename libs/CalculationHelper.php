@@ -145,12 +145,9 @@ trait CalculationHelper
     $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
     $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
 
-        // Ihr JSON-String
-        // $weights_json = '[{"Name":"January","Factor":1},{"Name":"February","Factor":1},{"Name":"March","Factor":-1},{"Name":"April","Factor":-1},{"Name":"May","Factor":"0.8"},{"Name":"June","Factor":"0.8"},{"Name":"July","Factor":"0.7"},{"Name":"August","Factor":"0.7"},{"Name":"September","Factor":"0.8"},{"Name":"October","Factor":"0.9"},{"Name":"November","Factor":"1.0"},{"Name":"December","Factor":"1.0"}]';
-
         // JSON-String in PHP-Array konvertieren
         $weights = json_decode($month_factor, true);
-
+        $this->SendDebug('Array', $weights, 0);
         $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
         $current_month = intval(date('m'));
         $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln

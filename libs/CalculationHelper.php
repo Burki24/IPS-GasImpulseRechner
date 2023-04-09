@@ -138,22 +138,21 @@ trait CalculationHelper
     private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor)
     {
         $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
-    $date = json_decode($invoice_date, true); // Rechnungsdatum
-    $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
-    $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
-    $invoice_day_kwh = $invoice_kwh / 365; // Verbrauch letzte Abrechnung auf Tag gebrochen
-    $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
-    $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
-
-        // JSON-String in PHP-Array konvertieren
+        $date = json_decode($invoice_date, true); // Rechnungsdatum
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
+        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
+        $invoice_day_kwh = $invoice_kwh / 365; // Verbrauch letzte Abrechnung auf Tag gebrochen
+        $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
+        $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
         $weights = json_decode($month_factor, true);
         $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
         $this->SendDebug('Faktor gesamt', $total_weight, 0);
+        $this->SendDebug('Durschnitt Tag letztes Jahr', $invoice_day_kwh, 0);
+        $this->SendDebug('Durchschnitt Tag aktuelles Jahr', $actual_day_kwh);
         $current_month = intval(date('m'));
         $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
-    $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln
-
-    $monthly_sum = 0;
+        $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln
+        $monthly_sum = 0;
 
         if (is_int($current_year) && is_numeric($current_month)) {
             foreach ($weights as $key => $value) {

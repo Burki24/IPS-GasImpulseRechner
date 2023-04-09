@@ -187,7 +187,7 @@
             "type": "List",
             "name": "Months",
             "caption": "Months",
-            "rowCount": 5,
+            "rowCount": 2,
             "add": false,
             "delete": false,
             "columns": [{
@@ -201,26 +201,16 @@
                 "width": "auto",
                 "add": ""
             }, {
-                "caption": "State",
-                "name": "State",
+                "caption": "Factor",
+                "name": "Factor",
                 "width": "40px",
                 "add": "New!"
-            }, {
-                "caption": "Temperature",
-                "name": "Temperature",
-                "width": "75px",
-                "add": 20.0,
-                "edit": {
-                    "type": "NumberSpinner",
-                    "digits": 2
-                }
-            }],
+            }
+            ],
             "values": [{
-                "InstanceID": 12435,
-                "Name": "ABCD",
-                "State": "OK!",
-                "Temperature": 23.31,
-                "rowColor": "#ff0000"
+                "Month": 1,
+                "Name": "January",
+                "Factor": "1.0"
             }]
         },
         {

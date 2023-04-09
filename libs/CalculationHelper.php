@@ -136,79 +136,44 @@ trait CalculationHelper
 
     // KWH Forecast
     private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh)
-    {
-        $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
-        $date = json_decode($invoice_date, true); // Rechnungsdatum
-        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
-        $month = intval(date('m', $time_stamp));
-        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
-        $invoice_day_kwh = $invoice_kwh / 365; // Verbrauch letzte Abrechnung auf Tag gebrochen
-        $actual_day_kwh = $kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
-        $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
-        $weights = [
-            'jan' => 1.0,
-            'feb' => 1.0,
-            'mar' => 0.9,
-            'apr' => 0.9,
-            'may' => 0.8,
-            'jun' => 0.8,
-            'jul' => 0.7,
-            'aug' => 0.7,
-            'sep' => 0.8,
-            'oct' => 0.9,
-            'nov' => 1.0,
-            'dec' => 1.0
-        ];
-        $total_weight = array_sum($weights); // Summe der Gewichte berechnen
-        $this->SendDebug('Summe der Gewichte', $total_weight, 0);
-        $current_month = intval(date('m'));
-        $this->SendDebug('Monat', $current_month, 0);
-        $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
-        $this->SendDebug('Jahr', $current_year, 0);
-        $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln
-        $this->SendDebug('Tag', $current_day, 0);
-        if (is_int($current_year) && is_numeric($current_month)) {
-            foreach ($weights as $month => $weight) {
-                $days_in_month = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
-                $this->SendDebug('Tage im Monat', $days_in_month, 0);
-                $days_passed = $current_day - 1;
-                $this->SendDebug('Tage vergangen', $days_passed, 0);
-                $days_remaining = $days_in_month - $current_day;
-                $this->SendDebug('Tage verbleibend', $days_remaining, 0);
-                $monthly_sum = 0;
-                $output = '';
-                if ($days_in_month === false) {
-                    $output .= "Ungültiges Datum: $days_in_month";
-                } else {
-                    // gültiges Datum
-                    $output .= 'Tage im Monat: ' . $days_in_month . "\n";
-                    $daily_weight = $weight / $days_in_month; // Tägliches Gewicht berechnen
-                    for ($day = 1; $day <= $days_in_month; $day++) {
-                        $daily_sum = $sum * $daily_weight / $total_weight; // Tägliche Summe berechnen
-                        if ($current_month == $month && $day == date('j')) {
-                            $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
-                        }
-                        $output .= 'Day ' . str_pad($day, 2, '0', STR_PAD_LEFT) . ' of ' . ucfirst($month) . ': ' . round($daily_sum, 2) . "\n"; // Ausgabe formatieren
-                    }
-                    $output .= 'Monthly sum for ' . ucfirst($current_month) . ': ' . round($monthly_sum, 2);
-                    if ($current_month == $month) {
-                        $output .= ' (current month)';
-                    }
-                    $output .= "\n\n"; // Ausgabe formatieren
+{
+    $days_in_year = (int) date('L') ? 366 : 365; // Tage aktuelles Jahr
+    $date = json_decode($invoice_date, true); // Rechnungsdatum
+    $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
+    $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
+    $invoice_day_kwh = $invoice_kwh / 365; // Verbrauch letzte Abrechnung auf Tag gebrochen
+    $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
+    $kwh_day_difference = ($actual_day_kwh * $days_in_year) - ($invoice_day_kwh * $days_in_year);
+
+    // JSON string containing the weight data
+
+    // Decode the JSON string into a PHP associative array
+    $weights = json_decode($month_factor, true);
+
+    $total_weight = array_sum($weights); // Summe der Gewichte berechnen
+    $current_month = intval(date('m'));
+    $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
+    $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln
+
+    $monthly_sum = 0;
+
+    if (is_int($current_year) && is_numeric($current_month)) {
+        foreach ($weights as $month => $weight) {
+            $month_num = array_search($month, array_keys($weights)) + 1;
+            $days_in_month = cal_days_in_month(CAL_GREGORIAN, $month_num, $current_year);
+            $daily_weight = $weight / $days_in_month; // Tägliches Gewicht berechnen
+
+            for ($day = 1; $day <= $days_in_month; $day++) {
+                $daily_sum = $kwh_day_difference * $daily_weight / $total_weight; // Tägliche Summe berechnen
+                if ($month_num == $current_month && $day == $current_day) {
+                    $monthly_sum += $daily_sum; // Aktuellen Tag zur monatlichen Summe hinzufügen
                 }
-                echo $output;
             }
-        } else {
-            echo 'Ungültiges Datum: current_year oder current_month';
         }
-        $this->SendDebug('Monatliche Summe Vorjahr', $monthly_sum, 0);
-        $this->SendDebug('Tägliche Summe Vorjahr', $daily_sum, 0);
-        $this->SendDebug('Aktuelle Differenz zum Vorjahr', $kwh_day_difference, 0);
-        $this->SendDebug('aktuelle tägliche kwh', $actual_day_kwh, 0);
-        $this->SendDebug('Tägliche KWH letztes Jahr', $invoice_day_kwh, 0);
-        $this->SendDebug('Tage seit letzter Abrechnung KWH Forecast', $days_since, 0);
-        $result = $kwh_day_difference * $days_since;
-        $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
-        return $result;
     }
+
+    $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
+    return $monthly_sum;
+}
+
 }

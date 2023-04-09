@@ -26,6 +26,7 @@
             $this->RegisterPropertyInteger('BillingMonths', 11);
             $this->RegisterPropertyFloat('LumpSum', 0);
             $this->RegisterPropertyInteger('InvoiceKWH', 0);
+            $this->RegisterPropertyString('MonthFactor', 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -247,6 +248,7 @@
             if ($impulse_id > 0) {
                 $impulse_id = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulse_id);
+                $month_factor = $this->ReadPropertyString('MonthFactor');
                 if ($impulse) {
                     $new_counter_value = $current_counter_value + $impulse_value;
                     $new_cubic_meter = $cubic_meter + $impulse_value;
@@ -255,7 +257,7 @@
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                    // $this->ForecastKWH($invoice_kwh, $invoice_date, $kwh);
+                    // $this->ForecastKWH($invoice_kwh, $invoice_date, $kwh, $month_factor);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;

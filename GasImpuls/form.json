@@ -198,13 +198,15 @@
             }, {
                 "caption": "Name",
                 "name": "Name",
-                "width": "auto",
+                "width": "120",
                 "add": ""
             }, {
                 "caption": "Factor",
                 "name": "Factor",
                 "width": "40px",
-                "add": "New!"
+                "edit": {
+                    "type": "NumberSpinner"
+                }
             }
             ],
             "values": [{

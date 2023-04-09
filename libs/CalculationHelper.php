@@ -148,6 +148,7 @@ trait CalculationHelper
         // JSON-String in PHP-Array konvertieren
         $weights = json_decode($month_factor, true);
         $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
+        $this->SendDebug('Faktor gesamt', $total_weight, 0);
         $current_month = intval(date('m'));
         $current_year = intval(date('Y')); // Aktuelles Jahr ermitteln
     $current_day = intval(date('j')); // Aktueller Tag des Monats ermitteln

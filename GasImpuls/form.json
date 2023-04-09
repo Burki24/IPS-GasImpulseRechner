@@ -208,7 +208,7 @@
                 },
                 {
                     "type": "List",
-                    "name": "Months",
+                    "name": "MonthFactor",
                     "caption": "Months",
                     "rowCount": 12,
                     "add": false,

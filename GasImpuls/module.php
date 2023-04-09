@@ -234,7 +234,7 @@
             $calorific_value = $this->ReadpropertyFloat('CalorificValue');
             $current_consumption = $this->GetValue('GCM_CurrentConsumption');
             $kwh_price = $this->ReadpropertyFloat('KWHPrice');
-            $actual_kwh = $this->GetValue('GCM_CurrentConsumption');
+            $actual_kwh = $this->GetValue('GCM_KWHSinceInvoice');
             $kwh_day = $this->GetValue('GCM_UsedKWH');
             $actual_counter_value = $this->GetValue('GCM_CounterValue');
             $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');

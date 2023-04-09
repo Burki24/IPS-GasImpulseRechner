@@ -112,7 +112,6 @@
                 $months = $this->ReadPropertyInteger('BillingMonths');
                 $invoice_date = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->LumpSumYear($months, $lump_sum, $old_lump_sum, $invoice_date);
-                $this->SendDebug('Jahresabschlag', $result, 0);
                 $this->SetValue('GCM_LumpSumYear', $result);
             }
 
@@ -232,7 +231,6 @@
             $costs_forecast = $this->GetValue('GCM_CostsForecast');
             $base_price = $this->GetValue('GCM_BasePrice');
             $invoice_date = $this->ReadpropertyString('InvoiceDate');
-            $this->SendDebug('invoice_date', $invoice_date, 0);
             $calorific_value = $this->ReadpropertyFloat('CalorificValue');
             $current_consumption = $this->GetValue('GCM_CurrentConsumption');
             $kwh_price = $this->ReadpropertyFloat('KWHPrice');

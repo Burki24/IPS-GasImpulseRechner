@@ -172,8 +172,10 @@ trait CalculationHelper
             ];
             $this->SendDebug('weights', json_encode($weights), 0);
             $calculated_forecast = 0;
-            for ($i = 0; $i < 12; $i++) {
-            $calculated_forecast += $monthly_forecast[$i]['consumption'];
+        }
+        for ($i = 0; $i < 12; $i++) {
+            if (isset($monthly_forecast[$i])) {
+                $calculated_forecast += $monthly_forecast[$i]['consumption'];
             }
         }
 

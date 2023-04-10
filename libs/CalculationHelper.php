@@ -171,7 +171,15 @@ trait CalculationHelper
                 'consumption' => $monthly_sum
             ];
         }
+        $calculated_forecast = 0;
+        for ($i = 0; $i < 12; $i++) {
+            $calculated_forecast += $monthly_forecast[$i]['consumption'];
+        }
 
+        $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
+        $this->SetValue('GCM_kwhForecast', $calculated_forecast);
+
+        return $monthly_forecast;
         $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
         return $monthly_forecast;
         $this->SendDebug('Forecast monatilich', $monthly_forecast, 0);

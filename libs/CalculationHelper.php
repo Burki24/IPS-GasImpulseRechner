@@ -179,7 +179,7 @@ trait CalculationHelper
 
         $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
         $this->SetValue('GCM_kwhForecast', $calculated_forecast);
-        $this->SendDebug('Forecast monatilich', $monthly_forecast, 0);
+        $this->SendDebug('Forecast monatilich', json_encode($monthly_forecast), 0);
         return $monthly_forecast;
     }
 }

@@ -155,7 +155,7 @@ trait CalculationHelper
             $current_month = ($last_month + $i - 1) % 12 + 1;
             $current_year = $last_year + (int) (($last_month + $i - 1) / 12);
             $days_in_month = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
-            $month_weight = $weights[$current_month - 1]['Factor'];
+            $month_weight = isset($weights[$current_month - 1]) ? $weights[$current_month - 1]['Factor'] : 0;
 
             $daily_weight = $month_weight / $days_in_month; // Tägliches Gewicht berechnen
             $monthly_sum = 0;

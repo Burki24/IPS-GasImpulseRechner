@@ -170,10 +170,10 @@ trait CalculationHelper
                 'year'        => $current_year,
                 'consumption' => $monthly_sum
             ];
-        }
-        $calculated_forecast = 0;
-        for ($i = 0; $i < 12; $i++) {
-            $calculated_forecast += $monthly_forecast[$i]['consumption'];
+            $calculated_forecast = 0;
+            for ($i = 0; $i < 12; $i++) {
+                $calculated_forecast += $monthly_forecast[$i]['consumption'];
+            }
         }
 
         $this->SetValue('GCM_KWHDifference', $kwh_day_difference);

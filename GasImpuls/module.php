@@ -284,7 +284,7 @@
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                    ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
+                    $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
                     $kwh_day_difference = $result['kwh_day_difference'];
                     $calculated_forecast = $result['calculated_forecast'];
                     $monthly_forecast = $result['monthly_forecast'];

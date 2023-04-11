@@ -18,7 +18,7 @@
             $this->RegisterPropertyFloat('ImpulseValue', 0);
             $this->RegisterPropertyFloat('BasePrice', 0);
             $this->RegisterPropertyString('BasePricePeriod', 'month');
-            $this->RegisterPropertyFloat('CalorificValue', 0);
+            $this->RegisterPropertyFloat('CalorificValue', 11.400);
             $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
             $this->RegisterPropertyFloat('InstallCounterValue', 0);
@@ -27,7 +27,7 @@
             $this->RegisterPropertyFloat('LumpSum', 0);
             $this->RegisterPropertyInteger('InvoiceKWH', 0);
             $this->RegisterPropertyString('MonthFactor', 0);
-            $this->RegisterPropertyFloat('ConditionNumber');
+            $this->RegisterPropertyFloat('ConditionNumber', 0.9655);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);

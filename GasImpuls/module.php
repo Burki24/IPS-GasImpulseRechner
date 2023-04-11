@@ -15,17 +15,17 @@
 
             //Werte aus dem Formular
             $this->RegisterPropertyInteger('ImpulseID', 0);
-            $this->RegisterPropertyFloat('ImpulseValue', 0);
-            $this->RegisterPropertyFloat('BasePrice', 0);
+            $this->RegisterPropertyFloat('ImpulseValue', 0.01);
+            $this->RegisterPropertyFloat('BasePrice', 20);
             $this->RegisterPropertyString('BasePricePeriod', 'month');
             $this->RegisterPropertyFloat('CalorificValue', 11.400);
-            $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
+            $this->RegisterPropertyFloat('InvoiceCounterValue', 1000);
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
-            $this->RegisterPropertyFloat('InstallCounterValue', 0);
-            $this->RegisterPropertyFloat('KWHPrice', 0);
+            $this->RegisterPropertyFloat('InstallCounterValue', 1000.00);
+            $this->RegisterPropertyFloat('KWHPrice', 0.068);
             $this->RegisterPropertyInteger('BillingMonths', 11);
-            $this->RegisterPropertyFloat('LumpSum', 0);
-            $this->RegisterPropertyInteger('InvoiceKWH', 0);
+            $this->RegisterPropertyFloat('LumpSum', 150);
+            $this->RegisterPropertyInteger('InvoiceKWH', 111.11);
             $this->RegisterPropertyString('MonthFactor', 0);
             $this->RegisterPropertyFloat('ConditionNumber', 0.9655);
 

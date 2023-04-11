@@ -41,6 +41,106 @@
             "items": [
                 {
                     "type": "NumberSpinner",
+                    "name": "InstallCounterValue",
+                    "caption": "Value",
+                    "digits": 2,
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "width": "120px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Meter counter value at the moment of module installation. To be entered including the two digits after the comma"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "SelectDate",
+                    "name": "InvoiceDate",
+                    "caption": "Invoice date",
+                    "width": "120px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The last invoice date is needed to calculate days since last invoice"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "InvoiceCounterValue",
+                    "caption": "m3 value",
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "width": "120px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The last meter reading mentioned in the billing"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "InvoiceKWH",
+                    "caption": "kW/h on invoice",
+                    "suffix": "kW/h",
+                    "width": "120px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Invoice kW/h"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "CalorificValue",
+                    "caption": "The calorific value",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "width": "120px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "ConditionNumber",
+                    "caption": "Condition number",
+                    "digits": 4,
+                    "moreDigits": "true",
+                    "width": "120px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The condition number is required to convert from m3 to kwh. It can be found on the last final invoice"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
                     "caption": "Base price",
                     "digits": 3,
                     "moreDigits": "true",
@@ -131,88 +231,6 @@
                 {
                     "type": "Label",
                     "caption": "    The current lump sum to be paid"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "NumberSpinner",
-                    "name": "CalorificValue",
-                    "caption": "The calorific value",
-                    "digits": 3,
-                    "moreDigits": "true",
-                    "width": "120px"
-                },
-                {
-                    "type": "Label",
-                    "caption": "    The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "NumberSpinner",
-                    "name": "ConditionNumber",
-                    "caption": "Condition number",
-                    "digits": 4,
-                    "moreDigits": "true",
-                    "width": "120px"
-                },
-                {
-                    "type": "Label",
-                    "caption": "    The condition number is required to convert from m3 to kwh. It can be found on the last final invoice"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "NumberSpinner",
-                    "name": "InvoiceCounterValue",
-                    "caption": "m3 value",
-                    "moreDigits": "true",
-                    "suffix": "m3",
-                    "width": "120px"
-                },
-                {
-                    "type": "Label",
-                    "caption": "    The last meter reading mentioned in the billing"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "SelectDate",
-                    "name": "InvoiceDate",
-                    "caption": "Invoice date",
-                    "width": "120px"
-                },
-                {
-                    "type": "Label",
-                    "caption": "    The last invoice date is needed to calculate days since last invoice"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "NumberSpinner",
-                    "name": "InvoiceKWH",
-                    "caption": "kW/h on invoice",
-                    "suffix": "kW/h",
-                    "width": "120px"
-                },
-                {
-                    "type": "Label",
-                    "caption": "    Invoice kW/h"
                 }
             ]
         },
@@ -313,24 +331,7 @@
                 }
             ]
         },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "NumberSpinner",
-                    "name": "InstallCounterValue",
-                    "caption": "Value",
-                    "digits": 2,
-                    "moreDigits": "true",
-                    "suffix": "m3",
-                    "width": "120px"
-                },
-                {
-                    "type": "Label",
-                    "caption": "    Meter counter value at the moment of module installation. To be entered including the two digits after the comma"
-                }
-            ]
-        },
+
         {
             "type": "RowLayout",
             "items": [

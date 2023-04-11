@@ -120,10 +120,6 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "The current lump sum to be paid:       "
-                },
-                {
                     "type": "NumberSpinner",
                     "caption": "lump sum",
                     "digits": 3,
@@ -131,16 +127,16 @@
                     "name": "LumpSum",
                     "suffix": "€",
                     "width": "100px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The current lump sum to be paid"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice:      "
-                },
                 {
                     "type": "NumberSpinner",
                     "name": "CalorificValue",
@@ -148,16 +144,16 @@
                     "digits": 3,
                     "moreDigits": "true",
                     "width": "100px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The condition number is required to convert from m3 to kwh. It can be found on the last final invoice:      "
-                },
                 {
                     "type": "NumberSpinner",
                     "name": "ConditionNumber",
@@ -165,16 +161,16 @@
                     "digits": 4,
                     "moreDigits": "true",
                     "width": "100px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The condition number is required to convert from m3 to kwh. It can be found on the last final invoice"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The last meter reading mentioned in the billing:      "
-                },
                 {
                     "type": "NumberSpinner",
                     "name": "InvoiceCounterValue",
@@ -182,6 +178,10 @@
                     "moreDigits": "true",
                     "suffix": "m3",
                     "width": "100px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The last meter reading mentioned in the billing"
                 }
             ]
         },
@@ -189,14 +189,14 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "The last invoice date is needed to calculate days since last invoice:     "
-                },
-                {
                     "type": "SelectDate",
                     "name": "InvoiceDate",
                     "caption": "Invoice date",
                     "width": "150px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The last invoice date is needed to calculate days since last invoice"
                 }
             ]
         },

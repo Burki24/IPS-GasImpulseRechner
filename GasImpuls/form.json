@@ -10,7 +10,7 @@
                         0
                     ],
                     "caption": "Impulse Instance ID",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -28,7 +28,7 @@
                     "moreDigits": "true",
                     "suffix": "m3",
                     "caption": "Impulse Value",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -46,7 +46,7 @@
                     "digits": 2,
                     "moreDigits": "true",
                     "suffix": "m3",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -61,7 +61,7 @@
                     "type": "SelectDate",
                     "name": "InvoiceDate",
                     "caption": "Invoice date",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -78,7 +78,7 @@
                     "caption": "m3 value",
                     "moreDigits": "true",
                     "suffix": "m3",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -94,7 +94,7 @@
                     "name": "InvoiceKWH",
                     "caption": "kW/h on invoice",
                     "suffix": "kW/h",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -111,7 +111,7 @@
                     "caption": "The calorific value",
                     "digits": 3,
                     "moreDigits": "true",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -128,7 +128,7 @@
                     "caption": "Condition number",
                     "digits": 4,
                     "moreDigits": "true",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -146,7 +146,7 @@
                     "digits": 3,
                     "moreDigits": "true",
                     "suffix": "€",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -164,7 +164,7 @@
                     "moreDigits": "true",
                     "name": "BasePrice",
                     "suffix": "€",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",
@@ -179,7 +179,7 @@
                     "type": "Select",
                     "name": "BasePricePeriod",
                     "caption": "Period of baseprice value",
-                    "width": "130px",
+                    "width": "140px",
                     "options": [
                         {
                             "caption": "day",
@@ -216,7 +216,7 @@
                     "type": "Select",
                     "caption": "Billing months",
                     "name": "BillingMonths",
-                    "width": "130px",
+                    "width": "140px",
                     "options": [
                         {
                             "caption": "11 Monate",
@@ -244,7 +244,7 @@
                     "moreDigits": "true",
                     "name": "LumpSum",
                     "suffix": "€",
-                    "width": "130px"
+                    "width": "140px"
                 },
                 {
                     "type": "Label",

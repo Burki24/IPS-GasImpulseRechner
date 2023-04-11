@@ -65,7 +65,7 @@
             "November": "November",
             "December": "Dezember",
             "    Weighting of the average usage in the last billing period.": "Gewichtung des durchschnittlichen Verbrauchs im letzten Abrechnungszeitraum.",
-            "Invoice kW/h": "Gesamtverbrauch laut letzter Abrechnung",
+            "    Invoice kW/h": "Gesamtverbrauch laut letzter Abrechnung",
             "Months": "Monate",
             "    Factor to calculate the monthly consumtption": "    Faktor zur Verbrauchsgewichtung pro Monat (zur Forecast-Berechnung)",
             "    The condition number is required to convert from m3 to kwh. It can be found on the last final invoice": "    Die Zustandszahl (Z-Zahl) wirkt sich auf die Berrechnung von M3 zu kW/h aus. Zu finden auf der letzten Rechnung.",

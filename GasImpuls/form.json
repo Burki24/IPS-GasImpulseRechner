@@ -10,7 +10,7 @@
                         0
                     ],
                     "caption": "Impulse Instance ID",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -28,7 +28,7 @@
                     "moreDigits": "true",
                     "suffix": "m3",
                     "caption": "Impulse Value",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -46,7 +46,7 @@
                     "digits": 2,
                     "moreDigits": "true",
                     "suffix": "m3",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -61,7 +61,7 @@
                     "type": "SelectDate",
                     "name": "InvoiceDate",
                     "caption": "Invoice date",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -78,7 +78,7 @@
                     "caption": "m3 value",
                     "moreDigits": "true",
                     "suffix": "m3",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -94,7 +94,7 @@
                     "name": "InvoiceKWH",
                     "caption": "kW/h on invoice",
                     "suffix": "kW/h",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -111,7 +111,7 @@
                     "caption": "The calorific value",
                     "digits": 3,
                     "moreDigits": "true",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -128,11 +128,29 @@
                     "caption": "Condition number",
                     "digits": 4,
                     "moreDigits": "true",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
                     "caption": "    The condition number is required to convert from m3 to kwh. It can be found on the last final invoice"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "KWHPrice",
+                    "caption": "KW/h price",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "suffix": "€",
+                    "width": "130px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The current kwh price can be found in your gas supplier contract"
                 }
             ]
         },
@@ -146,7 +164,7 @@
                     "moreDigits": "true",
                     "name": "BasePrice",
                     "suffix": "€",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -161,7 +179,7 @@
                     "type": "Select",
                     "name": "BasePricePeriod",
                     "caption": "Period of baseprice value",
-                    "width": "120px",
+                    "width": "130px",
                     "options": [
                         {
                             "caption": "day",
@@ -198,7 +216,7 @@
                     "type": "Select",
                     "caption": "Billing months",
                     "name": "BillingMonths",
-                    "width": "120px",
+                    "width": "130px",
                     "options": [
                         {
                             "caption": "11 Monate",
@@ -226,7 +244,7 @@
                     "moreDigits": "true",
                     "name": "LumpSum",
                     "suffix": "€",
-                    "width": "120px"
+                    "width": "130px"
                 },
                 {
                     "type": "Label",
@@ -328,25 +346,6 @@
                 {
                     "type": "Label",
                     "caption": "    Factor to calculate the monthly consumtption"
-                }
-            ]
-        },
-
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "NumberSpinner",
-                    "name": "KWHPrice",
-                    "caption": "KW/h price",
-                    "digits": 3,
-                    "moreDigits": "true",
-                    "suffix": "€",
-                    "width": "120px"
-                },
-                {
-                    "type": "Label",
-                    "caption": "    The current kwh price can be found in your gas supplier contract"
                 }
             ]
         }

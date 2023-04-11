@@ -95,23 +95,39 @@
 
             $month_factor = $this->ReadPropertyString('MonthFactor');
             $this->SendDebug('Modul.php -> Monatlicher Faktor:', $month_factor, 0);
+
+            // Benötigte Variablen
+            $old_lump_sum = $this->ReadAttributeFloat('Attrib_LumpSumPast');
+            $lump_sum = $this->ReadPropertyFloat('LumpSum');
+            $months = $this->ReadPropertyInteger('BillingMonths');
+            $invoice_date = $this->ReadPropertyString('InvoiceDate');
+            $install_value = $this->ReadPropertyFloat('InstallCounterValue');
+            $actual_value = $this->GetValue('GCM_CounterValue');
+            $actual_counter_value = $this->GetValue('GCM_CounterValue');
+            $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
+            $calorific_value = $this->ReadPropertyFloat('CalorificValue');
+            $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+            $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
+            $value = $this->ReadPropertyFloat('BasePrice');
+            $period = $this->ReadPropertyString('BasePricePeriod');
+
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
-                $value = $this->ReadPropertyFloat('BasePrice');
-                $period = $this->ReadPropertyString('BasePricePeriod');
-                $months = $this->ReadPropertyInteger('BillingMonths');
-                $invoice_date = $this->ReadPropertyString('InvoiceDate');
+                // $value = $this->ReadPropertyFloat('BasePrice');
+                // $period = $this->ReadPropertyString('BasePricePeriod');
+                // $months = $this->ReadPropertyInteger('BillingMonths');
+                // $invoice_date = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->calculatePeriod($value, $period, $months, $invoice_date);
                 $this->SetValue('GCM_BasePrice', $result);
             }
 
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
-                $old_lump_sum = $this->ReadAttributeFloat('Attrib_LumpSumPast');
-                $lump_sum = $this->ReadPropertyFloat('LumpSum');
+                // $old_lump_sum = $this->ReadAttributeFloat('Attrib_LumpSumPast');
+                // $lump_sum = $this->ReadPropertyFloat('LumpSum');
                 $this->WriteAttributeFloat('Attrib_LumpSumPast', $lump_sum);
-                $months = $this->ReadPropertyInteger('BillingMonths');
-                $invoice_date = $this->ReadPropertyString('InvoiceDate');
+                // $months = $this->ReadPropertyInteger('BillingMonths');
+                // $invoice_date = $this->ReadPropertyString('InvoiceDate');
                 $result = $this->LumpSumYear($months, $lump_sum, $old_lump_sum, $invoice_date);
                 $this->SetValue('GCM_LumpSumYear', $result);
             }
@@ -124,8 +140,8 @@
 
             // Eintragung Zählerstand bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CounterValue'))) {
-                $install_value = $this->ReadPropertyFloat('InstallCounterValue');
-                $actual_value = $this->GetValue('GCM_CounterValue');
+                // $install_value = $this->ReadPropertyFloat('InstallCounterValue');
+                // $actual_value = $this->GetValue('GCM_CounterValue');
 
                 if ($actual_value < $install_value) {
                     $this->SetValue('GCM_CounterValue', $install_value);
@@ -134,15 +150,15 @@
 
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                $actual_counter_value = $this->GetValue('GCM_CounterValue');
-                $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
-                $calorific_value = $this->ReadPropertyFloat('CalorificValue');
+                // $actual_counter_value = $this->GetValue('GCM_CounterValue');
+                // $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
+                // $calorific_value = $this->ReadPropertyFloat('CalorificValue');
                 $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
             }
 
             // ImpulseCounter zurücksetzen
-            $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
-            $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
+            // $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
+            // $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
             if ($old_counter_value !== $new_counter_value) {
                 $this->ImpulseCounterReset();
             }

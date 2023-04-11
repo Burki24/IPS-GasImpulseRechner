@@ -284,9 +284,12 @@
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                    $result = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
-                    $this->SetValue('GCM_KWHDifference', $result['kwh_day_difference']);
-                    $this->SetValue('GCM_kwhForecast', $result['calculated_forecast']);
+                    ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
+                    $kwh_day_difference = $result['kwh_day_difference'];
+                    $calculated_forecast = $result['calculated_forecast'];
+                    $monthly_forecast = $result['monthly_forecast'];
+                    $this->SetValue('GCM_KWHDifference', $kwh_day_difference]);
+                    $this->SetValue('GCM_kwhForecast', $calculated_forecast]);
                     $this->SendDebug('Modul.php -> ELSE actual KWH', $actual_kwh, 0);
                 }
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);

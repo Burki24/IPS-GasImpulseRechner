@@ -180,10 +180,6 @@ trait CalculationHelper
                 $calculated_forecast += $monthly_forecast[$i]['consumption'];
             }
         }
-
-        // $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
-        // $this->SetValue('GCM_kwhForecast', $calculated_forecast);
-        // $this->SendDebug('Forecast monatilich', json_encode($monthly_forecast), 0);
         return [
             'kwh_day_difference' => $kwh_day_difference,
             'calculated_forecast' => $calculated_forecast,

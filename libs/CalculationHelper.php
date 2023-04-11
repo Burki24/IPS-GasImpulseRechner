@@ -138,18 +138,20 @@ trait CalculationHelper
     private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor)
     {
         $date = json_decode($invoice_date, true); // Rechnungsdatum
-    $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
-    $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
-    $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
-    $kwh_day_difference = $actual_day_kwh * 365; // Jahresverbrauch basierend auf aktuellem Verbrauch
-    $weights = json_decode($month_factor, true);
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
+        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
+        if ($actual_kwh != 0 && $days_since != 0) {
+            $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
+            $kwh_day_difference = $actual_day_kwh * 365; // Jahresverbrauch basierend auf aktuellem Verbrauch
+        }
+        $weights = json_decode($month_factor, true);
         $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
-    $last_month = intval($date['month']); // Letzter Monat aus $invoice_date
-    $last_year = intval($date['year']); // Letztes Jahr aus $invoice_date
-    $today = getdate(); // Heutiges Datum
-    $current_month = intval($today['mon']); // Aktueller Monat
-    $current_year = intval($today['year']); // Aktuelles Jahr
-    $months_since_invoice = ($current_year - $last_year) * 12 + $current_month - $last_month;
+        $last_month = intval($date['month']); // Letzter Monat aus $invoice_date
+        $last_year = intval($date['year']); // Letztes Jahr aus $invoice_date
+        $today = getdate(); // Heutiges Datum
+        $current_month = intval($today['mon']); // Aktueller Monat
+        $current_year = intval($today['year']); // Aktuelles Jahr
+        $months_since_invoice = ($current_year - $last_year) * 12 + $current_month - $last_month;
         $monthly_forecast = [];
         for ($i = 0; $i <= $months_since_invoice; $i++) {
             $current_month = ($last_month + $i - 1) % 12 + 1;
@@ -179,9 +181,13 @@ trait CalculationHelper
             }
         }
 
-        $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
-        $this->SetValue('GCM_kwhForecast', $calculated_forecast);
-        $this->SendDebug('Forecast monatilich', json_encode($monthly_forecast), 0);
-        return $monthly_forecast;
+        // $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
+        // $this->SetValue('GCM_kwhForecast', $calculated_forecast);
+        // $this->SendDebug('Forecast monatilich', json_encode($monthly_forecast), 0);
+        return [
+            'kwh_day_difference' => $kwh_day_difference,
+            'calculated_forecast' => $calculated_forecast,
+            'monthly_forecast' => $monthly_forecast,
+        ];
     }
 }

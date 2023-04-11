@@ -14,7 +14,7 @@
                 },
                 {
                     "type": "Label",
-                    "caption": "Instance ID for the impulse provider (This must be a Boolean variable):     "
+                    "caption": "    Instance ID for the impulse provider (This must be a Boolean variable)"
                 }
             ]
         },
@@ -32,7 +32,7 @@
                 },
                 {
                     "type": "Label",
-                    "caption": "The value in m3 per impulse. Is noted on the gas meter:     "
+                    "caption": "    The value in m3 per impulse. Is noted on the gas meter"
                 }
             ]
         },
@@ -50,17 +50,13 @@
                 },
                 {
                     "type": "Label",
-                    "caption": "The baseprice value of your provider:       "
+                    "caption": "    The baseprice value of your provider"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The paying period of the baseprice. This is important to calculate the correct daily cost:      "
-                },
                 {
                     "type": "Select",
                     "name": "BasePricePeriod",
@@ -88,16 +84,16 @@
                             "value": "year"
                         }
                     ]
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The paying period of the baseprice. This is important to calculate the correct daily cost"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "Number of billing months:       "
-                },
                 {
                     "type": "Select",
                     "caption": "Billing months",
@@ -113,6 +109,10 @@
                             "value": 12
                         }
                     ]
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Number of billing months"
                 }
             ]
         },

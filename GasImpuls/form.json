@@ -317,10 +317,6 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "Meter counter value at the moment of module installation. To be entered including the two digits after the comma"
-                },
-                {
                     "type": "NumberSpinner",
                     "name": "InstallCounterValue",
                     "caption": "Value",
@@ -328,16 +324,16 @@
                     "moreDigits": "true",
                     "suffix": "m3",
                     "width": "195px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Meter counter value at the moment of module installation. To be entered including the two digits after the comma"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The current kwh price can be found in your gas supplier contract"
-                },
                 {
                     "type": "NumberSpinner",
                     "name": "KWHPrice",
@@ -346,6 +342,10 @@
                     "moreDigits": "true",
                     "suffix": "€",
                     "width": "195px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The current kwh price can be found in your gas supplier contract"
                 }
             ]
         }

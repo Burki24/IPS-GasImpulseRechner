@@ -157,7 +157,7 @@
                 {
                     "type": "NumberSpinner",
                     "name": "ConditionNumber",
-                    "caption": "The condition number",
+                    "caption": "Condition number",
                     "digits": 4,
                     "moreDigits": "true",
                     "width": "195px"
@@ -204,25 +204,21 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "Invoice kW/h:      "
-                },
-                {
                     "type": "NumberSpinner",
                     "name": "InvoiceKWH",
                     "caption": "kW/h on invoice",
                     "suffix": "kW/h",
                     "width": "195px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Invoice kW/h"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "Factor to calculate the monthly consumtption:      "
-                },
                 {
                     "type": "List",
                     "name": "MonthFactor",
@@ -310,6 +306,10 @@
                             "Factor": "1.0"
                         }
                     ]
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Factor to calculate the monthly consumtption"
                 }
             ]
         },
@@ -318,7 +318,7 @@
             "items": [
                 {
                     "type": "Label",
-                    "caption": "Meter counter value at the moment of module installation. To be entered including the two digits after the comma:      "
+                    "caption": "Meter counter value at the moment of module installation. To be entered including the two digits after the comma"
                 },
                 {
                     "type": "NumberSpinner",
@@ -336,7 +336,7 @@
             "items": [
                 {
                     "type": "Label",
-                    "caption": "The current kwh price can be found in your gas supplier contract:      "
+                    "caption": "The current kwh price can be found in your gas supplier contract"
                 },
                 {
                     "type": "NumberSpinner",

@@ -277,6 +277,9 @@
                     // $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
                     // $this->SendDebug('Modul.php -> IF actual KWH', $actual_kwh, 0);
                 } else {
+                    $kwh_day_difference = 0;
+                    $calculated_forecast = 0;
+
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
                     $this->calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price);

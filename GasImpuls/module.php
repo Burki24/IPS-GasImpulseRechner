@@ -27,6 +27,7 @@
             $this->RegisterPropertyFloat('LumpSum', 0);
             $this->RegisterPropertyInteger('InvoiceKWH', 0);
             $this->RegisterPropertyString('MonthFactor', 0);
+            $this->RegisterPropertyFloat('ConditionNumber');
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);

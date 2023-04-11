@@ -4,10 +4,6 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "Instance ID for the impulse provider (This must be a Boolean variable):     "
-                },
-                {
                     "type": "SelectVariable",
                     "name": "ImpulseID",
                     "validVariableTypes": [
@@ -15,16 +11,16 @@
                     ],
                     "caption": "Impulse Instance ID",
                     "width": "250px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "Instance ID for the impulse provider (This must be a Boolean variable):     "
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The value in m3 per impulse. Is noted on the gas meter:     "
-                },
                 {
                     "type": "NumberSpinner",
                     "name": "ImpulseValue",
@@ -33,16 +29,16 @@
                     "suffix": "m3",
                     "caption": "Impulse Value",
                     "width": "100px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "The value in m3 per impulse. Is noted on the gas meter:     "
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The baseprice value of your provider:       "
-                },
                 {
                     "type": "NumberSpinner",
                     "caption": "Base price",
@@ -51,6 +47,10 @@
                     "name": "BasePrice",
                     "suffix": "€",
                     "width": "100px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "The baseprice value of your provider:       "
                 }
             ]
         },
@@ -146,6 +146,23 @@
                     "name": "CalorificValue",
                     "caption": "The calorific value",
                     "digits": 3,
+                    "moreDigits": "true",
+                    "width": "100px"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Label",
+                    "caption": "The condition number is required to convert from m3 to kwh. It can be found on the last final invoice:      "
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "ConditionNumber",
+                    "caption": "The condition number",
+                    "digits": 4,
                     "moreDigits": "true",
                     "width": "100px"
                 }

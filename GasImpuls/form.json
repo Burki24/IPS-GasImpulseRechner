@@ -75,7 +75,7 @@
                 {
                     "type": "NumberSpinner",
                     "name": "InvoiceCounterValue",
-                    "caption": "m3 value",
+                    "caption": "m3 invoice value",
                     "moreDigits": "true",
                     "suffix": "m3",
                     "width": "140px"

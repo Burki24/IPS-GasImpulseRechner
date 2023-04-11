@@ -18,7 +18,7 @@
             "    The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice": "    Brennwert (wird für die Umrechnung m3 zu kwh benötigt. Findet sich auf der letzten Abschlussrechnung",
             "The calorific value": "Brennwert",
             "    The last meter reading mentioned in the billing": "    Zählerstand bei letzter Rechnungsablesung",
-            "m3 value": "Zählerstand in m3:",
+            "m3 invoice value": "Zählerstand auf Abrechnung",
             "    The last invoice date is needed to calculate days since last invoice": "    Datum der letzten Rechnung/Ablesung (notwendig zur Berechnung nach letzter Ablesung",
             "Invoice date": "Ablesungsdatum",
             "    Meter counter value at the moment of module installation. To be entered including the two digits after the comma": "    Zählerstand (mit zwei Nachkommastellen am Tag der Modulinstalation",

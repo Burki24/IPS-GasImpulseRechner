@@ -110,6 +110,7 @@
             $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
             $value = $this->ReadPropertyFloat('BasePrice');
             $period = $this->ReadPropertyString('BasePricePeriod');
+            $condition_number = $this->ReadPropertyFloat('ConditionNumber');
 
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {

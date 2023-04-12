@@ -5,9 +5,9 @@ declare(strict_types=1);
 trait CalculationHelper
 {
     // Umrechnung m3 in kwh
-    private function calculateKWH($calorific_value, $cubic_meter)
+    private function calculateKWH($calorific_value, $cubic_meter, $condition_number)
     {
-        $kwh = $calorific_value * $cubic_meter;
+        $kwh = $calorific_value * $cubic_meter * $condition_number;
         $this->SetValue('GCM_UsedKWH', $kwh);
         return $kwh;
     }

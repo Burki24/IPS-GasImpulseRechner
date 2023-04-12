@@ -42,7 +42,7 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-    private function calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price)
+    private function calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
@@ -50,7 +50,7 @@ trait CalculationHelper
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
         $daysUntil = abs(floor((time() - $time_stampPlusOneYear) / (60 * 60 * 24)));
         $baseCosts = round($base_price * $days_since, 2);
-        $kwh = round($current_consumption * $calorific_value, 2);
+        $kwh = round($current_consumption * $calorific_value * $condition_number, 2);
         $kwhCosts = round($kwh * $kwh_price, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
 

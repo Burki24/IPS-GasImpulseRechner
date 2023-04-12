@@ -284,7 +284,7 @@
 
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
-                    $this->calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price);
+                    $this->calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number);
                     $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);

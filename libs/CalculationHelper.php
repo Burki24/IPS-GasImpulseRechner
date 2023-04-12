@@ -77,9 +77,9 @@ trait CalculationHelper
     }
 
     // Kosten aktueller Tag
-    private function CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price)
+    private function CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number)
     {
-        $kwhCosts = $kwh_day * $kwh_price;
+        $kwhCosts = $kwh_day * $kwh_price * $condition_number;
         $costs = $kwhCosts + $base_price;
         $this->SetValue('GCM_DayCosts', $costs);
     }

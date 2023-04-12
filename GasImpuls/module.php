@@ -153,7 +153,7 @@
                 // $actual_counter_value = $this->GetValue('GCM_CounterValue');
                 // $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
                 // $calorific_value = $this->ReadPropertyFloat('CalorificValue');
-                $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
+                $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
             }
 
             // ImpulseCounter zurücksetzen

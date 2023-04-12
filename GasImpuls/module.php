@@ -273,10 +273,10 @@
                 if ($impulse) {
                     $new_counter_value = $current_counter_value + $impulse_value;
                     $new_cubic_meter = $cubic_meter + $impulse_value;
-                    $this->calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price);
+                    $this->calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number);
                     $this->calculateKWH($calorific_value, $cubic_meter);
-                    $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price);
-                    $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value);
+                    $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
+                    $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                     $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
                     $this->SendDebug('Modul.php -> IF actual KWH', $actual_kwh, 0);

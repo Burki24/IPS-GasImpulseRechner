@@ -184,9 +184,9 @@ trait CalculationHelper
             }
         }
         return [
-            'kwh_day_difference' => $kwh_day_difference,
+            'kwh_day_difference'  => $kwh_day_difference,
             'calculated_forecast' => $calculated_forecast,
-            'monthly_forecast' => $monthly_forecast,
+            'monthly_forecast'    => $monthly_forecast,
         ];
     }
 }

@@ -42,7 +42,7 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-    private function calculations($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number)
+    private function calculateCosts($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
@@ -64,6 +64,29 @@ trait CalculationHelper
             $this->SetValue('GCM_CostsForecast', $costs_forecast);
             $this->SetValue('GCM_kwhForecast', $kwh_forecast);
         }
+        return $costs;
+    }
+
+    //Kosten
+    private function calculatForecast($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number)
+    {
+        $date = json_decode($invoice_date, true);
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $time_stamp_plus_one_year = (new DateTimeImmutable())->setTimestamp($time_stamp)->add(new DateInterval('P1Y'))->getTimestamp();
+        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
+        $days_until = abs(floor((time() - $time_stamp_plus_one_year) / (60 * 60 * 24)));
+        $base_costs = round($base_price * $days_until, 2);
+        $kwh = round($current_consumption * $calorific_value * $condition_number, 2);
+        $kwh_costs = round($kwh * $kwh_price, 2);
+        $costs = round($kwh_costs + $base_costs, 2);
+        $days_total = $days_since + $daysUntil;
+        $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
+        $kwh_forecast = (($kwh / $days_since) * $days_total);
+        $this->SetValue('GCM_CostsSinceInvoice', $costs);
+        $this->SetValue('GCM_DaysSinceInvoice', $days_since);
+        $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
+        $this->SetValue('GCM_CostsForecast', $costs_forecast);
+        $this->SetValue('GCM_kwhForecast', $kwh_forecast);
         return $costs;
     }
 

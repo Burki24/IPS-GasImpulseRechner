@@ -3,6 +3,7 @@
     declare(strict_types=1);
 
     require_once __DIR__ . '/../libs/CalculationHelper.php';
+    require_once __DIR__ . '/../libs/SymconModulHelper/DebugHelper.php';
 
     class GasImpulsVerbrauchsanalyse extends IPSModule
     {
@@ -270,9 +271,10 @@
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
                     $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                     $result = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
-                    $kwh_day_difference = $result['kwh_day_difference'];
-                    $calculated_forecast = $result['calculated_forecast'];
-                    $monthly_forecast = $result['monthly_forecast'];
+                    $forecast = $this->calculatForecast($base_price, $calorific_value, $current_consumption, $kwh_price, $condition_number)
+                    $kwh_day_difference = $forecast['kwh_day_difference'];
+                    $calculated_forecast = $forecast['calculated_forecast'];
+                    $monthly_forecast = $forecast['monthly_forecast'];
                     $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
                     $this->SetValue('GCM_kwhForecast', $calculated_forecast);
                     $this->SendDebug('Modul.php -> ELSE actual KWH', $actual_kwh, 0);

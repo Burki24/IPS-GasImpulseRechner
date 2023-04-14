@@ -60,15 +60,12 @@ trait CalculationHelper
             $kwh_forecast = (($kwh / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
             $this->SetValue('GCM_DaysSinceInvoice', $days_since);
-            $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
-            $this->SetValue('GCM_CostsForecast', $costs_forecast);
-            $this->SetValue('GCM_kwhForecast', $kwh_forecast);
         }
         return $costs;
     }
 
     //Kosten
-    private function calculatForecast($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number)
+    private function calculatForecast($base_price, $calorific_value, $current_consumption, $kwh_price, $condition_number)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
@@ -82,12 +79,14 @@ trait CalculationHelper
         $days_total = $days_since + $daysUntil;
         $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
         $kwh_forecast = (($kwh / $days_since) * $days_total);
-        $this->SetValue('GCM_CostsSinceInvoice', $costs);
-        $this->SetValue('GCM_DaysSinceInvoice', $days_since);
-        $this->SetValue('GCM_DaysTillInvoice', $daysUntil);
+        $this->SetValue('GCM_DaysTillInvoice', $days_until);
         $this->SetValue('GCM_CostsForecast', $costs_forecast);
         $this->SetValue('GCM_kwhForecast', $kwh_forecast);
-        return $costs;
+        return [
+            'kwh_day_difference'  => $days_until,
+            'calculated_forecast' => $costs_forecast,
+            'monthly_forecast'    => $kwh_forecast,
+        ];
     }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell

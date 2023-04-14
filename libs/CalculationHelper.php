@@ -76,7 +76,7 @@ trait CalculationHelper
         $kwh = round($current_consumption * $calorific_value * $condition_number, 2);
         $kwh_costs = round($kwh * $kwh_price, 2);
         $costs = round($kwh_costs + $base_costs, 2);
-        $days_total = $days_since + $daysUntil;
+        $days_total = $days_since + $days_until;
         $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
         $kwh_forecast = (($kwh / $days_since) * $days_total);
         $this->SetValue('GCM_DaysTillInvoice', $days_until);

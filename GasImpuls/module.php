@@ -173,8 +173,8 @@
         {
             switch ($Message) {
                     case VM_UPDATE:
-                        $impulse_id = $this->ReadPropertyInteger('ImpulseID');
-                        $impulse_state = GetValue($impulse_id);
+                        // $impulse_id = $this->ReadPropertyInteger('ImpulseID');
+                        // $impulse_state = GetValue($impulse_id);
                         $this->GasCounter();
                     break;
                 default:

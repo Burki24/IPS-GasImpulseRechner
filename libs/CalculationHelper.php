@@ -65,7 +65,7 @@ trait CalculationHelper
     }
 
     //Kosten
-    private function calculatForecast($base_price, $calorific_value, $current_consumption, $kwh_price, $condition_number)
+    private function calculatForecast($invoice_date, $base_price, $calorific_value, $current_consumption, $kwh_price, $condition_number)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);

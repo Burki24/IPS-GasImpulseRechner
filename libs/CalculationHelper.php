@@ -197,7 +197,6 @@ trait CalculationHelper
                 'year'        => $current_year,
                 'consumption' => $monthly_sum
             ];
-            $this->SendDebug('weights', json_encode($weights), 0);
             $calculated_forecast = 0;
         }
         for ($i = 0; $i < 12; $i++) {

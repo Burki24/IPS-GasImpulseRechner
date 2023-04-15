@@ -128,10 +128,16 @@ trait CalculationHelper
         $current_date = date('Y-m-d');
         $diff = date_diff(date_create($date_string), date_create($current_date));
         $months_since_invoice = $diff->m + ($diff->d >= 1 ? 1 : 0);
-        $old_lump_sum_result = $months_since_invoice * $old_lump_sum;
-        $remaining_months = $months - $months_since_invoice;
-        $new_lump_sum_result = $remaining_months * $lump_sum;
-        $result = $old_lump_sum_result + $new_lump_sum_result;
+
+        if ($old_lump_sum == 0) {
+            $result = $months * $lump_sum;
+        } else {
+            $old_lump_sum_result = $months_since_invoice * $old_lump_sum;
+            $remaining_months = $months - $months_since_invoice;
+            $new_lump_sum_result = $remaining_months * $lump_sum;
+            $result = $old_lump_sum_result + $new_lump_sum_result;
+        }
+
         return $result;
     }
 

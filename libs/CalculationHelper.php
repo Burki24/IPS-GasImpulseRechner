@@ -48,14 +48,14 @@ trait CalculationHelper
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $time_stampPlusOneYear = (new DateTimeImmutable())->setTimestamp($time_stamp)->add(new DateInterval('P1Y'))->getTimestamp();
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
-        $daysUntil = abs(floor((time() - $time_stampPlusOneYear) / (60 * 60 * 24)));
+        $days_until = abs(floor((time() - $time_stampPlusOneYear) / (60 * 60 * 24)));
         $baseCosts = round($base_price * $days_since, 2);
         $kwh = round($current_consumption * $calorific_value * $condition_number, 2);
         $kwhCosts = round($kwh * $kwh_price, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
 
         if ($days_since > 0) {
-            $days_total = $days_since + $daysUntil;
+            $days_total = $days_since + $days_until;
             $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
             $kwh_forecast = (($kwh / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);

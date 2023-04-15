@@ -222,6 +222,8 @@
         private function GasCounter()
         {
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
+
+            // Benötigte Variablen und Werte
             $impulse_id = $this->ReadPropertyInteger('ImpulseID');
             $impulse_value = $this->ReadPropertyFloat('ImpulseValue');
             $months = $this->ReadPropertyInteger('BillingMonths');
@@ -245,13 +247,18 @@
             $current_counter_value = $this->GetValue('GCM_CounterValue');
             $invoice_kwh = $this->ReadPropertyInteger('InvoiceKWH');
             $condition_number = $this->ReadPropertyFloat('ConditionNumber');
+            $month_factor = $this->ReadPropertyString('MonthFactor');
+
+            // Aktualisierung bei Anpassung Zählerstand bei Installation
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
 
+            // Prüfen, ob Impulse-Variable vergeben wurde
             if ($impulse_id > 0) {
                 $impulse_id = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulse_id);
-                $month_factor = $this->ReadPropertyString('MonthFactor');
+
+                // Start Kalkulation bei positivem Impulse
                 if ($impulse) {
                     $new_counter_value = $current_counter_value + $impulse_value;
                     $new_cubic_meter = $cubic_meter + $impulse_value;

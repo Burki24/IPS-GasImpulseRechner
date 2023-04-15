@@ -16,19 +16,19 @@
 
             //Werte aus dem Formular
             $this->RegisterPropertyInteger('ImpulseID', 0);
-            $this->RegisterPropertyFloat('ImpulseValue', 0.01);
-            $this->RegisterPropertyFloat('BasePrice', 20);
+            $this->RegisterPropertyFloat('ImpulseValue', 0.00);
+            $this->RegisterPropertyFloat('BasePrice', 0);
             $this->RegisterPropertyString('BasePricePeriod', 'month');
-            $this->RegisterPropertyFloat('CalorificValue', 11.400);
-            $this->RegisterPropertyFloat('InvoiceCounterValue', 1000);
+            $this->RegisterPropertyFloat('CalorificValue', 0);
+            $this->RegisterPropertyFloat('InvoiceCounterValue', 0);
             $this->RegisterPropertyString('InvoiceDate', $this->GetCurrentDate());
-            $this->RegisterPropertyFloat('InstallCounterValue', 1000.00);
-            $this->RegisterPropertyFloat('KWHPrice', 0.068);
+            $this->RegisterPropertyFloat('InstallCounterValue', 0);
+            $this->RegisterPropertyFloat('KWHPrice', 0);
             $this->RegisterPropertyInteger('BillingMonths', 11);
-            $this->RegisterPropertyFloat('LumpSum', 150);
-            $this->RegisterPropertyInteger('InvoiceKWH', 111.11);
+            $this->RegisterPropertyFloat('LumpSum', 0);
+            $this->RegisterPropertyInteger('InvoiceKWH', 0);
             $this->RegisterPropertyString('MonthFactor', 0);
-            $this->RegisterPropertyFloat('ConditionNumber', 0.9655);
+            $this->RegisterPropertyFloat('ConditionNumber', 0);
 
             // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
@@ -69,9 +69,9 @@
             $this->RegisterVariableFloat('GCM_CurrentConsumption', $this->Translate('Total Consumption Actually in m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
             $this->RegisterVariableFloat('GCM_KWHSinceInvoice', $this->Translate('kW/h since Invoice'), 'GCM.Gas.kWh');
+            $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice'), 'GCM.Days');
 
             // Forecast
-            $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice'), 'GCM.Days');
             $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
             $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
             $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');

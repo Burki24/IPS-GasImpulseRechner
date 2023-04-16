@@ -169,6 +169,8 @@ trait CalculationHelper
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
         if ($actual_kwh != 0 && $days_since != 0) {
             $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
+            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: actual_day_kwh', $actual_day_kwh, 0);
+
             $kwh_day_difference = $actual_day_kwh * 365; // Jahresverbrauch basierend auf aktuellem Verbrauch
         }
         $weights = json_decode($month_factor, true);
@@ -223,8 +225,5 @@ trait CalculationHelper
             'calculated_forecast' => $calculated_forecast,
             'monthly_forecast'    => $monthly_forecast,
         ];
-        $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
-        $this->SendDebug('CalculationsHelper.php -> ForecastKWH: calculated_forecast', $calculated_forecast, 0);
-        $this->SendDebug('CalculationsHelper.php -> ForecastKWH: monthly_forecast', $monthly_forecast, 0);
     }
 }

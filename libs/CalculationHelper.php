@@ -211,7 +211,6 @@ trait CalculationHelper
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_year', $current_year, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: monthly_sum', $monthly_sum, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: daily_sum', $daily_sum, 0);
-            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: daily_weight', $daily_weight, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: total_weight', $total_weight, 0);
 
@@ -227,5 +226,8 @@ trait CalculationHelper
             'calculated_forecast' => $calculated_forecast,
             'monthly_forecast'    => $monthly_forecast,
         ];
+        $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
+        $this->SendDebug('CalculationsHelper.php -> ForecastKWH: calculated_forecast', $calculated_forecast, 0);
+        $this->SendDebug('CalculationsHelper.php -> ForecastKWH: monthly_forecast', $monthly_forecast, 0);
     }
 }

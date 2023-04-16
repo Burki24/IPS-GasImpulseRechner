@@ -173,6 +173,7 @@ trait CalculationHelper
         }
         $weights = json_decode($month_factor, true);
         $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
+
         $last_month = intval($date['month']); // Letzter Monat aus $invoice_date
         $last_year = intval($date['year']); // Letztes Jahr aus $invoice_date
         $today = getdate(); // Heutiges Datum
@@ -187,8 +188,10 @@ trait CalculationHelper
             $current_year = $last_year + (int) (($last_month + $i - 1) / 12);
             $days_in_month = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
             $month_weight = (isset($weights[$current_month - 1]) && isset($weights[$current_month - 1]['Factor'])) ? $weights[$current_month - 1]['Factor'] : 0;
-
+            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: month_weight', $month_weight, 0);
             $daily_weight = $month_weight / $days_in_month; // Tägliches Gewicht berechnen
+            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: daily_weight', $daily_weight, 0);
+
             $monthly_sum = 0;
             // $kwh_day_difference = 0;
             // $calculated_forecast = 0;

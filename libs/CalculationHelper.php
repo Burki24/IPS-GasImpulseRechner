@@ -195,7 +195,7 @@ trait CalculationHelper
             $monthly_sum = 0;
 
             for ($day = 1; $day <= $days_in_month; $day++) {
-                $daily_sum = $actual_day_kwh * $daily_weight / $total_weight;
+                $daily_sum = $actual_day_kwh * $daily_weight;
                 $monthly_sum += $daily_sum;
             }
 

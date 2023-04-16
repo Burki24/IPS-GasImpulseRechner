@@ -184,7 +184,7 @@ trait CalculationHelper
         $current_year = intval($today['year']); // Aktuelles Jahr
         $months_since_invoice = ($current_year - $last_year) * 12 + $current_month - $last_month;
         $monthly_forecast = [];
-        $kwh_day_difference = 0;
+        // $kwh_day_difference = 0;
         $calculated_forecast = 0;
         for ($i = 0; $i <= $months_since_invoice; $i++) {
             $current_month = ($last_month + $i - 1) % 12 + 1;

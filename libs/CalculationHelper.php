@@ -210,6 +210,7 @@ trait CalculationHelper
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_month', $current_month, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_year', $current_year, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: monthly_sum', $monthly_sum, 0);
+            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: daily_sum', $daily_sum, 0);
             // $calculated_forecast = 0;
         }
         for ($i = 0; $i < 12; $i++) {

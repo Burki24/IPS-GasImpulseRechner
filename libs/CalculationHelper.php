@@ -42,7 +42,7 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-    private function calculateCosts($base_price, $invoice_date, $calorific_value, $current_kwh_consumption, $kwh_price, $condition_number)
+    private function calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
@@ -57,7 +57,6 @@ trait CalculationHelper
         if ($days_since > 0) {
             $days_total = $days_since + $days_until;
             $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
-            $kwh_forecast = (($kwh / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
             $this->SetValue('GCM_DaysSinceInvoice', $days_since);
         }

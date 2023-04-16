@@ -180,6 +180,8 @@ trait CalculationHelper
         $current_year = intval($today['year']); // Aktuelles Jahr
         $months_since_invoice = ($current_year - $last_year) * 12 + $current_month - $last_month;
         $monthly_forecast = [];
+        $kwh_day_difference = 0;
+        $calculated_forecast = 0;
         for ($i = 0; $i <= $months_since_invoice; $i++) {
             $current_month = ($last_month + $i - 1) % 12 + 1;
             $current_year = $last_year + (int) (($last_month + $i - 1) / 12);
@@ -188,8 +190,8 @@ trait CalculationHelper
 
             $daily_weight = $month_weight / $days_in_month; // Tägliches Gewicht berechnen
             $monthly_sum = 0;
-            $kwh_day_difference = 0;
-            $calculated_forecast = 0;
+            // $kwh_day_difference = 0;
+            // $calculated_forecast = 0;
             $monthly_forecast = [];
 
             for ($day = 1; $day <= $days_in_month; $day++) {
@@ -202,7 +204,7 @@ trait CalculationHelper
                 'year'        => $current_year,
                 'consumption' => $monthly_sum
             ];
-            $calculated_forecast = 0;
+            // $calculated_forecast = 0;
         }
         for ($i = 0; $i < 12; $i++) {
             if (isset($monthly_forecast[$i])) {

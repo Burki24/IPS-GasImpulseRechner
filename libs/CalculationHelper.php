@@ -206,6 +206,9 @@ trait CalculationHelper
                 'month'       => $current_month,
                 'year'        => $current_year,
                 'consumption' => $monthly_sum
+                $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_month', $current_month, 0);
+                $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_year', $current_year, 0);
+                $this->SendDebug('CalculationsHelper.php -> ForecastKWH: monthly_sum', $monthly_sum, 0);
             ];
             // $calculated_forecast = 0;
         }

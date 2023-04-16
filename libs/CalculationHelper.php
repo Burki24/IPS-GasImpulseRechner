@@ -198,7 +198,7 @@ trait CalculationHelper
             $monthly_forecast = [];
 
             for ($day = 1; $day <= $days_in_month; $day++) {
-                $daily_sum = $kwh_day_difference * $daily_weight / $total_weight; // Tägliche Summe berechnen
+                $daily_sum = $actual_day_kwh * $daily_weight / $total_weight; // Tägliche Summe berechnen
                 $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
                 $monthly_sum += $daily_sum;
             }

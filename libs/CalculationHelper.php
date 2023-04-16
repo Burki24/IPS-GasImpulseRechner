@@ -199,7 +199,6 @@ trait CalculationHelper
 
             for ($day = 1; $day <= $days_in_month; $day++) {
                 $daily_sum = $actual_day_kwh * $daily_weight / $total_weight; // Tägliche Summe berechnen
-                $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
                 $monthly_sum += $daily_sum;
             }
 
@@ -210,6 +209,7 @@ trait CalculationHelper
             ];
             // $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_month', $current_month, 0);
             // $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_year', $current_year, 0);
+            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: monthly_sum', $monthly_sum, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: month_weight', $month_weight, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: daily_sum', $daily_sum, 0);

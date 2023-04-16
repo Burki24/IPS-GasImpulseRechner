@@ -172,6 +172,7 @@ trait CalculationHelper
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: actual_day_kwh', $actual_day_kwh, 0);
 
             $kwh_day_difference = $actual_day_kwh * 365; // Jahresverbrauch basierend auf aktuellem Verbrauch
+            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
         }
         $weights = json_decode($month_factor, true);
         $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen

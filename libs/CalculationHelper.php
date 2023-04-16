@@ -164,41 +164,38 @@ trait CalculationHelper
     // KWH Forecast
     private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor)
     {
-        $date = json_decode($invoice_date, true); // Rechnungsdatum
-        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']); // Datum formatieren
-        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24)); // Tage seit Abrechnung
+        $date = json_decode($invoice_date, true);
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
+
         if ($actual_kwh != 0 && $days_since != 0) {
-            $actual_day_kwh = $actual_kwh / $days_since; // Aktueller Verbrauch auf Tage seit Abrechnung gebrochen
-            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: actual_day_kwh', $actual_day_kwh, 0);
-
-            $kwh_day_difference = $actual_day_kwh * 365; // Jahresverbrauch basierend auf aktuellem Verbrauch
-            $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
+            $actual_day_kwh = $actual_kwh / $days_since;
         }
-        $weights = json_decode($month_factor, true);
-        $total_weight = array_sum(array_column($weights, 'Factor')); // Summe der Gewichte berechnen
 
-        $last_month = intval($date['month']); // Letzter Monat aus $invoice_date
-        $last_year = intval($date['year']); // Letztes Jahr aus $invoice_date
-        $today = getdate(); // Heutiges Datum
-        $current_month = intval($today['mon']); // Aktueller Monat
-        $current_year = intval($today['year']); // Aktuelles Jahr
+        $weights = json_decode($month_factor, true);
+        $total_weight = array_sum(array_column($weights, 'Factor'));
+
+        $last_month = intval($date['month']);
+        $last_year = intval($date['year']);
+        $today = getdate();
+        $current_month = intval($today['mon']);
+        $current_year = intval($today['year']);
         $months_since_invoice = ($current_year - $last_year) * 12 + $current_month - $last_month;
+
         $monthly_forecast = [];
-        // $kwh_day_difference = 0;
+        $kwh_day_difference = 0;
         $calculated_forecast = 0;
+
         for ($i = 0; $i <= $months_since_invoice; $i++) {
             $current_month = ($last_month + $i - 1) % 12 + 1;
             $current_year = $last_year + (int) (($last_month + $i - 1) / 12);
             $days_in_month = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
             $month_weight = (isset($weights[$current_month - 1]) && isset($weights[$current_month - 1]['Factor'])) ? $weights[$current_month - 1]['Factor'] : 0;
-            $daily_weight = $month_weight / $days_in_month; // Tägliches Gewicht berechnen
+            $daily_weight = $month_weight / $days_in_month;
             $monthly_sum = 0;
-            // $kwh_day_difference = 0;
-            // $calculated_forecast = 0;
-            $monthly_forecast = [];
 
             for ($day = 1; $day <= $days_in_month; $day++) {
-                $daily_sum = $actual_day_kwh * $daily_weight / $total_weight; // Tägliche Summe berechnen
+                $daily_sum = $actual_day_kwh * $daily_weight / $total_weight;
                 $monthly_sum += $daily_sum;
             }
 
@@ -207,22 +204,15 @@ trait CalculationHelper
                 'year'        => $current_year,
                 'consumption' => $monthly_sum
             ];
-            // $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_month', $current_month, 0);
-            // $this->SendDebug('CalculationsHelper.php -> ForecastKWH: current_year', $current_year, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: kwh_day_difference', $kwh_day_difference, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: monthly_sum', $monthly_sum, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: month_weight', $month_weight, 0);
             $this->SendDebug('CalculationsHelper.php -> ForecastKWH: daily_sum', $daily_sum, 0);
-            // $this->SendDebug('CalculationsHelper.php -> ForecastKWH: daily_weight', $daily_weight, 0);
-            // $this->SendDebug('CalculationsHelper.php -> ForecastKWH: total_weight', $total_weight, 0);
+            $kwh_day_difference = $actual_day_kwh * 365;
 
-            // $calculated_forecast = 0;
+            $calculated_forecast += $monthly_sum;
         }
-        for ($i = 0; $i < 12; $i++) {
-            if (isset($monthly_forecast[$i])) {
-                $calculated_forecast += $monthly_forecast[$i]['consumption'];
-            }
-        }
+
         return [
             'kwh_day_difference'  => $kwh_day_difference,
             'calculated_forecast' => $calculated_forecast,

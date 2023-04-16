@@ -42,7 +42,7 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-    private function calculateCosts($base_price, $invoice_date, $calorific_value, $current_consumption, $kwh_price, $condition_number)
+    private function calculateCosts($base_price, $invoice_date, $calorific_value, $current_kwh_consumption, $kwh_price, $condition_number)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
@@ -50,7 +50,7 @@ trait CalculationHelper
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
         $days_until = abs(floor((time() - $time_stampPlusOneYear) / (60 * 60 * 24)));
         $baseCosts = round($base_price * $days_since, 2);
-        $kwh = round($current_consumption * $calorific_value * $condition_number, 2);
+        $kwh = round($current_kwh_consumption, 2);
         $kwhCosts = round($kwh * $kwh_price, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
 
@@ -65,17 +65,17 @@ trait CalculationHelper
     }
 
     //Kosten
-    private function calculatForecast($invoice_date, $base_price, $calorific_value, $current_consumption, $kwh_price, $condition_number)
+    private function calculatForecast($invoice_date, $base_price, $calorific_value, $current_kwh_consumption, $kwh_price, $condition_number)
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
         $time_stamp_plus_one_year = (new DateTimeImmutable())->setTimestamp($time_stamp)->add(new DateInterval('P1Y'))->getTimestamp();
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
         $days_until = abs(floor((time() - $time_stamp_plus_one_year) / (60 * 60 * 24)));
-        $base_costs = round($base_price * $days_until, 2);
-        $kwh = round($current_consumption * $calorific_value * $condition_number, 2);
-        $kwh_costs = round($kwh * $kwh_price, 2);
-        $costs = round($kwh_costs + $base_costs, 2);
+        $base_costs = $base_price * $days_until;
+        $kwh = $current_kwh_consumption;
+        $kwh_costs = $kwh * $kwh_price;
+        $costs = $kwh_costs + $base_costs;
         $days_total = $days_since + $days_until;
         $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
         $kwh_forecast = (($kwh / $days_since) * $days_total);

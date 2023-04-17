@@ -58,7 +58,7 @@ trait CalculationHelper
             $days_total = $days_since + $days_until;
             $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
-            $this->SetValue('GCM_DaysSinceInvoice', $days_since);
+            // $this->SetValue('GCM_DaysSinceInvoice', $days_since);
         }
         return $costs;
     }

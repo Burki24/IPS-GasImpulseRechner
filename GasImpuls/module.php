@@ -295,8 +295,8 @@
                 $costs_forecast = $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
                 // $result = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                 $this->SetValue('GCM_CostsForecast', $costs_forecast['costs_forecast']);
-                $this->SetValue('GCM_DaysPassed', $costs_forecast['days_passed']);
-                $this->SetValue('GCM_DaysRemaining', $costs_forecast['days_remaining']);
+                $this->SetValue('GCM_DaysSinceInvoice', $costs_forecast['days_passed']);
+                $this->SetValue('GCM_DaysTillInvoice', $costs_forecast['days_remaining']);
                 $this->SetValue('GCM_LumpSumDiff', $this->LumpSumDifference($lump_sum_year, $costs_forecast));
             }
         }

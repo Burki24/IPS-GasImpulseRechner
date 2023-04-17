@@ -61,7 +61,7 @@ trait CalculationHelper
         }
         return $costs;
     }
-    //Kosten
+    // Zu erwartende Kosten
     private function calculateForecastCosts(string $invoice_date, float $base_price, float $kwh_forecast, float $kwh_price): array
     {
         $date_arr = json_decode($invoice_date, true);
@@ -135,7 +135,7 @@ trait CalculationHelper
         return $result;
     }
 
-    // Differenz zu erwartenden Kosten
+    // Differenz zu erwartende Kosten
     private function LumpSumDifference(float $lump_sum_year, float $costs_forecast): float
     {
         $difference = ($lump_sum_year - $costs_forecast);

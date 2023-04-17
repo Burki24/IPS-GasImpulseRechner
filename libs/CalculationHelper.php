@@ -66,7 +66,8 @@ trait CalculationHelper
     //Kosten
     private function calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price)
 {
-    $invoice_dt = new DateTimeImmutable($invoice_date);
+    $date_arr = json_decode($invoice_date, true);
+    $invoice_dt = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date_arr['year'], $date_arr['month'], $date_arr['day']));
     $future_dt = $invoice_dt->modify('+1 year');
     $days_total = $future_dt->diff($invoice_dt)->days;
     $base_costs = $base_price * $days_total;

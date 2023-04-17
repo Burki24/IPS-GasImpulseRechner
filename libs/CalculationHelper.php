@@ -141,7 +141,7 @@ trait CalculationHelper
     // Differenz zu erwartenden Kosten
     private function LumpSumDifference($lump_sum_year, $costs_forecast)
     {
-        $difference = $lump_sum_year - $costs_forecast;
+        $difference = ($lump_sum_year - $costs_forecast);
         return $difference;
     }
 

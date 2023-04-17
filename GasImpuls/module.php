@@ -221,9 +221,10 @@
         // Hauptfunktion des Moduls
         private function GasCounter()
         {
+            // Registrieren der Änderungsbenachrichtigung für den Impuls
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
 
-            // Benötigte Variablen und Werte
+            // Lesen der benötigten Variablen
             $actual_counter_value = $this->GetValue('GCM_CounterValue');
             $actual_kwh = $this->GetValue('GCM_KWHSinceInvoice');
             $base_price = $this->GetValue('GCM_BasePrice');
@@ -247,62 +248,50 @@
             $lump_sum = $this->ReadPropertyFloat('LumpSum');
             $lump_sum_year = $this->GetValue('GCM_LumpSumYear');
             $month_factor = $this->ReadPropertyString('MonthFactor');
-            $this->SendDebug('module.php : month_factor', $month_factor, 0);
             $months = $this->ReadPropertyInteger('BillingMonths');
 
             // Aktualisierung bei Anpassung Zählerstand bei Installation
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
 
-            // Prüfen, ob Impulse-Variable vergeben wurde
+            // Überprüfen, ob Impuls-Variable vergeben wurde und ob Impuls ausgelöst wurde
             if ($impulse_id > 0) {
-                $impulse_id = $this->ReadPropertyInteger('ImpulseID');
                 $impulse = GetValue($impulse_id);
-
-                // Start Kalkulation bei positivem Impulse
-                if ($impulse) {
+                $impulse_used = $this->ReadAttributeBoolean('ImpulseUsed');
+                if ($impulse && !$impulse_used) {
                     $new_counter_value = $current_counter_value + $impulse_value;
                     $new_cubic_meter = $cubic_meter + $impulse_value;
-                    $this->calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price);
-                    $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
-                    $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
-                    $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
-                    $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
-                    // $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                    $result = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
-                    $this->SendDebug('Modul.php -> IF actual KWH', $actual_kwh, 0);
-                    $this->SendDebug('Modul.php -> IF lump_sum_year', $lump_sum_year, 0);
-                    $this->SendDebug('Modul.php -> IF costs_forecast', $costs_forecast, 0);
+                    $this->WriteAttributeBoolean('ImpulseUsed', true);
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
-                    $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
-                    $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
-                    $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
-                    $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
-                    $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                    $calculated_forecast = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
-                    // $forecast = $this->calculatForecast($invoice_date, $base_price, $calorific_value, $current_kwh_consumption, $kwh_price, $condition_number);
-                    // $calculated_forecast = $result['calculated_forecast'];
-                    // $monthly_forecast = $result['monthly_forecast'];
-                    // $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
-                    $this->SetValue('GCM_kwhForecast', $calculated_forecast);
-                    $this->SendDebug('Modul.php -> ELSE actual KWH', $actual_kwh, 0);
-                    $this->SendDebug('Modul.php -> ELSE kwh_day_diffenerce', $kwh_day_difference, 0);
-                    $this->SendDebug('Modul.php -> ELSE calculated_forecast', $calculated_forecast, 0);
-                    $this->SendDebug('Modul.php -> ELSE lump_sum_year', $lump_sum_year, 0);
-                    $this->SendDebug('Modul.php -> ELSE costs_forecast', $costs_forecast, 0);
-                    // $this->SendDebug('Modul.php -> ELSE monthly_forecast', $monthly_forecast, 0);
                 }
+
+                // Berechnungen durchführen
+                $this->calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price);
+                $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
+                $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
+                $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
+                $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
+                $calculated_forecast = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
-                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
+                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
+                $this->SetValue('GCM_kwhForecast', $calculated_forecast);
                 $forecast_costs = $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
                 $difference = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                 $this->SetValue('GCM_CostsForecast', $forecast_costs['forecast_costs']);
                 $this->SetValue('GCM_DaysSinceInvoice', $forecast_costs['days_passed']);
                 $this->SetValue('GCM_DaysTillInvoice', $forecast_costs['days_remaining']);
                 $this->SetValue('GCM_LumpSumDiff', $difference);
+                // Debugging-Ausgaben
+                $this->SendDebug('Modul.php -> actual KWH', $actual_kwh, 0);
+                $this->SendDebug('Modul.php -> kwh_day_diffenerce', $kwh_day_difference, 0);
+                $this->SendDebug('Modul.php -> calculated_forecast', $calculated_forecast, 0);
+                $this->SendDebug('Modul.php -> lump_sum_year', $lump_sum_year, 0);
+                $this->SendDebug('Modul.php -> costs_forecast', $costs_forecast, 0);
+                $this->SendDebug('Modul.php -> days_since_invoice', $forecast_costs['days_passed'], 0);
+                $this->SendDebug('Modul.php -> days_till_invoice', $forecast_costs['days_remaining'], 0);
             }
         }
     }

@@ -302,7 +302,7 @@
                 $this->SetValue('GCM_CostsForecast', $costs_forecast['costs_forecast']);
                 $this->SetValue('GCM_DaysSinceInvoice', $costs_forecast['days_passed']);
                 $this->SetValue('GCM_DaysTillInvoice', $costs_forecast['days_remaining']);
-                // $this->SetValue('GCM_LumpSumDiff', $this->LumpSumDifference($lump_sum_year, $costs_forecast));
+                $this->SetValue('GCM_LumpSumDiff', $this->LumpSumDifference($lump_sum_year, $costs_forecast));
             }
         }
     }

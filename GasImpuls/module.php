@@ -272,7 +272,6 @@
                     $this->SendDebug('Modul.php -> IF actual KWH', $actual_kwh, 0);
                     $this->SendDebug('Modul.php -> IF lump_sum_year', $lump_sum_year, 0);
                     $this->SendDebug('Modul.php -> IF costs_forecast', $costs_forecast, 0);
-
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;

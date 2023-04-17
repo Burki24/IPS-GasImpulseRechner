@@ -267,7 +267,7 @@
                     $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
-                    $this->LumpSumDifference($lump_sum_year, $costs_forecast);
+                    // $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                     $result = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
                     $this->SendDebug('Modul.php -> IF actual KWH', $actual_kwh, 0);
                 } else {
@@ -277,7 +277,7 @@
                     $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
-                    $this->LumpSumDifference($lump_sum_year, $costs_forecast);
+                    // $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                     $calculated_forecast = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
                     // $forecast = $this->calculatForecast($invoice_date, $base_price, $calorific_value, $current_kwh_consumption, $kwh_price, $condition_number);
                     // $calculated_forecast = $result['calculated_forecast'];

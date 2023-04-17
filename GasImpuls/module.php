@@ -285,7 +285,7 @@
                     // $forecast = $this->calculatForecast($invoice_date, $base_price, $calorific_value, $current_kwh_consumption, $kwh_price, $condition_number);
                     // $calculated_forecast = $result['calculated_forecast'];
                     // $monthly_forecast = $result['monthly_forecast'];
-                    $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
+                    // $this->SetValue('GCM_KWHDifference', $kwh_day_difference);
                     $this->SetValue('GCM_kwhForecast', $calculated_forecast);
                     $this->SendDebug('Modul.php -> ELSE actual KWH', $actual_kwh, 0);
                     $this->SendDebug('Modul.php -> ELSE kwh_day_diffenerce', $kwh_day_difference, 0);

@@ -290,6 +290,8 @@
                     $this->SendDebug('Modul.php -> ELSE actual KWH', $actual_kwh, 0);
                     $this->SendDebug('Modul.php -> ELSE kwh_day_diffenerce', $kwh_day_difference, 0);
                     $this->SendDebug('Modul.php -> ELSE calculated_forecast', $calculated_forecast, 0);
+                    $this->SendDebug('Modul.php -> ELSE lump_sum_year', $lump_sum_year, 0);
+                    $this->SendDebug('Modul.php -> ELSE costs_forecast', $costs_forecast, 0);
                     // $this->SendDebug('Modul.php -> ELSE monthly_forecast', $monthly_forecast, 0);
                 }
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);

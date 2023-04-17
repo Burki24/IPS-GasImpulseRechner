@@ -264,6 +264,7 @@
                     $new_counter_value = $current_counter_value + $impulse_value;
                     $new_cubic_meter = $cubic_meter + $impulse_value;
                     $this->calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price);
+                    $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
                     $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
@@ -273,7 +274,7 @@
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
-                    $this->calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price);
+                    $this->calculateForecastCosts($invoice_date, $base_price, $forecast_kwh, $kwh_price);
                     $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
@@ -292,7 +293,9 @@
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
+                $costs_forecast = calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price);
                 $result = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
+                $this->SetValue('GCM_CostForecast', $costs_forecast);
                 $this->SetValue('GCM_LumpSumDiff', $result);
             }
         }

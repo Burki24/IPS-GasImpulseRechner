@@ -64,29 +64,17 @@ trait CalculationHelper
     }
 
     //Kosten
-    private function calculatForecast($invoice_date, $base_price, $calorific_value, $current_kwh_consumption, $kwh_price, $condition_number)
-    {
-        $date = json_decode($invoice_date, true);
-        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $time_stamp_plus_one_year = (new DateTimeImmutable())->setTimestamp($time_stamp)->add(new DateInterval('P1Y'))->getTimestamp();
-        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
-        $days_until = abs(floor((time() - $time_stamp_plus_one_year) / (60 * 60 * 24)));
-        $base_costs = $base_price * $days_until;
-        $kwh = $current_kwh_consumption;
-        $kwh_costs = $kwh * $kwh_price;
-        $costs = $kwh_costs + $base_costs;
-        $days_total = $days_since + $days_until;
-        $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
-        $kwh_forecast = (($kwh / $days_since) * $days_total);
-        $this->SetValue('GCM_DaysTillInvoice', $days_until);
-        $this->SetValue('GCM_CostsForecast', $costs_forecast);
-        $this->SetValue('GCM_kwhForecast', $kwh_forecast);
-        return [
-            'kwh_day_difference'  => $days_until,
-            'calculated_forecast' => $costs_forecast,
-            'monthly_forecast'    => $kwh_forecast,
-        ];
-    }
+    private function calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price)
+{
+    $invoice_dt = new DateTimeImmutable($invoice_date);
+    $future_dt = $invoice_dt->modify('+1 year');
+    $days_total = $future_dt->diff($invoice_dt)->days;
+    $base_costs = $base_price * $days_total;
+    $kwh_costs = $kwh_forecast * $kwh_price;
+    $costs_forecast = $base_costs + $kwh_costs;
+    return $costs_forecast;
+}
+
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number)

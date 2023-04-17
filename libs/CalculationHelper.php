@@ -5,7 +5,7 @@ declare(strict_types=1);
 trait CalculationHelper
 {
     // Umrechnung m3 in kwh
-    private function calculateKWH($calorific_value, $cubic_meter, $condition_number)
+    private function calculateKWH(float $calorific_value, float $cubic_meter, float $condition_number): float
     {
         $kwh = $calorific_value * $cubic_meter * $condition_number;
         $this->SetValue('GCM_UsedKWH', $kwh);
@@ -13,7 +13,7 @@ trait CalculationHelper
     }
 
     // Grundpreisperiode berechnen
-    private function calculatePeriod($value, $period, $months, $invoice_date)
+    private function calculatePeriod(float $value, string $period, int $months, string $invoice_date): float
     {
         $days_in_year = (int) date('L') ? 366 : 365;
         if ($months != 12) {
@@ -42,7 +42,7 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-    private function calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price)
+    private function calculateCosts(float $base_price, string $invoice_date, float $current_kwh_consumption, float $kwh_price): float
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
@@ -61,9 +61,8 @@ trait CalculationHelper
         }
         return $costs;
     }
-
     //Kosten
-    private function calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price)
+    private function calculateForecastCosts(string $invoice_date, float $base_price, float $kwh_forecast, float $kwh_price): array
     {
         $date_arr = json_decode($invoice_date, true);
         $invoice_dt = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date_arr['year'], $date_arr['month'], $date_arr['day']));
@@ -82,24 +81,26 @@ trait CalculationHelper
     }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
-    private function DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number)
+    private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): float
     {
         $result = ($actual_counter_value - $invoice_count);
         $kwh = ($result * $calorific_value * $condition_number);
         $this->SetValue('GCM_CurrentConsumption', $result);
-        $this->Setvalue('GCM_KWHSinceInvoice', $kwh);
+        $this->SetValue('GCM_KWHSinceInvoice', $kwh);
+        return $result;
     }
 
     // Kosten aktueller Tag
-    private function CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number)
+    private function CalculateCostActualDay(float $base_price, float $calorific_value, float $kwh_day, float $kwh_price, float $condition_number): float
     {
         $kwhCosts = $kwh_day * $kwh_price * $condition_number;
         $costs = $kwhCosts + $base_price;
         $this->SetValue('GCM_DayCosts', $costs);
+        return $costs;
     }
 
     // Aktuelles Datum berechnen
-    private function GetCurrentDate()
+    private function GetCurrentDate(): string
     {
         $date = date('Y-m-d');
         list($year, $month, $day) = explode('-', $date);
@@ -110,6 +111,7 @@ trait CalculationHelper
         ];
         return json_encode($dateArray);
     }
+
     // Abschlagsberechnungen
     // Höhe der Abschlagszahlung im laufenden Jahr
     private function LumpSumYear($months, $lump_sum, $old_lump_sum, $invoice_date)
@@ -134,14 +136,14 @@ trait CalculationHelper
     }
 
     // Differenz zu erwartenden Kosten
-    private function LumpSumDifference($lump_sum_year, $costs_forecast)
+    private function LumpSumDifference(float $lump_sum_year, float $costs_forecast): float
     {
         $difference = ($lump_sum_year - $costs_forecast);
         return $difference;
     }
 
     // Bisher gezahlte Abschläge
-    private function LumpSumPast($lump_sum, $invoice_date, $months)
+    private function LumpSumPast(float $lump_sum, string $invoice_date, int $months): float
     {
         $days_in_year = (int) date('L') ? 366 : 365;
         if ($months != 12) {
@@ -155,7 +157,7 @@ trait CalculationHelper
     }
 
     // KWH Forecast
-    private function ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor)
+    private function ForecastKWH(float $invoice_kwh, string $invoice_date, float $actual_kwh, string $month_factor): float
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);

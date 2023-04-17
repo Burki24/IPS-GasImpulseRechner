@@ -35,7 +35,7 @@
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
             $this->RegisterAttributeFloat('Attrib_LumpSumPast', 0);
-            $this->RegisterAttributeBoolean('ImpulseUsed', false);
+            $this->RegisterAttributeBoolean('Attrib_ImpulseCounted', false);
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
@@ -219,11 +219,28 @@
             $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayCount'));
         }
 
+        private function wasImpulseAlreadyCounted()
+        {
+            $counted = $this->ReadAttributeBoolean('Attrib_ImpulseCounted');
+            return $counted;
+        }
+
+        private function markImpulseAsCounted()
+        {
+            $this->WriteAttributeBoolean('Attrib_ImpulseCounted', true);
+        }
+
+        private function ResetImpulseCountedFlag()
+        {
+            $this->WriteAttributeBoolean('Attrib_ImpulseCounted', false);
+        }
+
         // Hauptfunktion des Moduls
         private function GasCounter()
         {
             // Registrieren der Änderungsbenachrichtigung für den Impuls
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
+            $this->ResetImpulseCountedFlag();
 
             // Lesen der benötigten Variablen
             $actual_counter_value = $this->GetValue('GCM_CounterValue');
@@ -258,11 +275,10 @@
             // Überprüfen, ob Impuls-Variable vergeben wurde und ob Impuls ausgelöst wurde
             if ($impulse_id > 0) {
                 $impulse = GetValue($impulse_id);
-                $impulse_used = $this->ReadAttributeBoolean('ImpulseUsed');
-                if ($impulse && !$impulse_used) {
+                if ($impulse && !$this->wasImpulseAlreadyCounted()) {
                     $new_counter_value = $current_counter_value + $impulse_value;
                     $new_cubic_meter = $cubic_meter + $impulse_value;
-                    $this->WriteAttributeBoolean('ImpulseUsed', true);
+                    $this->markImpulseAsCounted();
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;

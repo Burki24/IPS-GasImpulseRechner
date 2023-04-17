@@ -190,26 +190,26 @@ trait CalculationHelper
         for ($i = 0; $i <= $months_since_invoice; $i++) {
             $current_month = ($last_month + $i - 1) % 12 + 1;
             $current_year = $last_year + (int) (($last_month + $i - 1) / 12);
-            $days_in_month = date('t', mktime(0, 0, 0, $current_month, 1, $current_year)); // Anzahl der Tage im aktuellen Monat
-            $month_weight = (isset($weights[$current_month - 1]) && isset($weights[$current_month - 1]['Factor'])) ? $weights[$current_month - 1]['Factor'] : 0;
-            $daily_weight = $month_weight / $days_in_month;
-            $monthly_sum = 0;
 
-            for ($day = 1; $day <= $days_in_month; $day++) {
-                $daily_sum = $actual_day_kwh * $daily_weight;
-                $monthly_sum += $daily_sum;
+            if ($current_year == $today['year']) {
+                $days_in_month = date('t', mktime(0, 0, 0, $current_month, 1, $current_year)); // Anzahl der Tage im aktuellen Monat
+                $month_weight = (isset($weights[$current_month - 1]) && isset($weights[$current_month - 1]['Factor'])) ? $weights[$current_month - 1]['Factor'] : 0;
+                $daily_weight = $month_weight / $days_in_month;
+                $monthly_sum = 0;
+
+                for ($day = 1; $day <= $days_in_month; $day++) {
+                    $daily_sum = $actual_day_kwh * $daily_weight;
+                    $monthly_sum += $daily_sum;
+                }
+
+                $monthly_forecast[] = [
+                    'month'       => $current_month,
+                    'year'        => $current_year,
+                    'consumption' => $monthly_sum
+                ];
+
+                $calculated_forecast += $monthly_sum * $month_weight;
             }
-
-            $monthly_forecast[] = [
-                'month'       => $current_month,
-                'year'        => $current_year,
-                'consumption' => $monthly_sum
-            ];
-
-            $calculated_forecast += $monthly_sum * $month_weight;
-
-            $last_month = $current_month; // Aktualisiere $last_month für den nächsten Schleifendurchlauf
-        $last_year = $current_year; // Aktualisiere $last_year für den nächsten Schleifendurchlauf
         }
 
         $monthly_forecast_json = json_encode($monthly_forecast);

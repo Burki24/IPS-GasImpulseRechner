@@ -35,6 +35,7 @@
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
             $this->RegisterAttributeFloat('Attrib_LumpSumPast', 0);
+            $this->RegisterAttributeBoolean('ImpulseUsed', false);
 
             // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {

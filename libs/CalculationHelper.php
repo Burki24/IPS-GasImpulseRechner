@@ -70,14 +70,20 @@ trait CalculationHelper
         $invoice_dt = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date_arr['year'], $date_arr['month'], $date_arr['day']));
         $future_dt = $invoice_dt->modify('+1 year');
         $days_total = $future_dt->diff($invoice_dt)->days;
+        $days_remaining = $future_dt->diff(new DateTimeImmutable())->days;
+        $days_passed = $days_total - $days_remaining;
         $base_costs = $base_price * $days_total;
         $kwh_costs = $kwh_forecast * $kwh_price;
         $costs_forecast = $base_costs + $kwh_costs;
-        $this->SendDebug('CalculationsHelper: kwh_costs', $kwh_costs, 0);
-        $this->SendDebug('CalculationsHelper: base_costs', $base_costs, 0);
-        $this->SendDebug('CalculationsHelper: kwh_forecast', $kwh_forecast, 0);
-        $this->SendDebug('CalculationsHelper: costs_forecast', $costs_forecast, 0);
-        return $costs_forecast;
+        // $this->setValue('GCM_DaysPassed', $days_passed);
+        // $this->setValue('GCM_DaysRemaining', $days_remaining);
+        // $this->setValue('GCM_CostsForecast', $costs_forecast);
+        // $this->setValue('GCM_kwhForecast', $kwh_forecast);
+        return [
+            'days_remaining' => $days_remaining,
+            'days_passed'    => $days_passed,
+            'costs_forecast' => $costs_forecast,
+        ];
     }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell

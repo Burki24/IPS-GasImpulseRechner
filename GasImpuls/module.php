@@ -230,7 +230,7 @@
             $calculated_forecast = 0;
             $calorific_value = $this->ReadpropertyFloat('CalorificValue');
             $condition_number = $this->ReadPropertyFloat('ConditionNumber');
-            $costs_forecast = $this->GetValue('GCM_CostsForecast');
+            $costs_forecast = $this->GetValueFloat('GCM_CostsForecast');
             $cubic_meter = $this->GetValue('GCM_UsedM3');
             $current_counter_value = $this->GetValue('GCM_CounterValue');
             $current_kwh_consumption = $this->GetValue('GCM_KWHSinceInvoice');
@@ -245,7 +245,7 @@
             $kwh_forecast = $this->GetValue('GCM_kwhForecast');
             $kwh_price = $this->ReadpropertyFloat('KWHPrice');
             $lump_sum = $this->ReadPropertyFloat('LumpSum');
-            $lump_sum_year = $this->GetValue('GCM_LumpSumYear');
+            $lump_sum_year = $this->GetValueFloat('GCM_LumpSumYear');
             $month_factor = $this->ReadPropertyString('MonthFactor');
             $months = $this->ReadPropertyInteger('BillingMonths');
 

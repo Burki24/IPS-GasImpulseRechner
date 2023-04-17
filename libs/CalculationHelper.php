@@ -80,9 +80,9 @@ trait CalculationHelper
         // $this->setValue('GCM_CostsForecast', $costs_forecast);
         // $this->setValue('GCM_kwhForecast', $kwh_forecast);
         return [
-            'days_remaining' => $days_remaining,
-            'days_passed'    => $days_passed,
-            'costs_forecast' => $costs_forecast,
+            'days_remaining' => (float) $days_remaining,
+            'days_passed'    => (float) $days_passed,
+            'costs_forecast' => (float) $costs_forecast,
         ];
     }
 

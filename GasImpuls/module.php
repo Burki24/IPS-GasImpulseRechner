@@ -274,7 +274,7 @@
                 } else {
                     $new_counter_value = $current_counter_value;
                     $new_cubic_meter = $cubic_meter;
-                    $this->calculateForecastCosts($invoice_date, $base_price, $forecast_kwh, $kwh_price);
+                    $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
                     $this->calculateKWH($calorific_value, $cubic_meter, $condition_number);
                     $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
                     $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);

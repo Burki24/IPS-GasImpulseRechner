@@ -25,7 +25,7 @@
             "Value": "Zählerstand",
             "    The current kwh price can be found in your gas supplier contract": "    Preis pro kwh. Im Vertrag ersichtlich",
             "KW/h price": "kW/h Preis",
-            "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module.": "Mein Dank geht an @KaiS, @Nall-chan und @Pitti für die kräftige Unterstützung bei der Modulentwicklung.",
+            "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module. And to @tissenm for testing again and again.": "Mein Dank geht an @KaiS, @Nall-chan und @Pitti für die kräftige Unterstützung bei der Modulentwicklung. Und an @tissenm für die riesen Geduld beim Testen.",
             "Daily Cosnumption kW/h": "Heutiger Verbrauch in kW/h",
             "Daily Cosnumption m3": "Heutiger Verbrauch in m3",
             "Costs Today": "Heutige Kosten",

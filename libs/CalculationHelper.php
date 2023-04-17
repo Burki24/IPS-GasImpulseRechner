@@ -73,6 +73,8 @@ trait CalculationHelper
         $base_costs = $base_price * $days_total;
         $kwh_costs = $kwh_forecast * $kwh_price;
         $costs_forecast = $base_costs + $kwh_costs;
+        $this->SendDebug('CalculationsHelper: kwh_costs', $kwh_costs, 0);
+        $this->SendDebug('CalculationsHelper: base_costs', $base_costs, 0);
         $this->SendDebug('CalculationsHelper: kwh_forecast', $kwh_forecast, 0);
         return $costs_forecast;
     }

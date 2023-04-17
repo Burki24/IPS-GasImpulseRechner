@@ -65,17 +65,16 @@ trait CalculationHelper
 
     //Kosten
     private function calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price)
-{
-    $date_arr = json_decode($invoice_date, true);
-    $invoice_dt = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date_arr['year'], $date_arr['month'], $date_arr['day']));
-    $future_dt = $invoice_dt->modify('+1 year');
-    $days_total = $future_dt->diff($invoice_dt)->days;
-    $base_costs = $base_price * $days_total;
-    $kwh_costs = $kwh_forecast * $kwh_price;
-    $costs_forecast = $base_costs + $kwh_costs;
-    return $costs_forecast;
-}
-
+    {
+        $date_arr = json_decode($invoice_date, true);
+        $invoice_dt = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date_arr['year'], $date_arr['month'], $date_arr['day']));
+        $future_dt = $invoice_dt->modify('+1 year');
+        $days_total = $future_dt->diff($invoice_dt)->days;
+        $base_costs = $base_price * $days_total;
+        $kwh_costs = $kwh_forecast * $kwh_price;
+        $costs_forecast = $base_costs + $kwh_costs;
+        return $costs_forecast;
+    }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number)

@@ -249,7 +249,6 @@
             $month_factor = $this->ReadPropertyString('MonthFactor');
             $months = $this->ReadPropertyInteger('BillingMonths');
 
-
             // Aktualisierung bei Anpassung Zählerstand bei Installation
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');

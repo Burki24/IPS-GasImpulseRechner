@@ -166,53 +166,31 @@ trait CalculationHelper
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
         $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
 
         $actual_day_kwh = 0;
-        if ($actual_kwh != 0 && $months_since != 0) {
+        if ($actual_kwh != 0 && $days_since != 0) {
             $actual_day_kwh = $actual_kwh / $days_since;
         }
 
         $weights = json_decode($month_factor, true);
-        $total_weight = array_sum(array_column($weights, 'Factor'));
-
         $last_month = intval($date['month']);
         $last_year = intval($date['year']);
         $months_since_invoice = 12;
 
-        $monthly_forecast = [];
         $calculated_forecast = 0;
 
         for ($i = 0; $i < $months_since_invoice; $i++) {
             $current_month = ($last_month + $i - 1) % 12 + 1;
             $current_year = $last_year + (int) (($last_month + $i - 1) / 12);
 
-            $days_in_month = date('t', mktime(0, 0, 0, $current_month, 1, $current_year)); // Anzahl der Tage im aktuellen Monat
+            $days_in_month = date('t', mktime(0, 0, 0, $current_month, 1, $current_year));
             $month_weight = (isset($weights[$current_month - 1]) && isset($weights[$current_month - 1]['Factor'])) ? $weights[$current_month - 1]['Factor'] : 0;
-            $daily_weight = $month_weight / $days_in_month;
-            $monthly_sum = 0;
 
-            for ($day = 1; $day <= $days_in_month; $day++) {
-                $daily_sum = $actual_day_kwh * $daily_weight;
-                $monthly_sum += $daily_sum;
-            }
-
-            $monthly_forecast[] = [
-                'month'       => $current_month,
-                'year'        => $current_year,
-                'consumption' => $monthly_sum
-            ];
-
-            $calculated_forecast += $monthly_sum * $month_weight;
+            $monthly_sum = $actual_day_kwh * $days_in_month * $month_weight;
+            $calculated_forecast += $monthly_sum;
         }
 
-        $monthly_forecast_json = json_encode($monthly_forecast);
-
-        return [
-            'kwh_day_difference'  => $actual_day_kwh * 365,
-            'calculated_forecast' => $calculated_forecast,
-            'monthly_forecast'    => $monthly_forecast,
-        ];
+        return $calculated_forecast;
     }
 }

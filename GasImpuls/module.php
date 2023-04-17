@@ -247,6 +247,7 @@
             $lump_sum = $this->ReadPropertyFloat('LumpSum');
             $lump_sum_year = $this->GetValue('GCM_LumpSumYear');
             $month_factor = $this->ReadPropertyString('MonthFactor');
+            $this->SendDebug('module.php : month_factor', $month_factor, 0);
             $months = $this->ReadPropertyInteger('BillingMonths');
 
             // Aktualisierung bei Anpassung Zählerstand bei Installation

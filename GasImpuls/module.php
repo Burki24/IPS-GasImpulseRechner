@@ -297,11 +297,11 @@
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
-                $costs_forecast = $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
+                $forecast_costs = $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
                 $difference = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
-                $this->SetValue('GCM_CostsForecast', $costs_forecast['costs_forecast']);
-                $this->SetValue('GCM_DaysSinceInvoice', $costs_forecast['days_passed']);
-                $this->SetValue('GCM_DaysTillInvoice', $costs_forecast['days_remaining']);
+                $this->SetValue('GCM_CostsForecast', $forecast_costs['forecast_costs']);
+                $this->SetValue('GCM_DaysSinceInvoice', $forecast_costs['days_passed']);
+                $this->SetValue('GCM_DaysTillInvoice', $forecast_costs['days_remaining']);
                 $this->SetValue('GCM_LumpSumDiff', $difference);
             }
         }

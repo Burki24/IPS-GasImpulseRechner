@@ -58,7 +58,6 @@ trait CalculationHelper
             $days_total = $days_since + $days_until;
             $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
-            // $this->SetValue('GCM_DaysSinceInvoice', $days_since);
         }
         return $costs;
     }
@@ -74,15 +73,11 @@ trait CalculationHelper
         $days_passed = $days_total - $days_remaining;
         $base_costs = $base_price * $days_total;
         $kwh_costs = $kwh_forecast * $kwh_price;
-        $costs_forecast = $base_costs + $kwh_costs;
-        // $this->setValue('GCM_DaysPassed', $days_passed);
-        // $this->setValue('GCM_DaysRemaining', $days_remaining);
-        // $this->setValue('GCM_CostsForecast', $costs_forecast);
-        // $this->setValue('GCM_kwhForecast', $kwh_forecast);
+        $forecast_costs = $base_costs + $kwh_costs;
         return [
             'days_remaining' => (float) $days_remaining,
             'days_passed'    => (float) $days_passed,
-            'costs_forecast' => (float) $costs_forecast,
+            'forecast_costs' => (float) $forecast_costs,
         ];
     }
 

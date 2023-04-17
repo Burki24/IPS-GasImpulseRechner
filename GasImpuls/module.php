@@ -27,7 +27,7 @@
             $this->RegisterPropertyInteger('BillingMonths', 11);
             $this->RegisterPropertyFloat('LumpSum', 0);
             $this->RegisterPropertyInteger('InvoiceKWH', 0);
-            $this->RegisterPropertyString('MonthFactor', 0);
+            $this->RegisterPropertyString('MonthFactor', '[{"Name":"January","Factor":"1.0"},{"Name":"February","Factor":0.9},{"Name":"March","Factor":0.85},{"Name":"April","Factor":0.70},{"Name":"May","Factor":0.6},{"Name":"June","Factor":0.45},{"Name":"July","Factor":0.35},{"Name":"August","Factor":0.35},{"Name":"September","Factor":0.55},{"Name":"October","Factor":0.8},{"Name":"November","Factor":0.9},{"Name":"December","Factor":"1.0"}]');
             $this->RegisterPropertyFloat('ConditionNumber', 0);
 
             // Zur Berechnung bereitzustellende Werte

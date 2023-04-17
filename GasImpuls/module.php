@@ -292,7 +292,7 @@
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
-                $costs_forecast = $this->calculateCosts($base_price, $invoice_date, $current_kwh_consumption, $kwh_price);
+                $costs_forecast = $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
                 $this->SendDebug('module : costs_forecast', $costs_forecast, 0);
                 $result = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
                 $this->SetValue('GCM_CostsForecast', $costs_forecast);

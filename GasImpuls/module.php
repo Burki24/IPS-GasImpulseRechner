@@ -141,7 +141,7 @@
                 $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
             }
 
-            // ImpulseCounter zurücksetzen
+            //  ImpulseCounter zurücksetzen
             if ($old_counter_value !== $new_counter_value) {
                 $this->ImpulseCounterReset();
             }

@@ -121,7 +121,7 @@ trait CalculationHelper
 
     // Abschlagsberechnungen
     // Höhe der Abschlagszahlung im laufenden Jahr
-    private function LumpSumYear(int $months, float $lump_sum, float $old_lump_sum, string $invoice_date)
+    private function LumpSumYear(int $months, float $lump_sum, float $old_lump_sum, string $invoice_date): float
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);

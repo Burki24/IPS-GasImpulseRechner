@@ -291,24 +291,18 @@
                 $this->CalculateCostActualDay($base_price, $calorific_value, $kwh_day, $kwh_price, $condition_number);
                 $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
                 $calculated_forecast = $this->ForecastKWH($invoice_kwh, $invoice_date, $actual_kwh, $month_factor);
-                $this->SetValue('GCM_UsedM3', $new_cubic_meter);
-                $this->SetValue('GCM_CounterValue', $new_counter_value);
-                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
-                $this->SetValue('GCM_kwhForecast', $calculated_forecast);
                 $forecast_costs = $this->calculateForecastCosts($invoice_date, $base_price, $kwh_forecast, $kwh_price);
                 $difference = $this->LumpSumDifference($lump_sum_year, $costs_forecast);
+
+                // Werte schreiben
+                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
+                $this->SetValue('GCM_UsedM3', $new_cubic_meter);
+                $this->SetValue('GCM_CounterValue', $new_counter_value);
+                $this->SetValue('GCM_kwhForecast', $calculated_forecast);
                 $this->SetValue('GCM_CostsForecast', $forecast_costs['forecast_costs']);
                 $this->SetValue('GCM_DaysSinceInvoice', $forecast_costs['days_passed']);
                 $this->SetValue('GCM_DaysTillInvoice', $forecast_costs['days_remaining']);
                 $this->SetValue('GCM_LumpSumDiff', $difference);
-                // Debugging-Ausgaben
-                $this->SendDebug('Modul.php -> actual KWH', $actual_kwh, 0);
-                $this->SendDebug('Modul.php -> kwh_day_diffenerce', $kwh_day_difference, 0);
-                $this->SendDebug('Modul.php -> calculated_forecast', $calculated_forecast, 0);
-                $this->SendDebug('Modul.php -> lump_sum_year', $lump_sum_year, 0);
-                $this->SendDebug('Modul.php -> costs_forecast', $costs_forecast, 0);
-                $this->SendDebug('Modul.php -> days_since_invoice', $forecast_costs['days_passed'], 0);
-                $this->SendDebug('Modul.php -> days_till_invoice', $forecast_costs['days_remaining'], 0);
             }
         }
     }

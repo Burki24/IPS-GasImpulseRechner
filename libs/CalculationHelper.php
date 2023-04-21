@@ -46,9 +46,15 @@ trait CalculationHelper
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $time_stampPlusOneYear = (new DateTimeImmutable())->setTimestamp($time_stamp)->add(new DateInterval('P1Y'))->getTimestamp();
-        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
-        $days_until = abs(floor((time() - $time_stampPlusOneYear) / (60 * 60 * 24)));
+        $time_now = time();
+
+        $dateTime = (new DateTimeImmutable())->setTimestamp($time_stamp);
+        $time_stampPlusOneYear = $dateTime->add(new DateInterval('P1Y'))->getTimestamp();
+        $seconds_in_day = 60 * 60 * 24;
+
+        $days_since = floor(($time_now - $time_stamp) / $seconds_in_day);
+        $days_until = abs(floor(($time_now - $time_stampPlusOneYear) / $seconds_in_day));
+
         $baseCosts = round($base_price * $days_since, 2);
         $kwh = round($current_kwh_consumption, 2);
         $kwhCosts = round($kwh * $kwh_price, 2);
@@ -61,6 +67,7 @@ trait CalculationHelper
         }
         return $costs;
     }
+
     // Zu erwartende Kosten
     private function calculateForecastCosts(string $invoice_date, float $base_price, float $kwh_forecast, float $kwh_price): array
     {

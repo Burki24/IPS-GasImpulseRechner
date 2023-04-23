@@ -4,27 +4,23 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "Instance ID for the impulse provider (This must be a Boolean variable):     "
-                },
-                {
                     "type": "SelectVariable",
                     "name": "ImpulseID",
                     "validVariableTypes": [
                         0
                     ],
                     "caption": "Impulse Instance ID",
-                    "width": "250px"
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Instance ID for the impulse provider (This must be a Boolean variable)"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The value in m3 per impulse. Is noted on the gas meter:     "
-                },
                 {
                     "type": "NumberSpinner",
                     "name": "ImpulseValue",
@@ -32,7 +28,11 @@
                     "moreDigits": "true",
                     "suffix": "m3",
                     "caption": "Impulse Value",
-                    "width": "100px"
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The value in m3 per impulse. Is noted on the gas meter"
                 }
             ]
         },
@@ -40,9 +40,123 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "The baseprice value of your provider:       "
+                    "type": "NumberSpinner",
+                    "name": "InstallCounterValue",
+                    "caption": "Value",
+                    "digits": 2,
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "width": "140px"
                 },
+                {
+                    "type": "Label",
+                    "caption": "    Meter counter value at the moment of module installation. To be entered including the two digits after the comma"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "SelectDate",
+                    "name": "InvoiceDate",
+                    "caption": "Invoice date",
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The last invoice date is needed to calculate days since last invoice"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "InvoiceCounterValue",
+                    "caption": "m3 invoice value",
+                    "moreDigits": "true",
+                    "suffix": "m3",
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The last meter reading mentioned in the billing"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "InvoiceKWH",
+                    "caption": "kW/h on invoice",
+                    "suffix": "kW/h",
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Invoice kW/h"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "CalorificValue",
+                    "caption": "The calorific value",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "ConditionNumber",
+                    "caption": "Condition number",
+                    "digits": 4,
+                    "moreDigits": "true",
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The condition number is required to convert from m3 to kwh. It can be found on the last final invoice"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "KWHPrice",
+                    "caption": "KW/h price",
+                    "digits": 3,
+                    "moreDigits": "true",
+                    "suffix": "€",
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The current kwh price can be found in your gas supplier contract"
+                }
+            ]
+        },
+        {
+            "type": "RowLayout",
+            "items": [
                 {
                     "type": "NumberSpinner",
                     "caption": "Base price",
@@ -50,7 +164,11 @@
                     "moreDigits": "true",
                     "name": "BasePrice",
                     "suffix": "€",
-                    "width": "100px"
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The baseprice value of your provider"
                 }
             ]
         },
@@ -58,14 +176,10 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "The paying period of the baseprice. This is important to calculate the correct daily cost:      "
-                },
-                {
                     "type": "Select",
                     "name": "BasePricePeriod",
                     "caption": "Period of baseprice value",
-                    "width": "150px",
+                    "width": "140px",
                     "options": [
                         {
                             "caption": "day",
@@ -88,6 +202,10 @@
                             "value": "year"
                         }
                     ]
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The paying period of the baseprice. This is important to calculate the correct daily cost"
                 }
             ]
         },
@@ -95,14 +213,10 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "Number of billing months:       "
-                },
-                {
                     "type": "Select",
                     "caption": "Billing months",
                     "name": "BillingMonths",
-                    "width": "120px",
+                    "width": "140px",
                     "options": [
                         {
                             "caption": "11 Monate",
@@ -113,16 +227,16 @@
                             "value": 12
                         }
                     ]
+                },
+                {
+                    "type": "Label",
+                    "caption": "    Number of billing months"
                 }
             ]
         },
         {
             "type": "RowLayout",
             "items": [
-                {
-                    "type": "Label",
-                    "caption": "The current lump sum to be paid:       "
-                },
                 {
                     "type": "NumberSpinner",
                     "caption": "lump sum",
@@ -130,7 +244,11 @@
                     "moreDigits": "true",
                     "name": "LumpSum",
                     "suffix": "€",
-                    "width": "100px"
+                    "width": "140px"
+                },
+                {
+                    "type": "Label",
+                    "caption": "    The current lump sum to be paid"
                 }
             ]
         },
@@ -138,84 +256,96 @@
             "type": "RowLayout",
             "items": [
                 {
-                    "type": "Label",
-                    "caption": "The calorific value is required to convert from m3 to kwh. It can be found on the last final invoice:      "
+                    "type": "List",
+                    "name": "MonthFactor",
+                    "caption": "Months",
+                    "rowCount": 12,
+                    "add": false,
+                    "delete": false,
+                    "columns": [
+                        {
+                            "caption": "Name",
+                            "name": "Name",
+                            "width": "120",
+                            "add": "0",
+                            "save": true
+                        },
+                        {
+                            "caption": "Factor",
+                            "name": "Factor",
+                            "width": "75px",
+                            "edit": {
+                                "type": "NumberSpinner",
+                                "digits": 2
+                            }
+                        }
+                    ],
+                    "values": [
+                        {
+                            "Month": 1,
+                            "Name": "January",
+                            "Factor": "1.0"
+                        },
+                        {
+                            "Month": 2,
+                            "Name": "February",
+                            "Factor": "1.0"
+                        },
+                        {
+                            "Month": 3,
+                            "Name": "March",
+                            "Factor": "0.9"
+                        },
+                        {
+                            "Month": 4,
+                            "Name": "April",
+                            "Factor": "0.9"
+                        },
+                        {
+                            "Month": 5,
+                            "Name": "May",
+                            "Factor": "0.8"
+                        },
+                        {
+                            "Month": 6,
+                            "Name": "June",
+                            "Factor": "0.8"
+                        },
+                        {
+                            "Month": 7,
+                            "Name": "July",
+                            "Factor": "0.7"
+                        },
+                        {
+                            "Month": 8,
+                            "Name": "August",
+                            "Factor": "0.7"
+                        },
+                        {
+                            "Month": 9,
+                            "Name": "September",
+                            "Factor": "0.8"
+                        },
+                        {
+                            "Month": 10,
+                            "Name": "October",
+                            "Factor": "0.9"
+                        },
+                        {
+                            "Month": 11,
+                            "Name": "November",
+                            "Factor": "1.0"
+                        },
+                        {
+                            "Month": 12,
+                            "Name": "December",
+                            "Factor": "1.0"
+                        }
+                    ]
                 },
                 {
-                    "type": "NumberSpinner",
-                    "name": "CalorificValue",
-                    "caption": "The calorific value",
-                    "digits": 3,
-                    "moreDigits": "true",
-                    "width": "100px"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
                     "type": "Label",
-                    "caption": "The last meter reading mentioned in the billing:      "
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "InvoiceCounterValue",
-                    "caption": "m3 value",
-                    "moreDigits": "true",
-                    "suffix": "m3",
-                    "width": "100px"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "Label",
-                    "caption": "The last invoice date is needed to calculate days since last invoice:     "
-                },
-                {
-                    "type": "SelectDate",
-                    "name": "InvoiceDate",
-                    "caption": "Invoice date",
-                    "width": "150px"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "Label",
-                    "caption": "Meter counter value at the moment of module installation. To be entered including the two digits after the comma:      "
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "InstallCounterValue",
-                    "caption": "Value",
-                    "digits": 2,
-                    "moreDigits": "true",
-                    "suffix": "m3",
-                    "width": "100px"
-                }
-            ]
-        },
-        {
-            "type": "RowLayout",
-            "items": [
-                {
-                    "type": "Label",
-                    "caption": "The current kwh price can be found in your gas supplier contract:      "
-                },
-                {
-                    "type": "NumberSpinner",
-                    "name": "KWHPrice",
-                    "caption": "KW/h price",
-                    "digits": 3,
-                    "moreDigits": "true",
-                    "suffix": "€",
-                    "width": "100px"
+                    "caption": "    Factor to calculate the monthly consumtption"
                 }
             ]
         }
@@ -224,7 +354,7 @@
         {
             "type": "Label",
             "bold": "true",
-            "caption": "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module."
+            "caption": "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module. And to @tissenm for testing again and again."
         },
         {
             "type": "Label",

@@ -164,6 +164,7 @@
                 IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
             }
             IPS_SetEventScript($eid, 'GCM_DaySwitch($_IPS[\'TARGET\']);');
+            IPS_SetHidden($eid, true);
 
             // Impuls Verwertung
             $this->GasCounter();

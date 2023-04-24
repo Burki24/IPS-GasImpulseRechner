@@ -9,6 +9,7 @@ trait CalculationHelper
     {
         $kwh = $calorific_value * $cubic_meter * $condition_number;
         $this->SetValue('GCM_UsedKWH', $kwh);
+        $this->SendDebug('CalculateKWH', $kwh, 0);
         return $kwh;
     }
 

@@ -13,10 +13,10 @@ trait CalculationHelper
     }
 
     // Grundpreisperiode berechnen
-    private function calculatePeriod(float $value, string $period, int $months, string $invoice_date): float
+    private function calculatePeriod(float $base_price, string $period, int $billing_months, string $invoice_date): float
     {
         $days_in_year = (int) date('L') ? 366 : 365;
-        if ($months != 12) {
+        if ($billing_months != 12) {
             $days_in_year = (int) date('L', strtotime('+2 months')) ? 396 : 395;
         }
         switch ($period) {
@@ -121,7 +121,7 @@ trait CalculationHelper
 
     // Abschlagsberechnungen
     // Höhe der Abschlagszahlung im laufenden Jahr
-    private function LumpSumYear(int $months, float $lump_sum, float $old_lump_sum, string $invoice_date): float
+    private function LumpSumYear(int $billing_months, float $lump_sum, float $old_lump_sum, string $invoice_date): float
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
@@ -132,10 +132,10 @@ trait CalculationHelper
         $months_since_invoice = $diff->m + ($diff->d >= 1 ? 1 : 0);
 
         if ($old_lump_sum == 0) {
-            $result = $months * $lump_sum;
+            $result = $billing_months * $lump_sum;
         } else {
             $old_lump_sum_result = $months_since_invoice * $old_lump_sum;
-            $remaining_months = $months - $months_since_invoice;
+            $remaining_months = $billing_months - $months_since_invoice;
             $new_lump_sum_result = $remaining_months * $lump_sum;
             $result = $old_lump_sum_result + $new_lump_sum_result;
         }
@@ -151,10 +151,10 @@ trait CalculationHelper
     }
 
     // Bisher gezahlte Abschläge
-    private function LumpSumPast(float $lump_sum, string $invoice_date, int $months): float
+    private function LumpSumPast(float $lump_sum, string $invoice_date, int $billing_months): float
     {
         $days_in_year = (int) date('L') ? 366 : 365;
-        if ($months != 12) {
+        if ($billing_months != 12) {
             $days_in_year = (int) date('L', strtotime('+2 months')) ? 396 : 395;
         }
         $date = json_decode($invoice_date, true);

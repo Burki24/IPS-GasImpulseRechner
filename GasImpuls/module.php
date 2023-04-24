@@ -95,10 +95,10 @@
             //Never delete this line!
             parent::ApplyChanges();
             // Benötigte Variablen
+            $properties = $this->readVariables();
             $month_factor = $this->ReadPropertyString('MonthFactor');
             $old_lump_sum = $this->ReadAttributeFloat('Attrib_LumpSumPast');
             $lump_sum = $this->ReadPropertyFloat('LumpSum');
-            $months = $this->ReadPropertyInteger('BillingMonths');
             $invoice_date = $this->ReadPropertyString('InvoiceDate');
             $install_value = $this->ReadPropertyFloat('InstallCounterValue');
             $actual_value = $this->GetValue('GCM_CounterValue');
@@ -107,20 +107,20 @@
             $calorific_value = $this->ReadPropertyFloat('CalorificValue');
             $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
-            $value = $this->ReadPropertyFloat('BasePrice');
+            $base_price = $this->ReadPropertyFloat('BasePrice');
             $period = $this->ReadPropertyString('BasePricePeriod');
             $condition_number = $this->ReadPropertyFloat('ConditionNumber');
 
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
-                $result = $this->calculatePeriod($value, $period, $months, $invoice_date);
+                $result = $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']);
                 $this->SetValue('GCM_BasePrice', $result);
             }
 
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
                 $this->WriteAttributeFloat('Attrib_LumpSumPast', $lump_sum);
-                $result = $this->LumpSumYear($months, $lump_sum, $old_lump_sum, $invoice_date);
+                $result = $this->LumpSumYear($properties['billing_months'], $properties['lump_sum'], $properties['old_lump_sum'], $properties['invoice_date']);
                 $this->SetValue('GCM_LumpSumYear', $result);
             }
 
@@ -132,14 +132,14 @@
 
             // Eintragung Zählerstand bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CounterValue'))) {
-                if ($actual_value < $install_value) {
-                    $this->SetValue('GCM_CounterValue', $install_value);
+                if ($properties['actual_counter_value'] < $properties['install_counter_value']) {
+                    $this->SetValue('GCM_CounterValue', $properties['install_counter_value']);
                 }
             }
 
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                $this->DifferenceFromInvoice($actual_counter_value, $invoice_count, $calorific_value, $condition_number);
+                $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
             }
 
             //  ImpulseCounter zurücksetzen
@@ -186,7 +186,7 @@
         //Tagesabschluss
         public function DaySwitch()
         {
-            $properties = $this->readProperties();
+            $properties = $this->readVariables();
 
             // Speichern der gestrigen Verbrauchswerte
             $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
@@ -207,20 +207,35 @@
             ]);
         }
         // Variablenwerte festlegen
-        private function readProperties()
+        private function readVariables()
         {
             return [
-                'invoice_date'     => $this->ReadpropertyString('InvoiceDate'),
-                'invoice_kwh'      => $this->ReadPropertyInteger('InvoiceKWH'),
-                'kwh_price'        => $this->ReadpropertyFloat('KWHPrice'),
-                'month_factor'     => $this->ReadPropertyString('MonthFactor'),
-                'base_price'       => $this->GetValue('GCM_BasePrice'),
-                'calorific_value'  => $this->ReadpropertyFloat('CalorificValue'),
-                'condition_number' => $this->ReadPropertyFloat('ConditionNumber'),
-                'lump_sum_year'    => $this->GetValue('GCM_LumpSumYear'),
-                'costs_forecast'   => $this->GetValue('GCM_CostsForecast'),
-                'actual_kwh'       => $this->GetValue('GCM_KWHSinceInvoice'),
-                'kwh_forecast'     => $this->GetValue('GCM_kwhForecast')
+                'invoice_date'          => $this->ReadpropertyString('InvoiceDate'),
+                'invoice_kwh'           => $this->ReadPropertyInteger('InvoiceKWH'),
+                'kwh_price'             => $this->ReadpropertyFloat('KWHPrice'),
+                'month_factor'          => $this->ReadPropertyString('MonthFactor'),
+                'base_price'            => $this->GetValue('GCM_BasePrice'),
+                'calorific_value'       => $this->ReadpropertyFloat('CalorificValue'),
+                'condition_number'      => $this->ReadPropertyFloat('ConditionNumber'),
+                'lump_sum'              => $this->ReadPropertyFloat('LumpSum'),
+                'lump_sum_year'         => $this->GetValue('GCM_LumpSumYear'),
+                'costs_forecast'        => $this->GetValue('GCM_CostsForecast'),
+                'actual_kwh'            => $this->GetValue('GCM_KWHSinceInvoice'),
+                'kwh_forecast'          => $this->GetValue('GCM_kwhForecast'),
+                'cubic_meter'           => $this->GetValue('GCM_UsedM3'),
+                'actual_counter_value'  => $this->GetValue('GCM_CounterValue'),
+                'actual_kwh'            => $this->GetValue('GCM_KWHSinceInvoice'),
+                'impulse_id'            => $this->ReadPropertyInteger('ImpulseID'),
+                'impulse_value'         => $this->ReadPropertyFloat('ImpulseValue'),
+                'install_counter_value' => $this->ReadPropertyFloat('InstallCounterValue'),
+                'invoice_count'         => $this->ReadPropertyFloat('InvoiceCounterValue'),
+                'kwh_day'               => $this->GetValue('GCM_UsedKWH'),
+                'month_factor'          => $this->ReadPropertyString('MonthFactor'),
+                'old_lump_sum'          => $this->ReadAttributeFloat('Attrib_LumpSumPast'),
+                'billing_months'        => $this->ReadPropertyInteger('BillingMonths'),
+                'old_counter_value'     => $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'),
+                'new_counter_value'     => $this->ReadPropertyFloat('InstallCounterValue'),
+                'base_price_period'     => $this->ReadPropertyString('BasePricePeriod')
             ];
         }
 
@@ -276,12 +291,9 @@
             $this->ResetImpulseCountedFlag();
 
             // Lesen der benötigten Variablen
-            $actual_counter_value = $this->GetValue('GCM_CounterValue');
+            $properties = $this->readVariables();
             $calculated_forecast = 0;
             $current_counter_value = $this->GetValue('GCM_CounterValue');
-            $impulse_id = $this->ReadPropertyInteger('ImpulseID');
-            $impulse_value = $this->ReadPropertyFloat('ImpulseValue');
-            $install_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
             $kwh_day_difference = 0;
 
             // Aktualisierung bei Anpassung Zählerstand bei Installation
@@ -289,22 +301,22 @@
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
 
             // Überprüfen, ob Impuls-Variable vergeben wurde und ob Impuls ausgelöst wurde
-            if ($impulse_id > 0) {
-                $impulse = GetValue($impulse_id);
+            if ($properties['impulse_id'] > 0) {
+                $impulse = GetValue($properties['impulse_id']);
                 if ($impulse && !$this->wasImpulseAlreadyCounted()) {
-                    $new_counter_value = $current_counter_value + $impulse_value;
-                    $new_cubic_meter = $cubic_meter + $impulse_value;
+                    $new_counter_value = $current_counter_value + $properties['impulse_value'];
+                    $new_cubic_meter = $cubic_meter + $properties['impulse_value'];
                     $this->markImpulseAsCounted();
                 } else {
                     $new_counter_value = $current_counter_value;
-                    $new_cubic_meter = $cubic_meter;
+                    $new_cubic_meter = $properties['cubic_meter'];
                 }
 
                 $this->calculateCosts($properties['base_price'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']);
                 $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $calculated_forecast, $properties['kwh_price']);
                 $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
                 $this->CalculateCostActualDay($properties['base_price'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']);
-                $this->DifferenceFromInvoice($actual_counter_value, $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+                $this->DifferenceFromInvoice($properties['install_counter_value'], $properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
 
                 $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
                 $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);

@@ -95,6 +95,7 @@
             //Never delete this line!
             parent::ApplyChanges();
             // Benötigte Variablen
+            $properties = $this->readVariables();
 
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {

@@ -38,7 +38,7 @@ trait CalculationHelper
             default:
                 throw new InvalidArgumentException('Invalid period provided.');
         }
-        return $value / $daysInPeriod;
+        return $base_price / $daysInPeriod;
     }
 
     // Kosten seit Abrechnung

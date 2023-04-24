@@ -92,7 +92,7 @@ trait CalculationHelper
     private function DifferenceFromInvoice(float $actual_counter_value, float $install_counter_value, float $invoice_count, float $calorific_value, float $condition_number): float
 
     {
-        $result = ($actual_counter_value - $install_counter_value);
+        $result = ($actual_counter_value - $invoice_count);
         $kwh = ($result * $calorific_value * $condition_number);
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->SetValue('GCM_KWHSinceInvoice', $kwh);

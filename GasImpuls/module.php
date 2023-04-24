@@ -337,6 +337,11 @@
                 $this->SendDebug('Module -> Calorific_Value', $properties['calorific_value'], 0);
                 $this->SendDebug('Module -> cubic_meter', $properties['cubic_meter'], 0);
                 $this->SendDebug('Module -> condition_number', $properties['condition_number'], 0);
+                $this->SendDebug('Module -> actual_counter_value', $properties['actual_counter_value'], 0);
+                $this->SendDebug('Module -> invoice_count', $properties['invoice_count'], 0);
+                $this->SendDebug('Module -> actual_counter_value', $properties['actual_counter_value'], 0);
+                $this->SendDebug('Module -> actual_counter_value', $properties['actual_counter_value'], 0);
+
 
             }
         }

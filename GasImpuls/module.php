@@ -309,7 +309,7 @@
                 $impulse = GetValue($properties['impulse_id']);
                 if ($impulse && !$this->wasImpulseAlreadyCounted()) {
                     $new_counter_value = $current_counter_value + $properties['impulse_value'];
-                    $new_cubic_meter = $cubic_meter + $properties['impulse_value'];
+                    $new_cubic_meter = $properties['cubic_meter'] + $properties['impulse_value'];
                     $this->markImpulseAsCounted();
                 } else {
                     $new_counter_value = $current_counter_value;

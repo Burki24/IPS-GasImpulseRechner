@@ -129,7 +129,7 @@
             }
 
             //  ImpulseCounter zurücksetzen
-            if ($old_counter_value !== $new_counter_value) {
+            if ($properties['old_counter_value'] !== $properties['new_counter_value']) {
                 $this->ImpulseCounterReset();
             }
 

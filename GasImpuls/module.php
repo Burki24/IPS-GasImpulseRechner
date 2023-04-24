@@ -95,20 +95,6 @@
             //Never delete this line!
             parent::ApplyChanges();
             // Benötigte Variablen
-            $properties = $this->readVariables();
-            $month_factor = $this->ReadPropertyString('MonthFactor');
-            $old_lump_sum = $this->ReadAttributeFloat('Attrib_LumpSumPast');
-            $lump_sum = $this->ReadPropertyFloat('LumpSum');
-            $invoice_date = $this->ReadPropertyString('InvoiceDate');
-            $install_value = $this->ReadPropertyFloat('InstallCounterValue');
-            $actual_value = $this->GetValue('GCM_CounterValue');
-            $actual_counter_value = $this->GetValue('GCM_CounterValue');
-            $invoice_count = $this->ReadPropertyFloat('InvoiceCounterValue');
-            $calorific_value = $this->ReadPropertyFloat('CalorificValue');
-            $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
-            $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
-            $base_price = $this->ReadPropertyFloat('BasePrice');
-            $condition_number = $this->ReadPropertyFloat('ConditionNumber');
 
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {

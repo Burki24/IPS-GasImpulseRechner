@@ -108,7 +108,6 @@
             $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
             $base_price = $this->ReadPropertyFloat('BasePrice');
-            $period = $this->ReadPropertyString('BasePricePeriod');
             $condition_number = $this->ReadPropertyFloat('ConditionNumber');
 
             // Eintragung des kalkulierten Grundpreises
@@ -235,7 +234,8 @@
                 'billing_months'        => $this->ReadPropertyInteger('BillingMonths'),
                 'old_counter_value'     => $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'),
                 'new_counter_value'     => $this->ReadPropertyFloat('InstallCounterValue'),
-                'base_price_period'     => $this->ReadPropertyString('BasePricePeriod')
+                'base_price_period'     => $this->ReadPropertyString('BasePricePeriod'),
+                'period'                => $this->ReadPropertyString('BasePricePeriod')
             ];
         }
 

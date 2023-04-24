@@ -333,6 +333,11 @@
 
                 $this->SetValue('GCM_DaysSinceInvoice', $forecast_costs['days_passed']);
                 $this->SetValue('GCM_DaysTillInvoice', $forecast_costs['days_remaining']);
+                // Debug
+                $this->SendDebug('Module -> Calorific_Value', $properties['calorific_value'], 0);
+                $this->SendDebug('Module -> cubic_meter', $properties['cubic_meter'], 0);
+                $this->SendDebug('Module -> condition_number', $properties['condition_number'], 0);
+
             }
         }
     }

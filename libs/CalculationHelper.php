@@ -95,6 +95,11 @@ trait CalculationHelper
         $kwh = ($result * $calorific_value * $condition_number);
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->SetValue('GCM_KWHSinceInvoice', $kwh);
+        $this->SendDebug('Calculation -> invoice_count', $invoice_count, 0);
+        $this->SendDebug('Calculation -> Calorific_Value', $calorific_value, 0);
+        $this->SendDebug('Calculation -> condition_number', $condition_number, 0);
+
+
         return $result;
     }
 

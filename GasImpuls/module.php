@@ -223,7 +223,6 @@
                 'kwh_forecast'          => $this->GetValue('GCM_kwhForecast'),
                 'cubic_meter'           => $this->GetValue('GCM_UsedM3'),
                 'actual_counter_value'  => $this->GetValue('GCM_CounterValue'),
-                'actual_kwh'            => $this->GetValue('GCM_KWHSinceInvoice'),
                 'impulse_id'            => $this->ReadPropertyInteger('ImpulseID'),
                 'impulse_value'         => $this->ReadPropertyFloat('ImpulseValue'),
                 'install_counter_value' => $this->ReadPropertyFloat('InstallCounterValue'),
@@ -237,6 +236,11 @@
                 'base_price_period'     => $this->ReadPropertyString('BasePricePeriod'),
                 'period'                => $this->ReadPropertyString('BasePricePeriod')
             ];
+            foreach ($variables as $key => $value) {
+                $this->SendDebug($key, 'Value: ' . $value, 0);
+            }
+
+            return $variables;
         }
 
         private function setValues($values)

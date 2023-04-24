@@ -90,12 +90,14 @@ trait CalculationHelper
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): float
+    private function DifferenceFromInvoice(float $actual_counter_value, float $install_counter_value, float $invoice_count, float $calorific_value, float $condition_number): float
+
     {
-        $result = ($actual_counter_value - $invoice_count);
+        $result = ($actual_counter_value - $install_counter_value);
         $kwh = ($result * $calorific_value * $condition_number);
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->SetValue('GCM_KWHSinceInvoice', $kwh);
-        $this->SendDebug('Calculation -> invoice_count', $invoice_count, 0);
+        $this->SendDebug('Calculation -> install_counter_value', $install_counter_value, 0);
         $this->SendDebug('Calculation -> Calorific_Value', $calorific_value, 0);
         $this->SendDebug('Calculation -> condition_number', $condition_number, 0);
 

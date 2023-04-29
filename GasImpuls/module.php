@@ -201,7 +201,7 @@
                 'invoice_kwh'           => $this->ReadPropertyInteger('InvoiceKWH'),
                 'kwh_price'             => $this->ReadpropertyFloat('KWHPrice'),
                 'month_factor'          => $this->ReadPropertyString('MonthFactor'),
-                'base_price'            => $this->GetPropertyFloat('BasePrice'),
+                'base_price'            => $this->ReadPropertyFloat('BasePrice'),
                 'calorific_value'       => $this->ReadpropertyFloat('CalorificValue'),
                 'condition_number'      => $this->ReadPropertyFloat('ConditionNumber'),
                 'lump_sum'              => $this->ReadPropertyFloat('LumpSum'),

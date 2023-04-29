@@ -156,6 +156,13 @@
             $this->GasCounter();
             // Werte bei Installation setzen (Tage)
             $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
+            $this->setValues([
+                'GCM_kwhForecast'       => $calculated_forecast,
+                'GCM_LumpSumDiff'       => $difference,
+                'GCM_CostsForecast'     => $forecast_costs['forecast_costs'],
+                'GCM_DaysSinceInvoice'  => $forecast_costs['days_passed'],
+                'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']
+            ]);
         }
 
         // Messagesink - Impulseauswertung

@@ -192,6 +192,7 @@
                 'GCM_LumpSumDiff'   => $difference
             ]);
         }
+
         // Variablenwerte festlegen
         private function readVariables()
         {
@@ -228,6 +229,9 @@
             }
 
             return $variables;
+
+            // Debug
+            // $this->Senddebug($properties['invoice_date']', 'module-> Variable-> invoice_date' 0);
         }
 
         private function setValues($values)
@@ -236,6 +240,7 @@
                 $this->SetValue($key, $value);
             }
         }
+
         // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()
         {
@@ -327,8 +332,6 @@
                 $this->SendDebug('Module -> invoice_count', $properties['invoice_count'], 0);
                 $this->SendDebug('Module -> actual_counter_value', $properties['actual_counter_value'], 0);
                 $this->SendDebug('Module -> actual_counter_value', $properties['actual_counter_value'], 0);
-
-
             }
         }
     }

@@ -186,13 +186,14 @@
             $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
             $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
             $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
-
             $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['install_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
                 $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->setValues([
-                'GCM_kwhForecast'   => $calculated_forecast,
-                'GCM_CostsForecast' => $forecast_costs['forecast_costs'],
-                'GCM_LumpSumDiff'   => $difference
+                'GCM_kwhForecast'       => $calculated_forecast,
+                'GCM_CostsForecast'     => $forecast_costs['forecast_costs'],
+                'GCM_LumpSumDiff'       => $difference,
+                'GCM_DaysSinceInvoice'  => $forecast_costs['days_passed'],
+                'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']
             ]);
         }
 
@@ -316,8 +317,6 @@
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
-                $this->SetValue('GCM_DaysSinceInvoice', $forecast_costs['days_passed']);
-                $this->SetValue('GCM_DaysTillInvoice', $forecast_costs['days_remaining']);
 
                 // Debug
                 $this->Senddebug('module -> invoice_date', $properties['invoice_date'], 0);

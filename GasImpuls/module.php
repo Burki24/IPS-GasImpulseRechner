@@ -347,6 +347,7 @@
                 $this->Senddebug('module -> new_counter_value', $properties['new_counter_value'], 0);
                 $this->Senddebug('module -> base_price_period', $properties['base_price_period'], 0);
                 $this->Senddebug('module -> period', $properties['period'], 0);
+                $this->SendDebug('module -> $calculated_forecast', $calculated_forecast, 0);
             }
         }
     }

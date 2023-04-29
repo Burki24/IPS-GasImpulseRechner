@@ -318,7 +318,6 @@
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
-
                 $this->SetValue('GCM_DaysSinceInvoice', $forecast_costs['days_passed']);
                 $this->SetValue('GCM_DaysTillInvoice', $forecast_costs['days_remaining']);
 

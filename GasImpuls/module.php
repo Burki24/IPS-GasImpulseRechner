@@ -229,7 +229,6 @@
             }
 
             return $variables;
-
         }
 
         private function setValues($values)

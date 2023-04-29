@@ -154,6 +154,8 @@
 
             // Impuls Verwertung
             $this->GasCounter();
+            // Werte bei Installation setzen (Tage)
+            $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
         }
 
         // Messagesink - Impulseauswertung
@@ -187,7 +189,7 @@
             $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
             $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['install_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
-                $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
+            $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->setValues([
                 'GCM_kwhForecast'       => $calculated_forecast,
                 'GCM_LumpSumDiff'       => $difference,

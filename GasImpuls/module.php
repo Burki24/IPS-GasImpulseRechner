@@ -190,8 +190,8 @@
                 $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->setValues([
                 'GCM_kwhForecast'       => $calculated_forecast,
-                'GCM_CostsForecast'     => $forecast_costs['forecast_costs'],
                 'GCM_LumpSumDiff'       => $difference,
+                'GCM_CostsForecast'     => $forecast_costs['forecast_costs'],
                 'GCM_DaysSinceInvoice'  => $forecast_costs['days_passed'],
                 'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']
             ]);

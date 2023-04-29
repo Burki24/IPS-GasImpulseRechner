@@ -186,6 +186,9 @@
             $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
             $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
             $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
+
+            $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['install_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+                $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->setValues([
                 'GCM_kwhForecast'   => $calculated_forecast,
                 'GCM_CostsForecast' => $forecast_costs['forecast_costs'],
@@ -306,13 +309,8 @@
                 }
 
                 $this->calculateCosts($properties['base_price'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']);
-                $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $calculated_forecast, $properties['kwh_price']);
                 $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
                 $this->CalculateCostActualDay($properties['base_price'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']);
-                $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['install_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
-                $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
-                $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
-                $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
 
                 // Werte schreiben
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);

@@ -231,7 +231,7 @@
             return $variables;
 
             // Debug
-            // $this->Senddebug($properties['invoice_date']', 'module-> Variable-> invoice_date' 0);
+            $this->Senddebug($properties['invoice_date'], 'module Variable invoice_date', 0);
         }
 
         private function setValues($values)

@@ -285,7 +285,7 @@
                     'GCM_DayCosts'              => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']),
                     'GCM_CostsSinceInvoice'     => $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']),
                     'GCM_UsedKWH'               => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
-                    'GCM_CurrentConsumption'    => $invoice_difference['kwh']
+                    'GCM_CurrentConsumption'    => $invoice_difference['result']
                 ]);
             }
         }

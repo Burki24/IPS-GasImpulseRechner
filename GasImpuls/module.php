@@ -278,11 +278,15 @@
                     $new_cubic_meter = $properties['cubic_meter'];
                 }
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
-                $this->SetValue('GCM_UsedM3', $new_cubic_meter);
-                $this->SetValue('GCM_CounterValue', $new_counter_value);
-                $this->SetValue('GCM_DayCosts', $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']));
-                $this->SetValue('GCM_CostsSinceInvoice', $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']));
-                $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
+                $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+                $this->SetValues([
+                    'GCM_UsedM3'                => $new_cubic_meter,
+                    'GCM_CounterValue'          => $new_counter_value,
+                    'GCM_DayCosts'              => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']),
+                    'GCM_CostsSinceInvoice'     => $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']),
+                    'GCM_UsedKWH'               => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
+                    'GCM_CurrentConsumption'    => $invoice_difference['kwh']
+                ]);
             }
         }
         // Variablenwerte festlegen

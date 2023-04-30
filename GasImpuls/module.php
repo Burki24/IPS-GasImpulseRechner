@@ -139,6 +139,7 @@
                 $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['baseprice_day'], $properties['kwh_forecast'], $properties['kwh_price']);
                 $this->SetValue('GCM_kwhForecast', $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']));
                 $this->SetValue('GCM_CostsForecast', $forecast_costs['forecast_costs']);
+                $this->SetValue('GCM_LumpSumDiff', $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']));
             }
 
             // Event Tagesende starten

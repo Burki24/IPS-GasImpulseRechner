@@ -85,6 +85,8 @@ trait CalculationHelper
         $base_costs = $base_price * $days_total;
         $kwh_costs = $kwh_forecast * $kwh_price;
         $forecast_costs = $base_costs + $kwh_costs;
+
+        $this->SendDebug('Calculations -> calculateForecastCosts -> $forecast_costs', $forecast_costs, 0);
         return [
             'days_remaining' => (float) $days_remaining,
             'days_passed'    => (float) $days_passed,

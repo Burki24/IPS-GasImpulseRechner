@@ -103,6 +103,9 @@
                 $this->SetValue('GCM_BasePrice', $result);
             }
 
+            // Calculation kwh
+            $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
+
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
                 $this->WriteAttributeFloat('Attrib_LumpSumPast', $properties['lump_sum']);

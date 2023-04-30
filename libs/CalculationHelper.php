@@ -11,6 +11,8 @@ trait CalculationHelper
         $this->SetValue('GCM_UsedKWH', $kwh);
         $this->SendDebug('CalculateKWH', $kwh, 0);
         return $kwh;
+        $this->SendDebug('Calculation -> calculateKWH -> $kwh', $kwh, 0);
+
     }
 
     // Grundpreisperiode berechnen
@@ -67,6 +69,14 @@ trait CalculationHelper
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
         }
         return $costs;
+        $this->SendDebug('Calculation -> calculateCosts -> $base_price', $base_price, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $invoice_date', $invoice_date, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $current_kwh_consumption', $current_kwh_consumption, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $kwh_price', $kwh_price, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $baseCosts', $baseCosts, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $kwh', $kwh, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $kwhCosts', $kwhCosts, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $costs', $costs, 0);
     }
 
     // Zu erwartende Kosten
@@ -96,11 +106,11 @@ trait CalculationHelper
         $kwh = ($result * $calorific_value * $condition_number);
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->SetValue('GCM_KWHSinceInvoice', $kwh);
-        $this->SendDebug('Calculation -> install_counter_value', $install_counter_value, 0);
-        $this->SendDebug('Calculation -> Calorific_Value', $calorific_value, 0);
-        $this->SendDebug('Calculation -> condition_number', $condition_number, 0);
-
-
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> install_counter_value', $install_counter_value, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> Calorific_Value', $calorific_value, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> condition_number', $condition_number, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $result', $result, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $kwh', $kwh, 0);
         return $result;
     }
 
@@ -111,6 +121,13 @@ trait CalculationHelper
         $costs = $kwhCosts + $base_price;
         $this->SetValue('GCM_DayCosts', $costs);
         return $costs;
+        $this->SendDebug('calculations -> CalculateCostActualDay -> costs', $costs, 0);
+        $this->SendDebug('calculations -> CalculateCostActualDay -> base_price', $base_price, 0);
+        $this->SendDebug('calculations -> CalculateCostActualDay -> calorific_value', $calorific_value, 0);
+        $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_day', $kwh_day, 0);
+        $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_price', $kwh_price, 0);
+        $this->SendDebug('calculations -> CalculateCostActualDay -> condition_number', $condition_number, 0);
+
     }
 
     // Aktuelles Datum berechnen
@@ -148,6 +165,8 @@ trait CalculationHelper
         }
 
         return $result;
+        $this->SendDebug('calculations -> LumpSumYear', $result, 0);
+
     }
 
     // Differenz zu erwartende Kosten
@@ -155,6 +174,8 @@ trait CalculationHelper
     {
         $difference = ($lump_sum_year - $costs_forecast);
         return $difference;
+        $this->SendDebug('calculations -> LumpSumDifference', $difference, 0);
+
     }
 
     // Bisher gezahlte Abschläge
@@ -169,6 +190,8 @@ trait CalculationHelper
         $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
         $result = $lump_sum * $months_since;
         return $result;
+        $this->SendDebug('calculations -> LumpSumPast', $result, 0);
+
     }
 
     // KWH Forecast
@@ -202,7 +225,7 @@ trait CalculationHelper
         }
 
         return $calculated_forecast;
-        $this->SendDebug('calculations -> $calculated_forecast', $calculated_forecast, 0);
+        $this->SendDebug('calculations -> ForecastKWH -> $calculated_forecast', $calculated_forecast, 0);
 
     }
 }

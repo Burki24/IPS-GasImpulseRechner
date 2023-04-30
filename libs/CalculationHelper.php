@@ -71,8 +71,7 @@ trait CalculationHelper
             $costs_forecast = ($days_total * $baseprice_day) + (($costs / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
         }
-        return $costs;
-        $this->SendDebug('Calculation -> calculateCosts -> $base_price', $base_price, 0);
+        $this->SendDebug('Calculation -> calculateCosts -> $baseprice_day', $baseprice_day, 0);
         $this->SendDebug('Calculation -> calculateCosts -> $invoice_date', $invoice_date, 0);
         $this->SendDebug('Calculation -> calculateCosts -> $current_kwh_consumption', $current_kwh_consumption, 0);
         $this->SendDebug('Calculation -> calculateCosts -> $kwh_price', $kwh_price, 0);
@@ -80,6 +79,7 @@ trait CalculationHelper
         $this->SendDebug('Calculation -> calculateCosts -> $kwh', $kwh, 0);
         $this->SendDebug('Calculation -> calculateCosts -> $kwhCosts', $kwhCosts, 0);
         $this->SendDebug('Calculation -> calculateCosts -> $costs', $costs, 0);
+        return $costs;
     }
 
     // Zu erwartende Kosten

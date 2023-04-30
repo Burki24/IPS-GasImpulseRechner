@@ -124,14 +124,13 @@ trait CalculationHelper
         $kwhCosts = $kwh_day * $kwh_price * $condition_number;
         $costs = $kwhCosts + $base_price;
         $this->SetValue('GCM_DayCosts', $costs);
-        return $costs;
         $this->SendDebug('calculations -> CalculateCostActualDay -> costs', $costs, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> base_price', $base_price, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> calorific_value', $calorific_value, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_day', $kwh_day, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_price', $kwh_price, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> condition_number', $condition_number, 0);
-
+        return $costs;
     }
 
     // Aktuelles Datum berechnen

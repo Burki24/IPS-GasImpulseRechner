@@ -125,7 +125,7 @@
 
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['install_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+                $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
             }
 
             //  ImpulseCounter zurücksetzen
@@ -192,7 +192,7 @@
             $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
             $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
             $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
-            $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['install_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+            $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
             $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->setValues([
                 'GCM_kwhForecast'       => $calculated_forecast,

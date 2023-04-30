@@ -168,34 +168,35 @@ trait CalculationHelper
         $result = $lump_sum * $months_since;
         return $result;
     }
-
-    // KWH Forecast
+    /**
+     * Calculate KWH forecast.
+     *
+     * @param float $invoice_kwh
+     * @param string $invoice_date
+     * @param float $actual_kwh
+     * @param string $month_factor
+     * @return float
+     */
     private function ForecastKWH(float $invoice_kwh, string $invoice_date, float $actual_kwh, string $month_factor): float
     {
         $date = json_decode($invoice_date, true);
-        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
-        $days_since = floor((time() - $time_stamp) / (60 * 60 * 24));
+        $invoiceDateTime = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date['year'], $date['month'], $date['day']));
+        $now = new DateTimeImmutable();
 
-        $actual_day_kwh = 0;
-        if ($actual_kwh != 0 && $days_since != 0) {
-            $actual_day_kwh = $actual_kwh / $days_since;
-        }
+        $days_since = $now->diff($invoiceDateTime)->days;
+        $actual_day_kwh = $actual_kwh === 0 || $days_since === 0 ? 0 : $actual_kwh / $days_since;
 
         $weights = json_decode($month_factor, true);
-        $last_month = intval($date['month']);
-        $last_year = intval($date['year']);
-        $months_since_invoice = 12;
-
         $calculated_forecast = 0;
 
-        for ($i = 0; $i < $months_since_invoice; $i++) {
-            $current_month = ($last_month + $i - 1) % 12 + 1;
-            $current_year = $last_year + (int) (($last_month + $i - 1) / 12);
+        for ($i = 0; $i < 12; $i++) {
+            $currentMonthDateTime = $invoiceDateTime->add(new DateInterval("P{$i}M"));
+            $days_in_month = (int) $currentMonthDateTime->format('t');
+            $current_month = (int) $currentMonthDateTime->format('n');
 
-            $days_in_month = date('t', mktime(0, 0, 0, $current_month, 1, $current_year));
-            $month_weight = (isset($weights[$current_month - 1]) && isset($weights[$current_month - 1]['Factor'])) ? $weights[$current_month - 1]['Factor'] : 0;
-
+            $month_weight = $weights[$current_month - 1]['Factor'] ?? 0;
             $monthly_sum = $actual_day_kwh * $days_in_month * $month_weight;
+
             $calculated_forecast += $monthly_sum;
         }
 

@@ -119,7 +119,7 @@ trait CalculationHelper
     }
 
     // Kosten aktueller Tag
-    private function CalculateCostActualDay(float $base_price, float $calorific_value, float $kwh_day, float $kwh_price, float $condition_number): float
+    private function CalculateCostActualDay(float $base_price_period, float $calorific_value, float $kwh_day, float $kwh_price, float $condition_number): float
     {
         $kwhCosts = $kwh_day * $kwh_price * $condition_number;
         $costs = $kwhCosts + $base_price;
@@ -128,7 +128,7 @@ trait CalculationHelper
         $this->SendDebug('calculations -> CalculateCostActualDay -> base_price', $base_price, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> calorific_value', $calorific_value, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_day', $kwh_day, 0);
-        $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_price', $kwh_price, 0);
+        $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_price', $base_price_period, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> condition_number', $condition_number, 0);
         return $costs;
     }

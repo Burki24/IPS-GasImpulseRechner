@@ -103,7 +103,7 @@
                 $this->SetValue('GCM_BasePrice', $result);
                 $kwh = $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
                 $this->SetValue('GCM_UsedKWH', $kwh);
-                $day_costs = $this->CalculateCostActualDay($properties['base_price'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']);
+                $day_costs = $this->CalculateCostActualDay($properties['base_price_period'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']);
                 $this->SetValue('GCM_DayCosts', $day_costs);
 
             }

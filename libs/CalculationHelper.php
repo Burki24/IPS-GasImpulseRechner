@@ -122,7 +122,7 @@ trait CalculationHelper
     private function CalculateCostActualDay(float $baseprice_day, float $calorific_value, float $kwh_day, float $kwh_price, float $condition_number): float
     {
         $kwhCosts = $kwh_day * $kwh_price * $condition_number;
-        $costs = $kwhCosts + $base_price;
+        $costs = $kwhCosts + $baseprice_day;
         $this->SetValue('GCM_DayCosts', $costs);
         $this->SendDebug('calculations -> CalculateCostActualDay -> costs', $costs, 0);
         $this->SendDebug('calculations -> CalculateCostActualDay -> baseprice_day', $baseprice_day, 0);

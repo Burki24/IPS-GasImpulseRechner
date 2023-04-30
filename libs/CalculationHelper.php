@@ -92,13 +92,11 @@ trait CalculationHelper
         ];
     }
 
-    // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
+    // Berechnung Differenz zwischen m3 & kw/h Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): array
     {
         $result = ($actual_counter_value - $invoice_count);
         $kwh = ($result * $calorific_value * $condition_number);
-        // $this->SetValue('GCM_CurrentConsumption', $result);
-        // $this->SetValue('GCM_KWHSinceInvoice', $kwh);
         return [
             'result'    => (float) $result,
             'kwh'       => (float) $kwh
@@ -110,7 +108,6 @@ trait CalculationHelper
     {
         $kwhCosts = $kwh_day * $kwh_price * $condition_number;
         $costs = $kwhCosts + $baseprice_day;
-        $this->SetValue('GCM_DayCosts', $costs);
         return $costs;
     }
 

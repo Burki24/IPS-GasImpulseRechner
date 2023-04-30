@@ -3,7 +3,6 @@
     declare(strict_types=1);
 
     require_once __DIR__ . '/../libs/CalculationHelper.php';
-    // require_once __DIR__ . '/../libs/SymconModulHelper/DebugHelper.php';
 
     class GasImpulsVerbrauchsanalyse extends IPSModule
     {
@@ -53,30 +52,20 @@
             // Variablen Zur Berechnung
             $this->RegisterVariableFloat('GCM_CounterValue', $this->Translate('Current Meter Reading'), '~Gas');
             $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
-
-            // Variablen Aktueller Tag
             $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_UsedM3', $this->Translate('Daily Cosnumption m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_DayCosts', $this->Translate('Costs Today'), '~Euro');
-
-            // Variablen Gestriger Tag
             $this->RegisterVariableFloat('GCM_CostsYesterday', $this->Translate('Total Cost Last Day'), '~Euro');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayKWH', $this->Translate('Total Consumption Last Day kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayM3', $this->Translate('Total Consumption Last Day m3'), '~Gas');
-
-            // Variablen Seit Rechnungsstellung
             $this->RegisterVariableFloat('GCM_InvoiceCounterValue', $this->Translate('Meter Reading On Last Invoice'), '~Gas');
             $this->RegisterVariableFloat('GCM_CurrentConsumption', $this->Translate('Total Consumption Actually in m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
             $this->RegisterVariableFloat('GCM_KWHSinceInvoice', $this->Translate('kW/h since Invoice'), 'GCM.Gas.kWh');
             $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice'), 'GCM.Days');
-
-            // Variablen Forecast
             $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
             $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
             $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
-
-            // Variablen Kalkulation Abschlagszahlungen vs. Real-Verbrauch
             $this->RegisterVariableFloat('GCM_LumpSumYear', $this->Translate('Lump Sum Year'), '~Euro');
             $this->RegisterVariableFloat('GCM_LumpSumDiff', $this->Translate('Lump Sum Difference'), '~Euro');
 
@@ -90,12 +79,10 @@
         }
         public function ApplyChanges()
         {
-            //Never delete this line!
             parent::ApplyChanges();
 
             $properties = $this->readVariables();
 
-            // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
                 $this->SetValues([
                     'GCM_BasePrice' => $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']),
@@ -103,38 +90,26 @@
                     'GCM_DayCosts'  => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number'])
                 ]);
             }
-
-            // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
                 $this->WriteAttributeFloat('Attrib_LumpSumPast', $properties['lump_sum']);
                 $this->SetValue('GCM_LumpSumYear', $this->LumpSumYear($properties['billing_months'], $properties['lump_sum'], $properties['old_lump_sum'], $properties['invoice_date']));
             }
-
-            // Eintragung Zählerstand bei Rechnungsstellung
             if (IPS_VariableExists($this->GetIDForIdent('GCM_InvoiceCounterValue'))) {
                 $Value = $this->ReadPropertyFloat('InvoiceCounterValue');
                 $this->SetValue('GCM_InvoiceCounterValue', $Value);
             }
-
-            // Eintragung Zählerstand bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CounterValue'))) {
                 if ($properties['actual_counter_value'] < $properties['install_counter_value']) {
                     $this->SetValue('GCM_CounterValue', $properties['install_counter_value']);
                 }
             }
-
-            // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
                 $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
                 $this->SetValue('GCM_KWHSinceInvoice', $invoice_difference['kwh']);
             }
-
-            // ImpulseCounter zurücksetzen
             if ($properties['old_counter_value'] !== $properties['new_counter_value']) {
                 $this->ImpulseCounterReset();
             }
-
-            // Eintragung Forecast bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_kwhForecast'))) {
                 $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['baseprice_day'], $properties['kwh_forecast'], $properties['kwh_price']);
                 $this->SetValues([
@@ -145,8 +120,6 @@
                     'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']
                 ]);
             }
-
-            // Event Tagesende starten
             $eid = @$this->GetIDForIdent('GCM_EndOfDayTimer');
             if ($eid == 0) {
                 $eid = IPS_CreateEvent(1);
@@ -164,12 +137,8 @@
             }
             IPS_SetEventScript($eid, 'GCM_DaySwitch($_IPS[\'TARGET\']);');
             IPS_SetHidden($eid, true);
-
-            // Impuls Verwertung
             $this->GasCounter();
         }
-
-        // Messagesink - Impulseauswertung
         public function MessageSink($time_stamp, $sender_id, $Message, $Data)
         {
             switch ($Message) {
@@ -181,8 +150,6 @@
                     break;
                 }
         }
-
-        //Tagesabschluss
         private function DaySwitch()
         {
             $properties = $this->readVariables();
@@ -215,7 +182,6 @@
             }
         }
 
-        // Eintrag neuer InstallCounterwert
         private function updateInstallCounterValue()
         {
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
@@ -225,7 +191,6 @@
             }
         }
 
-        // Counterreset wenn InstallCounter geändert
         private function ImpulseCounterReset()
         {
             $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
@@ -293,7 +258,6 @@
                 ]);
             }
         }
-        // Variablenwerte festlegen
         private function readVariables()
         {
             return [

@@ -137,6 +137,7 @@
             // Eintragung Forecast bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_kwhForecast'))) {
                 $this->SetValue('GCM_kwhForecast', $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']));
+                $this->SetValue('GCM_CostsForecast', $this->calculateForecastCosts($properties['invoice_date'], $properties['baseprice_day'], $properties['kwh_forecast'], $properties['kwh_price']));
             }
 
             // Event Tagesende starten

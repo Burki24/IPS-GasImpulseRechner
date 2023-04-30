@@ -199,7 +199,7 @@ trait CalculationHelper
 
             $calculated_forecast += $monthly_sum;
         }
-
+        $this->SendDebug('Calculations -> ForecastKWH -> $actual_kwh', $actual_kwh, 0);
         return $calculated_forecast;
     }
 }

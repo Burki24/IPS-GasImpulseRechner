@@ -325,32 +325,32 @@
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
 
                 // Debug
-                $this->Senddebug('module -> invoice_date', $properties['invoice_date'], 0);
-                $this->Senddebug('module -> invoice_kwh', $properties['invoice_kwh'], 0);
-                $this->Senddebug('module -> kwh_price', $properties['kwh_price'], 0);
-                $this->Senddebug('module -> base_price', $properties['base_price'], 0);
-                $this->Senddebug('module -> calorific_value', $properties['calorific_value'], 0);
-                $this->Senddebug('module -> condition_number', $properties['condition_number'], 0);
-                $this->Senddebug('module -> lump_sum', $properties['lump_sum'], 0);
-                $this->Senddebug('module -> lump_sum_year', $properties['lump_sum_year'], 0);
-                $this->Senddebug('module -> costs_forecast', $properties['costs_forecast'], 0);
-                $this->Senddebug('module -> actual_kwh', $properties['actual_kwh'], 0);
-                $this->Senddebug('module -> kwh_forecast', $properties['kwh_forecast'], 0);
-                $this->Senddebug('module -> cubic_meter', $properties['cubic_meter'], 0);
-                $this->SendDebug('Module -> actual_counter_value', $properties['actual_counter_value'], 0);
-                $this->Senddebug('module -> impulse_id', $properties['impulse_id'], 0);
-                $this->Senddebug('module -> impulse_value', $properties['impulse_value'], 0);
-                $this->Senddebug('module -> install_counter_value', $properties['install_counter_value'], 0);
-                $this->Senddebug('module -> invoice_count', $properties['invoice_count'], 0);
-                $this->Senddebug('module -> kwh_day', $properties['kwh_day'], 0);
-                $this->Senddebug('module -> month_factor', $properties['month_factor'], 0);
-                $this->Senddebug('module -> old_lump_sum', $properties['old_lump_sum'], 0);
-                $this->Senddebug('module -> billing_months', $properties['billing_months'], 0);
-                $this->Senddebug('module -> old_counter_value', $properties['old_counter_value'], 0);
-                $this->Senddebug('module -> new_counter_value', $properties['new_counter_value'], 0);
-                $this->Senddebug('module -> base_price_period', $properties['base_price_period'], 0);
-                $this->Senddebug('module -> period', $properties['period'], 0);
-                $this->SendDebug('module -> $calculated_forecast', $calculated_forecast, 0);
+                // $this->Senddebug('module -> invoice_date', $properties['invoice_date'], 0);
+                // $this->Senddebug('module -> invoice_kwh', $properties['invoice_kwh'], 0);
+                // $this->Senddebug('module -> kwh_price', $properties['kwh_price'], 0);
+                // $this->Senddebug('module -> base_price', $properties['base_price'], 0);
+                // $this->Senddebug('module -> calorific_value', $properties['calorific_value'], 0);
+                // $this->Senddebug('module -> condition_number', $properties['condition_number'], 0);
+                // $this->Senddebug('module -> lump_sum', $properties['lump_sum'], 0);
+                // $this->Senddebug('module -> lump_sum_year', $properties['lump_sum_year'], 0);
+                // $this->Senddebug('module -> costs_forecast', $properties['costs_forecast'], 0);
+                // $this->Senddebug('module -> actual_kwh', $properties['actual_kwh'], 0);
+                // $this->Senddebug('module -> kwh_forecast', $properties['kwh_forecast'], 0);
+                // $this->Senddebug('module -> cubic_meter', $properties['cubic_meter'], 0);
+                // $this->SendDebug('Module -> actual_counter_value', $properties['actual_counter_value'], 0);
+                // $this->Senddebug('module -> impulse_id', $properties['impulse_id'], 0);
+                // $this->Senddebug('module -> impulse_value', $properties['impulse_value'], 0);
+                // $this->Senddebug('module -> install_counter_value', $properties['install_counter_value'], 0);
+                // $this->Senddebug('module -> invoice_count', $properties['invoice_count'], 0);
+                // $this->Senddebug('module -> kwh_day', $properties['kwh_day'], 0);
+                // $this->Senddebug('module -> month_factor', $properties['month_factor'], 0);
+                // $this->Senddebug('module -> old_lump_sum', $properties['old_lump_sum'], 0);
+                // $this->Senddebug('module -> billing_months', $properties['billing_months'], 0);
+                // $this->Senddebug('module -> old_counter_value', $properties['old_counter_value'], 0);
+                // $this->Senddebug('module -> new_counter_value', $properties['new_counter_value'], 0);
+                // $this->Senddebug('module -> base_price_period', $properties['base_price_period'], 0);
+                // $this->Senddebug('module -> period', $properties['period'], 0);
+                // $this->SendDebug('module -> $calculated_forecast', $calculated_forecast, 0);
             }
         }
     }

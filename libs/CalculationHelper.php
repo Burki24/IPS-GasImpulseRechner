@@ -202,5 +202,7 @@ trait CalculationHelper
         }
 
         return $calculated_forecast;
+        $this->SendDebug('calculations -> $calculated_forecast', $calculated_forecast, 0);
+
     }
 }

@@ -126,8 +126,8 @@
 
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                // $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
-                $this->SetValue('GCM_KWHSinceInvoice', $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']));
+                $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+                $this->SetValue('GCM_KWHSinceInvoice', $invoice_difference['kwh']);
             }
 
             //  ImpulseCounter zurücksetzen

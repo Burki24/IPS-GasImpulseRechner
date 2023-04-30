@@ -329,7 +329,6 @@
             foreach ($variables as $key => $value) {
                 $this->SendDebug($key, 'Value: ' . $value, 0);
             }
-
             return $variables;
         }
     }

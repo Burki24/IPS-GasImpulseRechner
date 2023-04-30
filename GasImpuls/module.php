@@ -99,10 +99,10 @@
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
                 $this->SetValues([
                     'GCM_BasePrice' => $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']),
-                    'GCM_UsedKWH' => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
-                    'GCM_DayCosts' => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number'])
+                    'GCM_UsedKWH'   => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
+                    'GCM_DayCosts'  => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number'])
                 ]);
-                }
+            }
 
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {

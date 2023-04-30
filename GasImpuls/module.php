@@ -241,7 +241,7 @@
                 'new_counter_value'     => $this->ReadPropertyFloat('InstallCounterValue'),
                 'base_price_period'     => $this->ReadPropertyString('BasePricePeriod'),
                 'period'                => $this->ReadPropertyString('BasePricePeriod'),
-                'baseprice_day'         => $this->GetValue('GCM_BAsePrice')
+                'baseprice_day'         => $this->GetValue('GCM_BasePrice')
             ];
             foreach ($variables as $key => $value) {
                 $this->SendDebug($key, 'Value: ' . $value, 0);

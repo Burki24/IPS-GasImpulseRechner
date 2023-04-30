@@ -12,7 +12,6 @@ trait CalculationHelper
      * @param float $condition_number
      * @return float
      */
-
     private function calculateKWH(float $calorific_value, float $cubic_meter, float $condition_number): float
     {
         $kwh = $calorific_value * $cubic_meter * $condition_number;
@@ -70,7 +69,6 @@ trait CalculationHelper
         if ($days_since > 0) {
             $days_total = $days_since + $days_until;
             $costs_forecast = ($days_total * $baseprice_day) + (($costs / $days_since) * $days_total);
-            $this->SetValue('GCM_CostsSinceInvoice', $costs);
         }
         return $costs;
     }
@@ -96,13 +94,15 @@ trait CalculationHelper
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): float
-
     {
         $result = ($actual_counter_value - $invoice_count);
         $kwh = ($result * $calorific_value * $condition_number);
-        $this->SetValue('GCM_CurrentConsumption', $result);
-        $this->SetValue('GCM_KWHSinceInvoice', $kwh);
-        return $result;
+        // $this->SetValue('GCM_CurrentConsumption', $result);
+        // $this->SetValue('GCM_KWHSinceInvoice', $kwh);
+        return [
+            'result'    => (float) $result,
+            'kwh'       => (float) $kwh
+        ];
     }
 
     // Kosten aktueller Tag

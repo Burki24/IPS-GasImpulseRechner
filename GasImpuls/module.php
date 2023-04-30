@@ -102,7 +102,6 @@
                 $this->SetValue('GCM_BasePrice', $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']));
                 $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
                 $this->SetValue('GCM_DayCosts', $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']));
-
             }
 
             // Eintragung der Jahresabschlagshöhe
@@ -127,7 +126,8 @@
 
             // Errechnung Zählerstanddifferenz bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_CurrentConsumption'))) {
-                $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+                // $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+                $this->SetValue('GCM_KWHSinceInvoice', $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']));
             }
 
             //  ImpulseCounter zurücksetzen
@@ -181,27 +181,29 @@
         public function DaySwitch()
         {
             $properties = $this->readVariables();
-
-            // Speichern der gestrigen Verbrauchswerte
-            $this->SetValue('GCM_ConsumptionYesterdayM3', $this->GetValue('GCM_UsedM3'));
-            $this->SetValue('GCM_ConsumptionYesterdayKWH', $this->GetValue('GCM_UsedKWH'));
-            $this->SetValue('GCM_CostsYesterday', $this->GetValue('GCM_DayCosts'));
-            // Zurücksetzen der Tageswerte
-            $this->SetValue('GCM_UsedM3', 0);
-            $this->SetValue('GCM_UsedKWH', 0);
-            $this->SetValue('GCM_DayCosts', 0);
+            $this->SetValues([
+                'GCM_ConsumptionYesterdayM3'    => $this->GetValue('GCM_UsedM3'),
+                'GCM_ConsumptionYesterdayKWH'   => $this->GetValue('GCM_UsedKWH'),
+                'GCM_CostsYesterday'            => $this->GetValue('GCM_DayCosts'),
+                'GCM_UsedM3'                    => 0,
+                'GCM_UsedKWH'                   => 0,
+                'GCM_DayCosts'                  => 0
+            ]);
             // Forecast aktualisieren
-            $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
+            // $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
             $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
-            $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
-            $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
-            $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
+
+            // $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
+            $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+            // $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->setValues([
-                'GCM_kwhForecast'       => $calculated_forecast,
-                'GCM_LumpSumDiff'       => $difference,
-                'GCM_CostsForecast'     => $forecast_costs['forecast_costs'],
-                'GCM_DaysSinceInvoice'  => $forecast_costs['days_passed'],
-                'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']
+                'GCM_kwhForecast'           => $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']),
+                'GCM_LumpSumDiff'           => $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']),
+                'GCM_CostsForecast'         => $forecast_costs['forecast_costs'],
+                'GCM_DaysSinceInvoice'      => $forecast_costs['days_passed'],
+                'GCM_DaysTillInvoice'       => $forecast_costs['days_remaining'],
+                'GCM_KWHSinceInvoice'       => $invoice_difference['kwh'],
+                'GCM_CurrentConsumption'    => $invoice_difference['result']
             ]);
         }
 
@@ -325,7 +327,6 @@
                 $this->SetValue('GCM_DayCosts', $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']));
                 $this->SetValue('GCM_CostsSinceInvoice', $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']));
                 $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
-
             }
         }
     }

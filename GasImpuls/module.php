@@ -101,6 +101,9 @@
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
                 $result = $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']);
                 $this->SetValue('GCM_BasePrice', $result);
+                $kwh = $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
+                $this->SetValue('GCM_UsedKWH', $kwh);
+
             }
 
             // Calculation kwh

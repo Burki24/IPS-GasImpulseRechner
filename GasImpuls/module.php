@@ -211,45 +211,6 @@
             ]);
         }
 
-        // Variablenwerte festlegen
-        private function readVariables()
-        {
-            return [
-                'invoice_date'          => $this->ReadpropertyString('InvoiceDate'),
-                'invoice_kwh'           => $this->ReadPropertyInteger('InvoiceKWH'),
-                'kwh_price'             => $this->ReadpropertyFloat('KWHPrice'),
-                'month_factor'          => $this->ReadPropertyString('MonthFactor'),
-                'base_price'            => $this->ReadPropertyFloat('BasePrice'),
-                'calorific_value'       => $this->ReadpropertyFloat('CalorificValue'),
-                'condition_number'      => $this->ReadPropertyFloat('ConditionNumber'),
-                'lump_sum'              => $this->ReadPropertyFloat('LumpSum'),
-                'lump_sum_year'         => $this->GetValue('GCM_LumpSumYear'),
-                'costs_forecast'        => $this->GetValue('GCM_CostsForecast'),
-                'actual_kwh'            => $this->GetValue('GCM_KWHSinceInvoice'),
-                'kwh_forecast'          => $this->GetValue('GCM_kwhForecast'),
-                'cubic_meter'           => $this->GetValue('GCM_UsedM3'),
-                'actual_counter_value'  => $this->GetValue('GCM_CounterValue'),
-                'impulse_id'            => $this->ReadPropertyInteger('ImpulseID'),
-                'impulse_value'         => $this->ReadPropertyFloat('ImpulseValue'),
-                'install_counter_value' => $this->ReadPropertyFloat('InstallCounterValue'),
-                'invoice_count'         => $this->ReadPropertyFloat('InvoiceCounterValue'),
-                'kwh_day'               => $this->GetValue('GCM_UsedKWH'),
-                'month_factor'          => $this->ReadPropertyString('MonthFactor'),
-                'old_lump_sum'          => $this->ReadAttributeFloat('Attrib_LumpSumPast'),
-                'billing_months'        => $this->ReadPropertyInteger('BillingMonths'),
-                'old_counter_value'     => $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'),
-                'new_counter_value'     => $this->ReadPropertyFloat('InstallCounterValue'),
-                'base_price_period'     => $this->ReadPropertyString('BasePricePeriod'),
-                'period'                => $this->ReadPropertyString('BasePricePeriod'),
-                'baseprice_day'         => $this->GetValue('GCM_BasePrice')
-            ];
-            foreach ($variables as $key => $value) {
-                $this->SendDebug($key, 'Value: ' . $value, 0);
-            }
-
-            return $variables;
-        }
-
         private function setValues($values)
         {
             foreach ($values as $key => $value) {
@@ -332,5 +293,43 @@
                 $this->SetValue('GCM_CostsSinceInvoice', $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']));
                 $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
             }
+        }
+        // Variablenwerte festlegen
+        private function readVariables()
+        {
+            return [
+                'invoice_date'          => $this->ReadpropertyString('InvoiceDate'),
+                'invoice_kwh'           => $this->ReadPropertyInteger('InvoiceKWH'),
+                'kwh_price'             => $this->ReadpropertyFloat('KWHPrice'),
+                'month_factor'          => $this->ReadPropertyString('MonthFactor'),
+                'base_price'            => $this->ReadPropertyFloat('BasePrice'),
+                'calorific_value'       => $this->ReadpropertyFloat('CalorificValue'),
+                'condition_number'      => $this->ReadPropertyFloat('ConditionNumber'),
+                'lump_sum'              => $this->ReadPropertyFloat('LumpSum'),
+                'lump_sum_year'         => $this->GetValue('GCM_LumpSumYear'),
+                'costs_forecast'        => $this->GetValue('GCM_CostsForecast'),
+                'actual_kwh'            => $this->GetValue('GCM_KWHSinceInvoice'),
+                'kwh_forecast'          => $this->GetValue('GCM_kwhForecast'),
+                'cubic_meter'           => $this->GetValue('GCM_UsedM3'),
+                'actual_counter_value'  => $this->GetValue('GCM_CounterValue'),
+                'impulse_id'            => $this->ReadPropertyInteger('ImpulseID'),
+                'impulse_value'         => $this->ReadPropertyFloat('ImpulseValue'),
+                'install_counter_value' => $this->ReadPropertyFloat('InstallCounterValue'),
+                'invoice_count'         => $this->ReadPropertyFloat('InvoiceCounterValue'),
+                'kwh_day'               => $this->GetValue('GCM_UsedKWH'),
+                'month_factor'          => $this->ReadPropertyString('MonthFactor'),
+                'old_lump_sum'          => $this->ReadAttributeFloat('Attrib_LumpSumPast'),
+                'billing_months'        => $this->ReadPropertyInteger('BillingMonths'),
+                'old_counter_value'     => $this->ReadAttributeFloat('Attrib_InstallCounterValueOld'),
+                'new_counter_value'     => $this->ReadPropertyFloat('InstallCounterValue'),
+                'base_price_period'     => $this->ReadPropertyString('BasePricePeriod'),
+                'period'                => $this->ReadPropertyString('BasePricePeriod'),
+                'baseprice_day'         => $this->GetValue('GCM_BasePrice')
+            ];
+            foreach ($variables as $key => $value) {
+                $this->SendDebug($key, 'Value: ' . $value, 0);
+            }
+
+            return $variables;
         }
     }

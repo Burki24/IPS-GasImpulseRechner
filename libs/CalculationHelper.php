@@ -74,7 +74,7 @@ trait CalculationHelper
     }
 
     // Zu erwartende Kosten
-    private function calculateForecastCosts(string $invoice_date, float $base_price, float $kwh_forecast, float $kwh_price): array
+    private function calculateForecastCosts(string $invoice_date, float $baseprice_day, float $kwh_forecast, float $kwh_price): array
     {
         $date_arr = json_decode($invoice_date, true);
         $invoice_dt = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date_arr['year'], $date_arr['month'], $date_arr['day']));
@@ -82,7 +82,7 @@ trait CalculationHelper
         $days_total = $future_dt->diff($invoice_dt)->days;
         $days_remaining = $future_dt->diff(new DateTimeImmutable())->days;
         $days_passed = $days_total - $days_remaining;
-        $base_costs = $base_price * $days_total;
+        $base_costs = $baseprice_day * $days_total;
         $kwh_costs = $kwh_forecast * $kwh_price;
         $forecast_costs = $base_costs + $kwh_costs;
 

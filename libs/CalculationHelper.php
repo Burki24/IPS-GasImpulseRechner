@@ -48,7 +48,7 @@ trait CalculationHelper
     }
 
     // Kosten seit Abrechnung
-    private function calculateCosts(float $base_price, string $invoice_date, float $current_kwh_consumption, float $kwh_price): float
+    private function calculateCosts(float $baseprice_day, string $invoice_date, float $current_kwh_consumption, float $kwh_price): float
     {
         $date = json_decode($invoice_date, true);
         $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);

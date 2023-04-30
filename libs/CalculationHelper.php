@@ -16,7 +16,7 @@ trait CalculationHelper
     private function calculateKWH(float $calorific_value, float $cubic_meter, float $condition_number): float
     {
         $kwh = $calorific_value * $cubic_meter * $condition_number;
-        $this->SetValue('GCM_UsedKWH', $kwh);
+        // $this->SetValue('GCM_UsedKWH', $kwh);
         return $kwh;
     }
 

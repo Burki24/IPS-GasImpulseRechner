@@ -99,12 +99,9 @@
 
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
-                // $result = $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']);
                 $this->SetValue('GCM_BasePrice', $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']));
-                // $kwh = $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
                 $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
-                $day_costs = $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']);
-                $this->SetValue('GCM_DayCosts', $day_costs);
+                $this->SetValue('GCM_DayCosts', $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']));
 
             }
 

@@ -135,9 +135,13 @@
             // Eintragung Forecast bei Installation
             if (IPS_VariableExists($this->GetIDForIdent('GCM_kwhForecast'))) {
                 $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['baseprice_day'], $properties['kwh_forecast'], $properties['kwh_price']);
-                $this->SetValue('GCM_kwhForecast', $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']));
-                $this->SetValue('GCM_CostsForecast', $forecast_costs['forecast_costs']);
-                $this->SetValue('GCM_LumpSumDiff', $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']));
+                $this->SetValues([
+                    'GCM_kwhForecast'       => $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']),
+                    'GCM_CostsForecast'     => $forecast_costs['forecast_costs'],
+                    'GCM_LumpSumDiff'       => $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']),
+                    'GCM_DaysSinceInvoice'  => $forecast_costs['days_passed'],
+                    'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']
+                ]);
             }
 
             // Event Tagesende starten
@@ -161,12 +165,6 @@
 
             // Impuls Verwertung
             $this->GasCounter();
-            // Werte bei Installation setzen (Tage)
-            $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['baseprice_day'], $properties['kwh_forecast'], $properties['kwh_price']);
-            $this->setValues([
-                'GCM_DaysSinceInvoice'  => $forecast_costs['days_passed'],
-                'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']
-            ]);
         }
 
         // Messagesink - Impulseauswertung
@@ -195,12 +193,8 @@
                 'GCM_DayCosts'                  => 0
             ]);
             // Forecast aktualisieren
-            // $calculated_forecast = $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']);
             $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
-
-            // $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
-            // $difference = $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']);
             $this->setValues([
                 'GCM_kwhForecast'           => $this->ForecastKWH($properties['invoice_kwh'], $properties['invoice_date'], $properties['actual_kwh'], $properties['month_factor']),
                 'GCM_LumpSumDiff'           => $this->LumpSumDifference($properties['lump_sum_year'], $properties['costs_forecast']),
@@ -266,14 +260,13 @@
             // Lesen der benötigten Variablen
             $properties = $this->readVariables();
             $calculated_forecast = 0;
-            // $current_counter_value = $this->GetValue('GCM_CounterValue');
             $kwh_day_difference = 0;
 
             // Aktualisierung bei Anpassung Zählerstand bei Installation
             $this->updateInstallCounterValue();
             $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
 
-            // Überprüfen, ob Impuls-Variable vergeben wurde und ob Impuls ausgelöst wurde
+            // Impuls verarbeiten
             if ($properties['impulse_id'] > 0) {
                 $impulse = GetValue($properties['impulse_id']);
                 if ($impulse && !$this->wasImpulseAlreadyCounted()) {
@@ -284,8 +277,6 @@
                     $new_counter_value = $properties['actual_counter_value'];
                     $new_cubic_meter = $properties['cubic_meter'];
                 }
-
-                // Werte schreiben
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);

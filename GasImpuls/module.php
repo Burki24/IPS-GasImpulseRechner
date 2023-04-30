@@ -323,7 +323,7 @@
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
                 $this->SetValue('GCM_DayCosts', $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']));
-                $this->SetValue('GCM_CostsSinceInvoice', $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']););
+                $this->SetValue('GCM_CostsSinceInvoice', $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']));
                 $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
 
             }

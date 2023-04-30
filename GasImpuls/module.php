@@ -101,7 +101,7 @@
                     'GCM_BasePrice' => $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']),
                     'GCM_UsedKWH' => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
                     'GCM_DayCosts' => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number'])
-                ])
+                ]);
                 }
 
             // Eintragung der Jahresabschlagshöhe
@@ -234,7 +234,7 @@
                 'Attrib_DayCount' => $this->GetValue('GCM_UsedM3'),
                 'Attrib_InstallCounterValueOld', $new_counter_value,
                 'Attrib_ActualCounterValue' => 0
-            ])
+            ]);
             $this->SetValue('GCM_CounterValue', $new_counter_value);
             $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayCount'));
         }

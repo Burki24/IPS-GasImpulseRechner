@@ -61,14 +61,14 @@ trait CalculationHelper
         $days_since = floor(($time_now - $time_stamp) / $seconds_in_day);
         $days_until = abs(floor(($time_now - $time_stampPlusOneYear) / $seconds_in_day));
 
-        $baseCosts = round($base_price * $days_since, 2);
+        $baseCosts = round($baseprice_day * $days_since, 2);
         $kwh = round($current_kwh_consumption, 2);
         $kwhCosts = round($kwh * $kwh_price, 2);
         $costs = round($kwhCosts + $baseCosts, 2);
 
         if ($days_since > 0) {
             $days_total = $days_since + $days_until;
-            $costs_forecast = ($days_total * $base_price) + (($costs / $days_since) * $days_total);
+            $costs_forecast = ($days_total * $baseprice_day) + (($costs / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
         }
         return $costs;

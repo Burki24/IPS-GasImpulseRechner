@@ -97,10 +97,12 @@
 
             // Eintragung des kalkulierten Grundpreises
             if (IPS_VariableExists($this->GetIDForIdent('GCM_BasePrice'))) {
-                $this->SetValue('GCM_BasePrice', $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']));
-                $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
-                $this->SetValue('GCM_DayCosts', $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']));
-            }
+                $this->SetValues([
+                    'GCM_BasePrice' => $this->calculatePeriod($properties['base_price'], $properties['period'], $properties['billing_months'], $properties['invoice_date']),
+                    'GCM_UsedKWH' => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
+                    'GCM_DayCosts' => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number'])
+                ])
+                }
 
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
@@ -228,9 +230,11 @@
         {
             $old_counter_value = $this->ReadAttributeFloat('Attrib_InstallCounterValueOld');
             $new_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
-            $this->WriteAttributeFloat('Attrib_DayCount', $this->GetValue('GCM_UsedM3'));
-            $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $new_counter_value);
-            $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
+            $this->WriteAttributeFloats([
+                'Attrib_DayCount' => $this->GetValue('GCM_UsedM3'),
+                'Attrib_InstallCounterValueOld', $new_counter_value,
+                'Attrib_ActualCounterValue' => 0
+            ])
             $this->SetValue('GCM_CounterValue', $new_counter_value);
             $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayCount'));
         }

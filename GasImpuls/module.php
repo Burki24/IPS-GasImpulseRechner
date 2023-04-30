@@ -105,9 +105,6 @@
 
             }
 
-            // Calculation kwh
-            $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
-
             // Eintragung der Jahresabschlagshöhe
             if (IPS_VariableExists($this->GetIDForIdent('GCM_LumpSumYear'))) {
                 $this->WriteAttributeFloat('Attrib_LumpSumPast', $properties['lump_sum']);
@@ -321,15 +318,13 @@
                     $new_cubic_meter = $properties['cubic_meter'];
                 }
 
-                $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']);
-                $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']);
-                // $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']);
-
                 // Werte schreiben
                 $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
                 $this->SetValue('GCM_UsedM3', $new_cubic_meter);
                 $this->SetValue('GCM_CounterValue', $new_counter_value);
                 $this->SetValue('GCM_DayCosts', $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']));
+                $this->SetValue('GCM_CostsSinceInvoice', $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']););
+                $this->SetValue('GCM_UsedKWH', $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']));
 
             }
         }

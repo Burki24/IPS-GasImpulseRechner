@@ -107,9 +107,10 @@ trait CalculationHelper
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->SetValue('GCM_KWHSinceInvoice', $kwh);
         $this->SendDebug('Calculation -> DifferenceFromInvoice -> $actual_counter_value', $actual_counter_value, 0);
-
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> install_counter_value', $install_counter_value, 0);
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> Calorific_Value', $calorific_value, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $install_counter_value', $install_counter_value, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $invoice_count', $invoice_count, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $invoice_count', $invoice_count, 0);
+        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $calorific_value', $calorific_value, 0);
         $this->SendDebug('Calculation -> DifferenceFromInvoice -> condition_number', $condition_number, 0);
         $this->SendDebug('Calculation -> DifferenceFromInvoice -> $result', $result, 0);
         $this->SendDebug('Calculation -> DifferenceFromInvoice -> $kwh', $kwh, 0);

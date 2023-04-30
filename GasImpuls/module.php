@@ -257,7 +257,6 @@
             $this->WriteAttributeBoolean('Attrib_ImpulseCounted', false);
         }
 
-        // Hauptfunktion des Moduls
         private function GasCounter()
         {
             // Registrieren der Änderungsbenachrichtigung für den Impuls
@@ -267,7 +266,7 @@
             // Lesen der benötigten Variablen
             $properties = $this->readVariables();
             $calculated_forecast = 0;
-            $current_counter_value = $this->GetValue('GCM_CounterValue');
+            // $current_counter_value = $this->GetValue('GCM_CounterValue');
             $kwh_day_difference = 0;
 
             // Aktualisierung bei Anpassung Zählerstand bei Installation
@@ -278,11 +277,11 @@
             if ($properties['impulse_id'] > 0) {
                 $impulse = GetValue($properties['impulse_id']);
                 if ($impulse && !$this->wasImpulseAlreadyCounted()) {
-                    $new_counter_value = $current_counter_value + $properties['impulse_value'];
+                    $new_counter_value = $properties['actual_counter_value'] + $properties['impulse_value'];
                     $new_cubic_meter = $properties['cubic_meter'] + $properties['impulse_value'];
                     $this->markImpulseAsCounted();
                 } else {
-                    $new_counter_value = $current_counter_value;
+                    $new_counter_value = $properties['actual_counter_value'];
                     $new_cubic_meter = $properties['cubic_meter'];
                 }
 

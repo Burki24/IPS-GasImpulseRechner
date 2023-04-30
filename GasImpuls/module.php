@@ -183,7 +183,7 @@
         }
 
         //Tagesabschluss
-        public function DaySwitch()
+        private function DaySwitch()
         {
             $properties = $this->readVariables();
             $this->SetValues([

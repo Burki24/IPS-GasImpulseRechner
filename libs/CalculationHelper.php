@@ -9,9 +9,12 @@ trait CalculationHelper
     {
         $kwh = $calorific_value * $cubic_meter * $condition_number;
         $this->SetValue('GCM_UsedKWH', $kwh);
-        $this->SendDebug('CalculateKWH', $kwh, 0);
+        // $this->SendDebug('CalculateKWH', $kwh, 0);
         return $kwh;
         $this->SendDebug('Calculation -> calculateKWH -> $kwh', $kwh, 0);
+        $this->SendDebug('Calculation -> calculateKWH -> $calorific_value', $calorific_value, 0);
+        $this->SendDebug('Calculation -> calculateKWH -> $cubic_meter', $cubic_meter, 0);
+        $this->SendDebug('Calculation -> calculateKWH -> $condition_number', $condition_number, 0);
 
     }
 
@@ -106,12 +109,12 @@ trait CalculationHelper
         $kwh = ($result * $calorific_value * $condition_number);
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->SetValue('GCM_KWHSinceInvoice', $kwh);
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $actual_counter_value', $actual_counter_value, 0);
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $invoice_count', $invoice_count, 0);
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $calorific_value', $calorific_value, 0);
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> condition_number', $condition_number, 0);
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $result', $result, 0);
-        $this->SendDebug('Calculation -> DifferenceFromInvoice -> $kwh', $kwh, 0);
+        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $actual_counter_value', $actual_counter_value, 0);
+        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $invoice_count', $invoice_count, 0);
+        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $calorific_value', $calorific_value, 0);
+        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> condition_number', $condition_number, 0);
+        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $result', $result, 0);
+        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $kwh', $kwh, 0);
         return $result;
     }
 

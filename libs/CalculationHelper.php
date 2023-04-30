@@ -93,7 +93,7 @@ trait CalculationHelper
     }
 
     // Berechnung Differenz zwischen m3 Rechnungsstellung und Aktuell
-    private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): float
+    private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): array
     {
         $result = ($actual_counter_value - $invoice_count);
         $kwh = ($result * $calorific_value * $condition_number);

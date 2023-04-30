@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 trait CalculationHelper
 {
-    // Umrechnung m3 in kwh
+    /**
+     * Calculate KWH.
+     *
+     * @param float $calorific_value
+     * @param float $cubic_meter
+     * @param float $condition_number
+     * @return float
+     */
+
     private function calculateKWH(float $calorific_value, float $cubic_meter, float $condition_number): float
     {
         $kwh = $calorific_value * $cubic_meter * $condition_number;
         $this->SetValue('GCM_UsedKWH', $kwh);
-        // $this->SendDebug('CalculateKWH', $kwh, 0);
         return $kwh;
-        $this->SendDebug('Calculation -> calculateKWH -> $kwh', $kwh, 0);
-        $this->SendDebug('Calculation -> calculateKWH -> $calorific_value', $calorific_value, 0);
-        $this->SendDebug('Calculation -> calculateKWH -> $cubic_meter', $cubic_meter, 0);
-        $this->SendDebug('Calculation -> calculateKWH -> $condition_number', $condition_number, 0);
-
     }
 
     // Grundpreisperiode berechnen
@@ -71,14 +73,6 @@ trait CalculationHelper
             $costs_forecast = ($days_total * $baseprice_day) + (($costs / $days_since) * $days_total);
             $this->SetValue('GCM_CostsSinceInvoice', $costs);
         }
-        $this->SendDebug('Calculation -> calculateCosts -> $baseprice_day', $baseprice_day, 0);
-        $this->SendDebug('Calculation -> calculateCosts -> $invoice_date', $invoice_date, 0);
-        $this->SendDebug('Calculation -> calculateCosts -> $current_kwh_consumption', $current_kwh_consumption, 0);
-        $this->SendDebug('Calculation -> calculateCosts -> $kwh_price', $kwh_price, 0);
-        $this->SendDebug('Calculation -> calculateCosts -> $baseCosts', $baseCosts, 0);
-        $this->SendDebug('Calculation -> calculateCosts -> $kwh', $kwh, 0);
-        $this->SendDebug('Calculation -> calculateCosts -> $kwhCosts', $kwhCosts, 0);
-        $this->SendDebug('Calculation -> calculateCosts -> $costs', $costs, 0);
         return $costs;
     }
 
@@ -109,12 +103,6 @@ trait CalculationHelper
         $kwh = ($result * $calorific_value * $condition_number);
         $this->SetValue('GCM_CurrentConsumption', $result);
         $this->SetValue('GCM_KWHSinceInvoice', $kwh);
-        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $actual_counter_value', $actual_counter_value, 0);
-        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $invoice_count', $invoice_count, 0);
-        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $calorific_value', $calorific_value, 0);
-        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> condition_number', $condition_number, 0);
-        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $result', $result, 0);
-        // $this->SendDebug('Calculation -> DifferenceFromInvoice -> $kwh', $kwh, 0);
         return $result;
     }
 
@@ -124,13 +112,6 @@ trait CalculationHelper
         $kwhCosts = $kwh_day * $kwh_price * $condition_number;
         $costs = $kwhCosts + $baseprice_day;
         $this->SetValue('GCM_DayCosts', $costs);
-        $this->SendDebug('calculations -> CalculateCostActualDay -> costs', $costs, 0);
-        $this->SendDebug('calculations -> CalculateCostActualDay -> baseprice_day', $baseprice_day, 0);
-        $this->SendDebug('calculations -> CalculateCostActualDay -> calorific_value', $calorific_value, 0);
-        $this->SendDebug('calculations -> CalculateCostActualDay -> kwh_day', $kwh_day, 0);
-        $this->SendDebug('calculations -> CalculateCostActualDay -> condition_number', $condition_number, 0);
-        $this->SendDebug('calculations -> CalculateCostActualDay -> $kwh_price', $kwh_price, 0);
-
         return $costs;
     }
 
@@ -169,8 +150,6 @@ trait CalculationHelper
         }
 
         return $result;
-        $this->SendDebug('calculations -> LumpSumYear', $result, 0);
-
     }
 
     // Differenz zu erwartende Kosten
@@ -178,8 +157,6 @@ trait CalculationHelper
     {
         $difference = ($lump_sum_year - $costs_forecast);
         return $difference;
-        $this->SendDebug('calculations -> LumpSumDifference', $difference, 0);
-
     }
 
     // Bisher gezahlte Abschläge
@@ -194,8 +171,6 @@ trait CalculationHelper
         $months_since = ((date('Y') - $date['year']) * 12) + (date('m') - $date['month']);
         $result = $lump_sum * $months_since;
         return $result;
-        $this->SendDebug('calculations -> LumpSumPast', $result, 0);
-
     }
 
     // KWH Forecast
@@ -229,7 +204,5 @@ trait CalculationHelper
         }
 
         return $calculated_forecast;
-        $this->SendDebug('calculations -> ForecastKWH -> $calculated_forecast', $calculated_forecast, 0);
-
     }
 }

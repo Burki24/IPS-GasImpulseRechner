@@ -4,21 +4,12 @@ declare(strict_types=1);
 
 trait CalculationHelper
 {
-    /**
-     * Calculate KWH.
-     *
-     * @param float $calorific_value
-     * @param float $cubic_meter
-     * @param float $condition_number
-     * @return float
-     */
     private function calculateKWH(float $calorific_value, float $cubic_meter, float $condition_number): float
     {
         $kwh = $calorific_value * $cubic_meter * $condition_number;
         return $kwh;
     }
 
-    // Grundpreisperiode berechnen
     private function calculatePeriod(float $base_price, string $period, int $billing_months, string $invoice_date): float
     {
         $days_in_year = (int) date('L') ? 366 : 365;
@@ -47,7 +38,6 @@ trait CalculationHelper
         return $base_price / $daysInPeriod;
     }
 
-    // Kosten seit Abrechnung
     private function calculateCosts(float $baseprice_day, string $invoice_date, float $current_kwh_consumption, float $kwh_price): float
     {
         $date = json_decode($invoice_date, true);
@@ -73,7 +63,6 @@ trait CalculationHelper
         return $costs;
     }
 
-    // Zu erwartende Kosten
     private function calculateForecastCosts(string $invoice_date, float $baseprice_day, float $kwh_forecast, float $kwh_price): array
     {
         $date_arr = json_decode($invoice_date, true);
@@ -85,13 +74,6 @@ trait CalculationHelper
         $base_costs = $baseprice_day * $days_total;
         $kwh_costs = $kwh_forecast * $kwh_price;
         $forecast_costs = $base_costs + $kwh_costs;
-
-        $this->SendDebug('Calculations -> calculateForecastCosts -> $forecast_costs', $forecast_costs, 0);
-        $this->SendDebug('Calculations -> calculateForecastCosts -> $invoice_date', $invoice_date, 0);
-        $this->SendDebug('Calculations -> calculateForecastCosts -> $baseprice_day', $baseprice_day, 0);
-        $this->SendDebug('Calculations -> calculateForecastCosts -> $kwh_forecast', $kwh_forecast, 0);
-        $this->SendDebug('Calculations -> calculateForecastCosts -> $kwh_price', $kwh_price, 0);
-
         return [
             'days_remaining' => (float) $days_remaining,
             'days_passed'    => (float) $days_passed,
@@ -99,7 +81,6 @@ trait CalculationHelper
         ];
     }
 
-    // Berechnung Differenz zwischen m3 & kw/h Rechnungsstellung und Aktuell
     private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): array
     {
         $result = ($actual_counter_value - $invoice_count);
@@ -110,7 +91,6 @@ trait CalculationHelper
         ];
     }
 
-    // Kosten aktueller Tag
     private function CalculateCostActualDay(float $baseprice_day, float $calorific_value, float $kwh_day, float $kwh_price, float $condition_number): float
     {
         $kwhCosts = $kwh_day * $kwh_price * $condition_number;
@@ -118,7 +98,6 @@ trait CalculationHelper
         return $costs;
     }
 
-    // Aktuelles Datum berechnen
     private function GetCurrentDate(): string
     {
         $date = date('Y-m-d');
@@ -131,8 +110,6 @@ trait CalculationHelper
         return json_encode($dateArray);
     }
 
-    // Abschlagsberechnungen
-    // Höhe der Abschlagszahlung im laufenden Jahr
     private function LumpSumYear(int $billing_months, float $lump_sum, float $old_lump_sum, string $invoice_date): float
     {
         $date = json_decode($invoice_date, true);
@@ -155,14 +132,12 @@ trait CalculationHelper
         return $result;
     }
 
-    // Differenz zu erwartende Kosten
     private function LumpSumDifference(float $lump_sum_year, float $costs_forecast): float
     {
         $difference = ($lump_sum_year - $costs_forecast);
         return $difference;
     }
 
-    // Bisher gezahlte Abschläge
     private function LumpSumPast(float $lump_sum, string $invoice_date, int $billing_months): float
     {
         $days_in_year = (int) date('L') ? 366 : 365;
@@ -175,15 +150,7 @@ trait CalculationHelper
         $result = $lump_sum * $months_since;
         return $result;
     }
-    /**
-     * Calculate KWH forecast.
-     *
-     * @param float $invoice_kwh
-     * @param string $invoice_date
-     * @param float $actual_kwh
-     * @param string $month_factor
-     * @return float
-     */
+
     private function ForecastKWH(float $invoice_kwh, string $invoice_date, float $actual_kwh, string $month_factor): float
     {
         $date = json_decode($invoice_date, true);

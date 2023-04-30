@@ -50,35 +50,33 @@
                 IPS_SetVariableProfileIcon('GCM.Days', 'Calendar');
             }
 
-            // Variablen erstellen
-            // Zur Berechnung
+            // Variablen Zur Berechnung
             $this->RegisterVariableFloat('GCM_CounterValue', $this->Translate('Current Meter Reading'), '~Gas');
             $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
 
-            // Aktueller Tag
+            // Variablen Aktueller Tag
             $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_UsedM3', $this->Translate('Daily Cosnumption m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_DayCosts', $this->Translate('Costs Today'), '~Euro');
 
-            // Gestriger Tag
+            // Variablen Gestriger Tag
             $this->RegisterVariableFloat('GCM_CostsYesterday', $this->Translate('Total Cost Last Day'), '~Euro');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayKWH', $this->Translate('Total Consumption Last Day kW/h'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayM3', $this->Translate('Total Consumption Last Day m3'), '~Gas');
 
-            // Seit Rechnungsstellung
+            // Variablen Seit Rechnungsstellung
             $this->RegisterVariableFloat('GCM_InvoiceCounterValue', $this->Translate('Meter Reading On Last Invoice'), '~Gas');
             $this->RegisterVariableFloat('GCM_CurrentConsumption', $this->Translate('Total Consumption Actually in m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_CostsSinceInvoice', $this->Translate('Costs Since Invoice'), '~Euro');
             $this->RegisterVariableFloat('GCM_KWHSinceInvoice', $this->Translate('kW/h since Invoice'), 'GCM.Gas.kWh');
             $this->RegisterVariableInteger('GCM_DaysSinceInvoice', $this->Translate('Days since Invoice'), 'GCM.Days');
 
-            // Forecast
+            // Variablen Forecast
             $this->RegisterVariableInteger('GCM_DaysTillInvoice', $this->Translate('Days remaining in billing period'), 'GCM.Days');
             $this->RegisterVariableFloat('GCM_CostsForecast', $this->Translate('assumed amount of the next bill'), '~Euro');
             $this->RegisterVariableFloat('GCM_kwhForecast', $this->Translate('assumed consumption level in kWh'), 'GCM.Gas.kWh');
-            // $this->RegisterVariableFloat('GCM_KWHDifference', $this->Translate('kwh difference'), 'GCM.Gas.kWh');
 
-            // Kalkulation Abschlagszahlungen vs. Real-Verbrauch
+            // Variablen Kalkulation Abschlagszahlungen vs. Real-Verbrauch
             $this->RegisterVariableFloat('GCM_LumpSumYear', $this->Translate('Lump Sum Year'), '~Euro');
             $this->RegisterVariableFloat('GCM_LumpSumDiff', $this->Translate('Lump Sum Difference'), '~Euro');
 
@@ -94,7 +92,7 @@
         {
             //Never delete this line!
             parent::ApplyChanges();
-            // Benötigte Variablen
+
             $properties = $this->readVariables();
 
             // Eintragung des kalkulierten Grundpreises
@@ -150,12 +148,12 @@
                 IPS_SetIdent($eid, 'GCM_EndOfDayTimer');
                 IPS_SetName($eid, $this->Translate('End Of Day Timer'));
                 IPS_SetEventActive($eid, true);
-                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
-                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+                IPS_SetEventCyclic($eid, 0, 1, 0, 0, 0);
+                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 58);
                 IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
             } else {
-                IPS_SetEventCyclic($eid, 0 /* Täglich */, 1 /* Jeder Tag */, 0 /* Egal welcher Wochentag */, 0 /* Egal welcher Tag im Monat */, 0, 0);
-                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 50);
+                IPS_SetEventCyclic($eid, 0, 1, 0, 0, 0, 0);
+                IPS_SetEventCyclicTimeFrom($eid, 23, 59, 58);
                 IPS_SetEventCyclicTimeTo($eid, 23, 59, 59);
             }
             IPS_SetEventScript($eid, 'GCM_DaySwitch($_IPS[\'TARGET\']);');

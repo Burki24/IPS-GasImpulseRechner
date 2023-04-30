@@ -161,7 +161,7 @@
             // Impuls Verwertung
             $this->GasCounter();
             // Werte bei Installation setzen (Tage)
-            $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['base_price'], $properties['kwh_forecast'], $properties['kwh_price']);
+            $forecast_costs = $this->calculateForecastCosts($properties['invoice_date'], $properties['baseprice_day'], $properties['kwh_forecast'], $properties['kwh_price']);
             $this->setValues([
                 'GCM_DaysSinceInvoice'  => $forecast_costs['days_passed'],
                 'GCM_DaysTillInvoice'   => $forecast_costs['days_remaining']

@@ -212,6 +212,35 @@
             $this->WriteAttributeBoolean('Attrib_ImpulseCounted', false);
         }
 
+        private function updateNewCounterValues(&$new_counter_value, &$new_cubic_meter, $properties)
+        {
+            if ($properties['impulse_id'] > 0) {
+                $impulse = GetValue($properties['impulse_id']);
+                if ($impulse && !$this->wasImpulseAlreadyCounted()) {
+                    $new_counter_value = $properties['actual_counter_value'] + $properties['impulse_value'];
+                    $new_cubic_meter = $properties['cubic_meter'] + $properties['impulse_value'];
+                    $this->markImpulseAsCounted();
+                } else {
+                    $new_counter_value = $properties['actual_counter_value'];
+                    $new_cubic_meter = $properties['cubic_meter'];
+                }
+            }
+        }
+
+        private function updateVariableValues($new_counter_value, $new_cubic_meter, $properties)
+        {
+            $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
+            $this->setValues([
+                'GCM_UsedM3'                => $new_cubic_meter,
+                'GCM_CounterValue'          => $new_counter_value,
+                'GCM_DayCosts'              => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']),
+                'GCM_CostsSinceInvoice'     => $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']),
+                'GCM_UsedKWH'               => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
+                'GCM_CurrentConsumption'    => $invoice_difference['result'],
+                'GCM_KWHSinceInvoice'       => $invoice_difference['kwh']
+            ]);
+        }
+
         private function GasCounter()
         {
             // Registrieren der Änderungsbenachrichtigung für den Impuls
@@ -225,32 +254,19 @@
 
             // Aktualisierung bei Anpassung Zählerstand bei Installation
             $this->updateInstallCounterValue();
-            $install_counter_value = $this->ReadpropertyFloat('InstallCounterValue');
+            $install_counter_value = $this->ReadPropertyFloat('InstallCounterValue');
 
-            // Impuls verarbeiten
-            if ($properties['impulse_id'] > 0) {
-                $impulse = GetValue($properties['impulse_id']);
-                if ($impulse && !$this->wasImpulseAlreadyCounted()) {
-                    $new_counter_value = $properties['actual_counter_value'] + $properties['impulse_value'];
-                    $new_cubic_meter = $properties['cubic_meter'] + $properties['impulse_value'];
-                    $this->markImpulseAsCounted();
-                } else {
-                    $new_counter_value = $properties['actual_counter_value'];
-                    $new_cubic_meter = $properties['cubic_meter'];
-                }
-                $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
-                $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
-                $this->SetValues([
-                    'GCM_UsedM3'                => $new_cubic_meter,
-                    'GCM_CounterValue'          => $new_counter_value,
-                    'GCM_DayCosts'              => $this->CalculateCostActualDay($properties['baseprice_day'], $properties['calorific_value'], $properties['kwh_day'], $properties['kwh_price'], $properties['condition_number']),
-                    'GCM_CostsSinceInvoice'     => $this->calculateCosts($properties['baseprice_day'], $properties['invoice_date'], $properties['actual_kwh'], $properties['kwh_price']),
-                    'GCM_UsedKWH'               => $this->calculateKWH($properties['calorific_value'], $properties['cubic_meter'], $properties['condition_number']),
-                    'GCM_CurrentConsumption'    => $invoice_difference['result'],
-                    'GCM_KWHSinceInvoice'       => $invoice_difference['kwh']
-                ]);
-            }
+            // Berechnung der neuen Zählerwerte
+            $new_counter_value = 0;
+            $new_cubic_meter = 0;
+            $this->updateNewCounterValues($new_counter_value, $new_cubic_meter, $properties);
+
+            // Aktualisierung der Variablenwerte
+            $this->updateVariableValues($new_counter_value, $new_cubic_meter, $properties);
+
+            $this->WriteAttributeFloat('Attrib_ActualCounterValue', $new_counter_value);
         }
+
         private function readVariables()
         {
             return [

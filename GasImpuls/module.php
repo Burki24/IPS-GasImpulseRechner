@@ -13,7 +13,6 @@
             //Never delete this line!
             parent::Create();
 
-            //Werte aus dem Formular
             $this->RegisterPropertyInteger('ImpulseID', 0);
             $this->RegisterPropertyFloat('ImpulseValue', 0.00);
             $this->RegisterPropertyFloat('BasePrice', 0);
@@ -29,14 +28,12 @@
             $this->RegisterPropertyString('MonthFactor', '[{"Name":"January","Factor":"1.0"},{"Name":"February","Factor":0.9},{"Name":"March","Factor":0.85},{"Name":"April","Factor":0.70},{"Name":"May","Factor":0.6},{"Name":"June","Factor":0.45},{"Name":"July","Factor":0.35},{"Name":"August","Factor":0.35},{"Name":"September","Factor":0.55},{"Name":"October","Factor":0.8},{"Name":"November","Factor":0.9},{"Name":"December","Factor":"1.0"}]');
             $this->RegisterPropertyFloat('ConditionNumber', 0);
 
-            // Zur Berechnung bereitzustellende Werte
             $this->RegisterAttributeFloat('Attrib_InstallCounterValueOld', 0);
             $this->RegisterAttributeFloat('Attrib_ActualCounterValue', 0);
             $this->RegisterAttributeFloat('Attrib_DayCount', 0);
             $this->RegisterAttributeFloat('Attrib_LumpSumPast', 0);
             $this->RegisterAttributeBoolean('Attrib_ImpulseCounted', false);
 
-            // Profil erstellen
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
                 IPS_CreateVariableProfile('GCM.Gas.kWh', VARIABLETYPE_FLOAT);
                 IPS_SetVariableProfileDigits('GCM.Gas.kWh', 2);
@@ -49,7 +46,6 @@
                 IPS_SetVariableProfileIcon('GCM.Days', 'Calendar');
             }
 
-            // Variablen Zur Berechnung
             $this->RegisterVariableFloat('GCM_CounterValue', $this->Translate('Current Meter Reading'), '~Gas');
             $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
             $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');
@@ -69,7 +65,6 @@
             $this->RegisterVariableFloat('GCM_LumpSumYear', $this->Translate('Lump Sum Year'), '~Euro');
             $this->RegisterVariableFloat('GCM_LumpSumDiff', $this->Translate('Lump Sum Difference'), '~Euro');
 
-            // Messages
             $this->RegisterMessage(0, IPS_KERNELMESSAGE);
         }
         public function Destroy()

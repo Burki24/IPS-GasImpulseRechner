@@ -2,7 +2,7 @@
 
     declare(strict_types=1);
 
-    require_once __DIR__ . '/../libs/CalculationHelper.php';
+    require_once __DIR__ . '/../libs/CalculationHelper_1.php';
 
     class GasImpulsVerbrauchsanalyse extends IPSModule
     {

@@ -134,7 +134,8 @@ trait CalculationHelper
 
     private function LumpSumDifference(float $lump_sum_year, float $costs_forecast): float
     {
-        // Previous code
+        $difference = ($lump_sum_year - $costs_forecast);
+        return $difference;
     }
 
     private function LumpSumPast(float $lump_sum, string $invoice_date, int $billing_months): float

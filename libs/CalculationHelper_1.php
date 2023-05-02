@@ -12,9 +12,9 @@ trait CalculationHelper
 
     private function calculatePeriod(float $base_price, string $period, int $billing_months, string $invoice_date): float
     {
-        $days_in_year = $this->getDaysInYear();
+        $days_in_year = (int) date('L') ? 366 : 365;
         if ($billing_months != 12) {
-            $days_in_year = $this->getDaysInYear(strtotime('+2 months'));
+            $days_in_year = (int) date('L', strtotime('+2 months')) ? 396 : 395;
         }
         switch ($period) {
             case 'year':

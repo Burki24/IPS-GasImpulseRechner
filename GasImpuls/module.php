@@ -8,6 +8,8 @@
     {
         use CalculationHelper;
 
+        private $lastImpulseState = false;
+
         public function Create()
         {
             //Never delete this line!
@@ -216,17 +218,16 @@
         {
             if ($properties['impulse_id'] > 0) {
                 $impulse = GetValue($properties['impulse_id']);
-                if ($impulse && !$this->wasImpulseAlreadyCounted()) {
+                if ($impulse && !$this->lastImpulseState) {
                     $new_counter_value = $properties['actual_counter_value'] + $properties['impulse_value'];
                     $new_cubic_meter = $properties['cubic_meter'] + $properties['impulse_value'];
-                    $this->markImpulseAsCounted();
                 } else {
                     $new_counter_value = $properties['actual_counter_value'];
                     $new_cubic_meter = $properties['cubic_meter'];
                 }
+                $this->lastImpulseState = $impulse;
             }
         }
-
         private function updateVariableValues($new_counter_value, $new_cubic_meter, $properties)
         {
             $invoice_difference = $this->DifferenceFromInvoice($properties['actual_counter_value'], $properties['invoice_count'], $properties['calorific_value'], $properties['condition_number']);
@@ -245,7 +246,6 @@
         {
             // Registrieren der Änderungsbenachrichtigung für den Impuls
             $this->RegisterMessage($this->ReadPropertyInteger('ImpulseID'), VM_UPDATE);
-            $this->ResetImpulseCountedFlag();
 
             // Lesen der benötigten Variablen
             $properties = $this->readVariables();

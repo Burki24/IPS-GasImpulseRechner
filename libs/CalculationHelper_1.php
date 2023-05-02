@@ -178,6 +178,9 @@ trait CalculationHelper
 
     private function getDaysInYear($time = null): int
     {
+        if ($time === null) {
+            $time = time();
+        }
         return (int) date('L', $time) ? 366 : 365;
     }
 }

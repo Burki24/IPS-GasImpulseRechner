@@ -194,24 +194,10 @@
             $this->WriteAttributeFloat('Attrib_DayCount', $this->GetValue('GCM_UsedM3'));
             $this->WriteAttributeFloat('Attrib_InstallCounterValueOld', $new_counter_value);
             $this->WriteAttributeFloat('Attrib_ActualCounterValue', 0);
-            $this->SetValue('GCM_CounterValue', $new_counter_value);
-            $this->SetValue('GCM_UsedM3', $this->ReadAttributeFloat('Attrib_DayCount'));
-        }
-
-        private function wasImpulseAlreadyCounted()
-        {
-            $counted = $this->ReadAttributeBoolean('Attrib_ImpulseCounted');
-            return $counted;
-        }
-
-        private function markImpulseAsCounted()
-        {
-            $this->WriteAttributeBoolean('Attrib_ImpulseCounted', true);
-        }
-
-        private function ResetImpulseCountedFlag()
-        {
-            $this->WriteAttributeBoolean('Attrib_ImpulseCounted', false);
+            $this->SetValues([
+                'GCM_CounterValue'  => $new_counter_value,
+                'GCM_UsedM3'        => $this->ReadAttributeFloat('Attrib_DayCount')
+            ]);
         }
 
         private function updateNewCounterValues(&$new_counter_value, &$new_cubic_meter, $properties)

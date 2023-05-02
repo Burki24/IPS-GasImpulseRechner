@@ -40,27 +40,74 @@ trait CalculationHelper
 
     private function calculateCosts(float $baseprice_day, string $invoice_date, float $current_kwh_consumption, float $kwh_price): float
     {
-        // Previous code
+        $date = json_decode($invoice_date, true);
+        $time_stamp = mktime(0, 0, 0, $date['month'], $date['day'], $date['year']);
+        $time_now = time();
+
+        $dateTime = (new DateTimeImmutable())->setTimestamp($time_stamp);
+        $time_stampPlusOneYear = $dateTime->add(new DateInterval('P1Y'))->getTimestamp();
+        $seconds_in_day = 60 * 60 * 24;
+
+        $days_since = floor(($time_now - $time_stamp) / $seconds_in_day);
+        $days_until = abs(floor(($time_now - $time_stampPlusOneYear) / $seconds_in_day));
+
+        $baseCosts = round($baseprice_day * $days_since, 2);
+        $kwh = round($current_kwh_consumption, 2);
+        $kwhCosts = round($kwh * $kwh_price, 2);
+        $costs = round($kwhCosts + $baseCosts, 2);
+
+        if ($days_since > 0) {
+            $days_total = $days_since + $days_until;
+            $costs_forecast = ($days_total * $baseprice_day) + (($costs / $days_since) * $days_total);
+        }
+        return $costs;
     }
 
     private function calculateForecastCosts(string $invoice_date, float $baseprice_day, float $kwh_forecast, float $kwh_price): array
     {
-        // Previous code
+        $date_arr = json_decode($invoice_date, true);
+        $invoice_dt = new DateTimeImmutable(sprintf('%04d-%02d-%02d', $date_arr['year'], $date_arr['month'], $date_arr['day']));
+        $future_dt = $invoice_dt->modify('+1 year');
+        $days_total = $future_dt->diff($invoice_dt)->days;
+        $days_remaining = $future_dt->diff(new DateTimeImmutable())->days;
+        $days_passed = $days_total - $days_remaining;
+        $base_costs = $baseprice_day * $days_total;
+        $kwh_costs = $kwh_forecast * $kwh_price;
+        $forecast_costs = $base_costs + $kwh_costs;
+        return [
+            'days_remaining' => (float) $days_remaining,
+            'days_passed'    => (float) $days_passed,
+            'forecast_costs' => (float) $forecast_costs,
+        ];
     }
 
     private function DifferenceFromInvoice(float $actual_counter_value, float $invoice_count, float $calorific_value, float $condition_number): array
     {
-        // Previous code
+        $result = ($actual_counter_value - $invoice_count);
+        $kwh = ($result * $calorific_value * $condition_number);
+        return [
+            'result'    => (float) $result,
+            'kwh'       => (float) $kwh
+        ];
     }
 
     private function CalculateCostActualDay(float $baseprice_day, float $calorific_value, float $kwh_day, float $kwh_price, float $condition_number): float
     {
-        // Previous code
+        $kwhCosts = $kwh_day * $kwh_price * $condition_number;
+        $costs = $kwhCosts + $baseprice_day;
+        return $costs;
     }
 
     private function GetCurrentDate(): string
     {
-        // Previous code
+        $date = date('Y-m-d');
+        list($year, $month, $day) = explode('-', $date);
+        $dateArray = [
+            'year'  => (int) $year,
+            'month' => (int) $month,
+            'day'   => (int) $day
+        ];
+        return json_encode($dateArray);
     }
 
     private function LumpSumYear(int $billing_months, float $lump_sum, float $old_lump_sum, string $invoice_date): float

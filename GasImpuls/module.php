@@ -151,9 +151,9 @@
         {
             $properties = $this->readVariables();
             $this->SetValues([
-                'GCM_ConsumptionYesterdayM3'    => $this->GetValue('GCM_UsedM3'),
-                'GCM_ConsumptionYesterdayKWH'   => $this->GetValue('GCM_UsedKWH'),
-                'GCM_CostsYesterday'            => $this->GetValue('GCM_DayCosts'),
+                'GCM_ConsumptionYesterdayM3'    => GetValue('GCM_UsedM3'),
+                'GCM_ConsumptionYesterdayKWH'   => GetValue('GCM_UsedKWH'),
+                'GCM_CostsYesterday'            => GetValue('GCM_DayCosts'),
                 'GCM_UsedM3'                    => 0,
                 'GCM_UsedKWH'                   => 0,
                 'GCM_DayCosts'                  => 0

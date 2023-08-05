@@ -40,7 +40,7 @@
             if (!IPS_VariableProfileExists('GCM.Gas.kWh')) {
                 IPS_CreateVariableProfile('GCM.Gas.kWh', VARIABLETYPE_FLOAT);
                 IPS_SetVariableProfileDigits('GCM.Gas.kWh', 2);
-                IPS_SetVariableProfileText('GCM.Gas.kWh', '', ' kW/h');
+                IPS_SetVariableProfileText('GCM.Gas.kWh', '', ' kWh');
                 IPS_SetVariableProfileIcon('GCM.Gas.kWh', 'Flame');
             }
             if (!IPS_VariableProfileExists('GCM.Days')) {
@@ -55,13 +55,13 @@
             $this->RegisterVariableFloat('GCM_BasePrice', $this->Translate('Base Price'), '~Euro');
 
             // Aktueller Tag
-            $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kW/h'), 'GCM.Gas.kWh');
+            $this->RegisterVariableFloat('GCM_UsedKWH', $this->Translate('Daily Cosnumption kWh'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_UsedM3', $this->Translate('Daily Cosnumption m3'), '~Gas');
             $this->RegisterVariableFloat('GCM_DayCosts', $this->Translate('Costs Today'), '~Euro');
 
             // Gestriger Tag
             $this->RegisterVariableFloat('GCM_CostsYesterday', $this->Translate('Total Cost Last Day'), '~Euro');
-            $this->RegisterVariableFloat('GCM_ConsumptionYesterdayKWH', $this->Translate('Total Consumption Last Day kW/h'), 'GCM.Gas.kWh');
+            $this->RegisterVariableFloat('GCM_ConsumptionYesterdayKWH', $this->Translate('Total Consumption Last Day kWh'), 'GCM.Gas.kWh');
             $this->RegisterVariableFloat('GCM_ConsumptionYesterdayM3', $this->Translate('Total Consumption Last Day m3'), '~Gas');
 
             // Seit Rechnungsstellung

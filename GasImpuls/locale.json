@@ -24,15 +24,15 @@
             "    Meter counter value at the moment of module installation. To be entered including the two digits after the comma": "    Zählerstand (mit zwei Nachkommastellen am Tag der Modulinstalation",
             "Value": "Zählerstand",
             "    The current kwh price can be found in your gas supplier contract": "    Preis pro kwh. Im Vertrag ersichtlich",
-            "KW/h price": "kW/h Preis",
+            "KWh price": "kWh Preis",
             "Many thanks to @KaiS, @Nall-chan and @Pitti for helping me develop this module. And to @tissenm for testing again and again.": "Mein Dank geht an @KaiS, @Nall-chan und @Pitti für die kräftige Unterstützung bei der Modulentwicklung. Und an @tissenm für die riesen Geduld beim Testen.",
-            "Daily Cosnumption kW/h": "Heutiger Verbrauch in kW/h",
+            "Daily Cosnumption kWh": "Heutiger Verbrauch in kWh",
             "Daily Cosnumption m3": "Heutiger Verbrauch in m3",
             "Costs Today": "Heutige Kosten",
             "Current Meter Reading": "Aktuell - Zählerstand",
             "Total Consumption Actually in m3": "Aktuell - Verbrauch seit letzter Ablesung in m3",
             "Total Cost Last Day": "Gestrige Kosten",
-            "Total Consumption Last Day kW/h": "Gestriger Verbrauch in kW/h",
+            "Total Consumption Last Day kWh": "Gestriger Verbrauch in kWh",
             "Total Consumption Last Day m3": "Gestriger Verbrauch in m3",
             "Base Price": "Kosten - Basiskosten täglich",
             "Meter Reading On Last Invoice": "Aktuell - Zählerstand bei letzter Abrechnung",
@@ -44,7 +44,7 @@
             "Days": "Tage",
             "Days remaining in billing period": "Forecast - Tage bis zur nächsten Abrechnung",
             "assumed amount of the next bill": "Forecast - Zu erwartende Kosten",
-            "assumed consumption level in kWh": "Forecast - Zu erwartender Verbrauch kW/h",
+            "assumed consumption level in kWh": "Forecast - Zu erwartender Verbrauch kWh",
             "    Number of billing months": "    Anzahl der Abschlagsmonate",
             "Billing months": "Abschlangsmonate",
             "    The current lump sum to be paid": "    Aktuelle zu zahlende Abschlagshöhe",
@@ -70,7 +70,7 @@
             "    Factor to calculate the monthly consumtption": "    Faktor zur Verbrauchsgewichtung pro Monat (zur Forecast-Berechnung)",
             "    The condition number is required to convert from m3 to kwh. It can be found on the last final invoice": "    Die Zustandszahl (Z-Zahl) wirkt sich auf die Berrechnung von M3 zu kW/h aus. Zu finden auf der letzten Rechnung.",
             "Condition number": "Z-Zahl",
-            "kW/h on invoice": "kW/H auf Rechnung"
+            "kW/h on invoice": "kWh auf Rechnung"
         }
     }
 }

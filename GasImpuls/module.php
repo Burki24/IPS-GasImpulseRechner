@@ -177,6 +177,7 @@
                         $this->GasCounter();
                     break;
                 default:
+                    $this->SendDebug('Type of Data', gettype($Data), 0);
                     $this->SendDebug(__FUNCTION__ . ':: Messages from Sender ' . $sender_id, $Data, 0);
                     break;
                 }
